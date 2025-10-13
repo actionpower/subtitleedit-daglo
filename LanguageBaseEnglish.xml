@@ -195,9 +195,11 @@ Note: Do check free disk space.</WaveFileMalformed>
     <Title>Audio to text</Title>
     <Info>Generate text from audio via Vosk/Kaldi speech recognition</Info>
     <WhisperInfo>Generate text from audio via Whisper speech recognition</WhisperInfo>
+    <DagloInfo>Generate text from audio via Daglo speech recognition</DagloInfo>
     <Engine>Engine</Engine>
     <VoskWebsite>Vosk website</VoskWebsite>
     <WhisperWebsite>Whisper website</WhisperWebsite>
+    <DagloWebsite>Daglo website</DagloWebsite>
     <Model>Model</Model>
     <Models>Models</Models>
     <LanguagesAndModels>Languages and models</LanguagesAndModels>

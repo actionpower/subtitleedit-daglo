@@ -13,6 +13,7 @@ using Nikse.SubtitleEdit.Core.Enums;
 using Nikse.SubtitleEdit.Core.Forms;
 using Nikse.SubtitleEdit.Core.Interfaces;
 using Nikse.SubtitleEdit.Core.NetflixQualityCheck;
+using Nikse.SubtitleEdit.Core.Settings;
 using Nikse.SubtitleEdit.Core.SpellCheck;
 using Nikse.SubtitleEdit.Core.SubtitleFormats;
 using Nikse.SubtitleEdit.Core.VobSub;
@@ -25,6 +26,7 @@ using Nikse.SubtitleEdit.Forms.SeJobs;
 using Nikse.SubtitleEdit.Forms.ShotChanges;
 using Nikse.SubtitleEdit.Forms.Styles;
 using Nikse.SubtitleEdit.Forms.Translate;
+using Nikse.SubtitleEdit.Forms.Tts;
 using Nikse.SubtitleEdit.Forms.VTT;
 using Nikse.SubtitleEdit.Logic;
 using Nikse.SubtitleEdit.Logic.CommandLineConvert;
@@ -46,8 +48,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Nikse.SubtitleEdit.Core.Settings;
-using Nikse.SubtitleEdit.Forms.Tts;
 using CheckForUpdatesHelper = Nikse.SubtitleEdit.Logic.CheckForUpdatesHelper;
 using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
 using Timer = System.Windows.Forms.Timer;
@@ -37423,5 +37423,109 @@ namespace Nikse.SubtitleEdit.Forms
                 }
             }
         }
+
+        private void audioToTextDagloTolStripMenuItem_Click(object sender, EventArgs e)
+        { 
+            if (!string.IsNullOrEmpty(_videoFileName) &&
+               (_videoFileName.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                _videoFileName.StartsWith("https://", StringComparison.OrdinalIgnoreCase)))
+            {
+                MessageBox.Show("SE cannot generate text from online video/audio");
+                return;
+            }
+
+            if (!ContinueNewOrExit())
+            {
+                return;
+            }
+
+            if (!RequireFfmpegOk())
+            {
+                return;
+            }
+
+            /*
+            if (Configuration.Settings.Tools.WhisperChoice == WhisperChoice.Cpp)
+            {
+                if (!RequireWhisperCpp() && Configuration.IsRunningOnWindows)
+                {
+                    Configuration.Settings.Tools.WhisperChoice = WhisperChoice.PurfviewFasterWhisperXxl;
+                }
+            }
+
+            CheckWhisperCpp();
+            */
+
+            var oldVideoFileName = _videoFileName;
+            var isVlc = mediaPlayer.VideoPlayer is LibVlcDynamic;
+            if (isVlc)
+            {
+                CloseVideoToolStripMenuItemClick(sender, e);
+            }
+             
+            using (var form = new DagloAudioToText(oldVideoFileName, _subtitle, _videoAudioTrackNumber, this, audioVisualizer?.WavePeaks))
+            {
+                var result = form.ShowDialog(this);
+
+                if (isVlc)
+                {
+                    OpenVideo(oldVideoFileName);
+                }
+
+                if (result != DialogResult.OK)
+                {
+                    return;
+                }
+
+                if (form.TranscribedSubtitle.Paragraphs.Count == 0)
+                {
+                    if (form.IncompleteModel)
+                    {
+                        MessageBox.Show(this, $"Model incomplete.{Environment.NewLine}" +
+                                        $"Please re-download model: {form.IncompleteModelName}", MessageBoxIcon.Error);
+                    }
+                    else if (form.UnknownArgument)
+                    {
+                        var customArgument = Configuration.Settings.Tools.WhisperExtraSettings;
+                        var extraMessage = string.Empty;
+                        if (!string.IsNullOrEmpty(customArgument))
+                        {
+                            extraMessage = Environment.NewLine + "Note you have a custom argument: " + customArgument;
+                        }
+                        extraMessage = extraMessage + Environment.NewLine + Environment.NewLine + "View the log file `whisper_log.txt`?";
+                        var r = MessageBox.Show(this, $"Whisper reported unknown argument'" + extraMessage, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
+                        if (r == DialogResult.Yes)
+                        {
+                            UiUtil.OpenFile(SeLogger.GetWhisperLogFilePath());
+                        }
+                    }
+                    else
+                    {
+                        var customArgument = Configuration.Settings.Tools.WhisperExtraSettings;
+                        var extraMessage = string.Empty;
+                        if (!string.IsNullOrEmpty(customArgument))
+                        {
+                            extraMessage = Environment.NewLine + "Note you have a custom argument: " + customArgument;
+                        }
+                        extraMessage = extraMessage + Environment.NewLine + Environment.NewLine + string.Format(LanguageSettings.Current.General.ViewX, "`whisper_log.txt`?");
+                        var r = MessageBox.Show(this, LanguageSettings.Current.AudioToText.NoTextFound + extraMessage, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
+                        if (r == DialogResult.Yes)
+                        {
+                            UiUtil.OpenFile(SeLogger.GetWhisperLogFilePath());
+                        }
+                    }
+
+                    return;
+                }
+
+                MakeHistoryForUndo(string.Format(_language.BeforeX, string.Format(LanguageSettings.Current.Main.Menu.Video.VideoAudioToTextX, "Whisper")));
+                _subtitle.Paragraphs.Clear();
+                _subtitle.Paragraphs.AddRange(form.TranscribedSubtitle.Paragraphs);
+                var idx = FirstSelectedIndex;
+                SubtitleListview1.Fill(_subtitle, _subtitleOriginal);
+                _subtitleListViewIndex = -1;
+                SubtitleListview1.SelectIndexAndEnsureVisibleFaster(idx);
+            }
+        } 
     }
 }
