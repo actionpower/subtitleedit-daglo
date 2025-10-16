@@ -37,10 +37,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.groupBoxModels = new System.Windows.Forms.GroupBox();
             this.labelChooseLanguage = new System.Windows.Forms.Label();
             this.comboBoxLanguages = new Nikse.SubtitleEdit.Controls.NikseComboBox();
-            this.buttonDownload = new System.Windows.Forms.Button();
-            this.linkLabelOpenModelsFolder = new System.Windows.Forms.LinkLabel();
-            this.labelModel = new System.Windows.Forms.Label();
-            this.comboBoxModels = new Nikse.SubtitleEdit.Controls.NikseComboBox();
             this.linkLabeDagloWebSite = new System.Windows.Forms.LinkLabel();
             this.labelTime = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -55,23 +51,21 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.labelFC = new System.Windows.Forms.Label();
             this.checkBoxTranslateToEnglish = new System.Windows.Forms.CheckBox();
             this.labelElapsed = new System.Windows.Forms.Label();
-            this.contextMenuStripWhisperAdvanced = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStripDagloAdvanced = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.runOnlyPostProcessingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorRunOnlyPostprocessing = new System.Windows.Forms.ToolStripSeparator();
             this.setCPPConstmeModelsFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeTemporaryFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadNvidiaCudaForCPPCuBLASToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showWhisperlogtxtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showDaglologtxtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkBoxAutoAdjustTimings = new System.Windows.Forms.CheckBox();
-            this.labelEngine = new System.Windows.Forms.Label();
             this.buttonAdvanced = new System.Windows.Forms.Button();
             this.labelAdvanced = new System.Windows.Forms.Label();
             this.linkLabelPostProcessingConfigure = new System.Windows.Forms.LinkLabel();
-            this.comboBoxWhisperEngine = new Nikse.SubtitleEdit.Controls.NikseComboBox();
             this.textBoxLog = new Nikse.SubtitleEdit.Controls.NikseTextBox();
             this.groupBoxModels.SuspendLayout();
             this.groupBoxInputFiles.SuspendLayout();
-            this.contextMenuStripWhisperAdvanced.SuspendLayout();
+            this.contextMenuStripDagloAdvanced.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonCancel
@@ -129,9 +123,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.labelInfo.Location = new System.Drawing.Point(20, 12);
             this.labelInfo.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.labelInfo.Name = "labelInfo";
-            this.labelInfo.Size = new System.Drawing.Size(451, 18);
+            this.labelInfo.Size = new System.Drawing.Size(470, 18);
             this.labelInfo.TabIndex = 1;
-            this.labelInfo.Text = "Generate text from audio via Daglo speech recognition";
+            this.labelInfo.Text = "Generate text from audio via Whisper speech recognition";
             // 
             // groupBoxModels
             // 
@@ -139,10 +133,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxModels.Controls.Add(this.labelChooseLanguage);
             this.groupBoxModels.Controls.Add(this.comboBoxLanguages);
-            this.groupBoxModels.Controls.Add(this.buttonDownload);
-            this.groupBoxModels.Controls.Add(this.linkLabelOpenModelsFolder);
-            this.groupBoxModels.Controls.Add(this.labelModel);
-            this.groupBoxModels.Controls.Add(this.comboBoxModels);
             this.groupBoxModels.Location = new System.Drawing.Point(25, 83);
             this.groupBoxModels.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.groupBoxModels.Name = "groupBoxModels";
@@ -187,64 +177,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.comboBoxLanguages.UsePopupWindow = true;
             this.comboBoxLanguages.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguages_SelectedIndexChanged);
             // 
-            // buttonDownload
-            // 
-            this.buttonDownload.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonDownload.Location = new System.Drawing.Point(838, 55);
-            this.buttonDownload.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.buttonDownload.Name = "buttonDownload";
-            this.buttonDownload.Size = new System.Drawing.Size(47, 32);
-            this.buttonDownload.TabIndex = 2;
-            this.buttonDownload.Text = "...";
-            this.buttonDownload.UseVisualStyleBackColor = true;
-            this.buttonDownload.Click += new System.EventHandler(this.buttonDownload_Click);
-            // 
-            // linkLabelOpenModelsFolder
-            // 
-            this.linkLabelOpenModelsFolder.AutoSize = true;
-            this.linkLabelOpenModelsFolder.Location = new System.Drawing.Point(898, 66);
-            this.linkLabelOpenModelsFolder.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.linkLabelOpenModelsFolder.Name = "linkLabelOpenModelsFolder";
-            this.linkLabelOpenModelsFolder.Size = new System.Drawing.Size(167, 18);
-            this.linkLabelOpenModelsFolder.TabIndex = 3;
-            this.linkLabelOpenModelsFolder.TabStop = true;
-            this.linkLabelOpenModelsFolder.Text = "Open models folder";
-            this.linkLabelOpenModelsFolder.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelOpenModelFolder_LinkClicked);
-            // 
-            // labelModel
-            // 
-            this.labelModel.AutoSize = true;
-            this.labelModel.Location = new System.Drawing.Point(423, 29);
-            this.labelModel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.labelModel.Name = "labelModel";
-            this.labelModel.Size = new System.Drawing.Size(288, 18);
-            this.labelModel.TabIndex = 0;
-            this.labelModel.Text = "Choose speech recognition model";
-            // 
-            // comboBoxModels
-            // 
-            this.comboBoxModels.BackColor = System.Drawing.SystemColors.Window;
-            this.comboBoxModels.BackColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.comboBoxModels.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-            this.comboBoxModels.BorderColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
-            this.comboBoxModels.ButtonForeColor = System.Drawing.SystemColors.ControlText;
-            this.comboBoxModels.ButtonForeColorDown = System.Drawing.Color.Orange;
-            this.comboBoxModels.ButtonForeColorOver = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
-            this.comboBoxModels.DropDownHeight = 400;
-            this.comboBoxModels.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxModels.DropDownWidth = 240;
-            this.comboBoxModels.FormattingEnabled = true;
-            this.comboBoxModels.Location = new System.Drawing.Point(428, 57);
-            this.comboBoxModels.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.comboBoxModels.MaxLength = 32767;
-            this.comboBoxModels.Name = "comboBoxModels";
-            this.comboBoxModels.SelectedIndex = -1;
-            this.comboBoxModels.SelectedItem = null;
-            this.comboBoxModels.SelectedText = "";
-            this.comboBoxModels.Size = new System.Drawing.Size(400, 33);
-            this.comboBoxModels.TabIndex = 1;
-            this.comboBoxModels.UsePopupWindow = false;
-            // 
             // linkLabeDagloWebSite
             // 
             this.linkLabeDagloWebSite.AutoSize = true;
@@ -255,7 +187,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.linkLabeDagloWebSite.TabIndex = 0;
             this.linkLabeDagloWebSite.TabStop = true;
             this.linkLabeDagloWebSite.Text = "https://daglo.ai";
-            this.linkLabeDagloWebSite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelWhisperWebsite_LinkClicked);
+            this.linkLabeDagloWebSite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelDagloWebsite_LinkClicked);
             // 
             // labelTime
             // 
@@ -410,19 +342,19 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.labelElapsed.Text = "labelElapsed";
             this.labelElapsed.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // contextMenuStripWhisperAdvanced
+            // contextMenuStripDagloAdvanced
             // 
-            this.contextMenuStripWhisperAdvanced.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.contextMenuStripWhisperAdvanced.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenuStripDagloAdvanced.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.contextMenuStripDagloAdvanced.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.runOnlyPostProcessingToolStripMenuItem,
             this.toolStripSeparatorRunOnlyPostprocessing,
             this.setCPPConstmeModelsFolderToolStripMenuItem,
             this.removeTemporaryFilesToolStripMenuItem,
             this.downloadNvidiaCudaForCPPCuBLASToolStripMenuItem,
-            this.showWhisperlogtxtToolStripMenuItem});
-            this.contextMenuStripWhisperAdvanced.Name = "contextMenuStripWhisperAdvanced";
-            this.contextMenuStripWhisperAdvanced.Size = new System.Drawing.Size(407, 170);
-            this.contextMenuStripWhisperAdvanced.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripWhisperAdvanced_Opening);
+            this.showDaglologtxtToolStripMenuItem});
+            this.contextMenuStripDagloAdvanced.Name = "contextMenuStripWhisperAdvanced";
+            this.contextMenuStripDagloAdvanced.Size = new System.Drawing.Size(407, 170);
+            this.contextMenuStripDagloAdvanced.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripWhisperAdvanced_Opening);
             // 
             // runOnlyPostProcessingToolStripMenuItem
             // 
@@ -457,12 +389,12 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.downloadNvidiaCudaForCPPCuBLASToolStripMenuItem.Text = "Download Nvidia cuda for Whisper CPP";
             this.downloadNvidiaCudaForCPPCuBLASToolStripMenuItem.Click += new System.EventHandler(this.downloadNvidiaCudaForCPPCuBLASToolStripMenuItem_Click);
             // 
-            // showWhisperlogtxtToolStripMenuItem
+            // showDaglologtxtToolStripMenuItem
             // 
-            this.showWhisperlogtxtToolStripMenuItem.Name = "showWhisperlogtxtToolStripMenuItem";
-            this.showWhisperlogtxtToolStripMenuItem.Size = new System.Drawing.Size(406, 32);
-            this.showWhisperlogtxtToolStripMenuItem.Text = "Show whisper_log.txt";
-            this.showWhisperlogtxtToolStripMenuItem.Click += new System.EventHandler(this.ShowWhisperLogFileToolStripMenuItem_Click);
+            this.showDaglologtxtToolStripMenuItem.Name = "showDaglologtxtToolStripMenuItem";
+            this.showDaglologtxtToolStripMenuItem.Size = new System.Drawing.Size(406, 32);
+            this.showDaglologtxtToolStripMenuItem.Text = "Show whisper_log.txt";
+            this.showDaglologtxtToolStripMenuItem.Click += new System.EventHandler(this.ShowWhisperLogFileToolStripMenuItem_Click);
             // 
             // checkBoxAutoAdjustTimings
             // 
@@ -474,17 +406,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.checkBoxAutoAdjustTimings.TabIndex = 21;
             this.checkBoxAutoAdjustTimings.Text = "Auto adjust timings";
             this.checkBoxAutoAdjustTimings.UseVisualStyleBackColor = true;
-            // 
-            // labelEngine
-            // 
-            this.labelEngine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelEngine.AutoSize = true;
-            this.labelEngine.Location = new System.Drawing.Point(802, 19);
-            this.labelEngine.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.labelEngine.Name = "labelEngine";
-            this.labelEngine.Size = new System.Drawing.Size(62, 18);
-            this.labelEngine.TabIndex = 27;
-            this.labelEngine.Text = "Engine";
             // 
             // buttonAdvanced
             // 
@@ -519,32 +440,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.linkLabelPostProcessingConfigure.Text = "Settings";
             this.linkLabelPostProcessingConfigure.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelPostProcessingConfigure_LinkClicked);
             // 
-            // comboBoxWhisperEngine
-            // 
-            this.comboBoxWhisperEngine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxWhisperEngine.BackColor = System.Drawing.SystemColors.Window;
-            this.comboBoxWhisperEngine.BackColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.comboBoxWhisperEngine.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-            this.comboBoxWhisperEngine.BorderColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
-            this.comboBoxWhisperEngine.ButtonForeColor = System.Drawing.SystemColors.ControlText;
-            this.comboBoxWhisperEngine.ButtonForeColorDown = System.Drawing.Color.Orange;
-            this.comboBoxWhisperEngine.ButtonForeColorOver = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
-            this.comboBoxWhisperEngine.DropDownHeight = 400;
-            this.comboBoxWhisperEngine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxWhisperEngine.DropDownWidth = 0;
-            this.comboBoxWhisperEngine.FormattingEnabled = false;
-            this.comboBoxWhisperEngine.Location = new System.Drawing.Point(883, 12);
-            this.comboBoxWhisperEngine.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.comboBoxWhisperEngine.MaxLength = 32767;
-            this.comboBoxWhisperEngine.Name = "comboBoxWhisperEngine";
-            this.comboBoxWhisperEngine.SelectedIndex = -1;
-            this.comboBoxWhisperEngine.SelectedItem = null;
-            this.comboBoxWhisperEngine.SelectedText = "";
-            this.comboBoxWhisperEngine.Size = new System.Drawing.Size(333, 32);
-            this.comboBoxWhisperEngine.TabIndex = 1;
-            this.comboBoxWhisperEngine.UsePopupWindow = false;
-            this.comboBoxWhisperEngine.SelectedIndexChanged += new System.EventHandler(this.comboBoxWhisperEngine_SelectedIndexChanged);
-            // 
             // textBoxLog
             // 
             this.textBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -569,8 +464,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.Controls.Add(this.labelTime);
             this.Controls.Add(this.labelAdvanced);
             this.Controls.Add(this.buttonAdvanced);
-            this.Controls.Add(this.labelEngine);
-            this.Controls.Add(this.comboBoxWhisperEngine);
             this.Controls.Add(this.labelElapsed);
             this.Controls.Add(this.checkBoxAutoAdjustTimings);
             this.Controls.Add(this.checkBoxTranslateToEnglish);
@@ -593,8 +486,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Daglo Audio to Text";
-            this.Activated += new System.EventHandler(this.DagloAudioToText_Activated);
+            this.Text = "Audio to text";
+            this.Activated += new System.EventHandler(this.WhisperAudioToText_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AudioToText_FormClosing);
             this.Load += new System.EventHandler(this.AudioToText_Load);
             this.Shown += new System.EventHandler(this.AudioToText_Shown);
@@ -603,7 +496,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.groupBoxModels.ResumeLayout(false);
             this.groupBoxModels.PerformLayout();
             this.groupBoxInputFiles.ResumeLayout(false);
-            this.contextMenuStripWhisperAdvanced.ResumeLayout(false);
+            this.contextMenuStripDagloAdvanced.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -619,13 +512,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private System.Windows.Forms.Label labelInfo;
         private System.Windows.Forms.GroupBox groupBoxModels;
         private System.Windows.Forms.LinkLabel linkLabeDagloWebSite;
-        private System.Windows.Forms.Label labelModel;
-        private Nikse.SubtitleEdit.Controls.NikseComboBox comboBoxModels;
-        private System.Windows.Forms.LinkLabel linkLabelOpenModelsFolder;
         private System.Windows.Forms.Label labelTime;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.CheckBox checkBoxUsePostProcessing;
-        private System.Windows.Forms.Button buttonDownload;
         private System.Windows.Forms.Button buttonBatchMode;
         private System.Windows.Forms.GroupBox groupBoxInputFiles;
         private System.Windows.Forms.ListView listViewInputFiles;
@@ -638,17 +527,15 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private Nikse.SubtitleEdit.Controls.NikseComboBox comboBoxLanguages;
         private System.Windows.Forms.CheckBox checkBoxTranslateToEnglish;
         private System.Windows.Forms.Label labelElapsed;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripWhisperAdvanced;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripDagloAdvanced;
         private System.Windows.Forms.ToolStripMenuItem removeTemporaryFilesToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxAutoAdjustTimings;
-        private Nikse.SubtitleEdit.Controls.NikseComboBox comboBoxWhisperEngine;
-        private System.Windows.Forms.Label labelEngine;
         private System.Windows.Forms.ToolStripMenuItem setCPPConstmeModelsFolderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runOnlyPostProcessingToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorRunOnlyPostprocessing;
         private System.Windows.Forms.Button buttonAdvanced;
         private System.Windows.Forms.Label labelAdvanced;
-        private System.Windows.Forms.ToolStripMenuItem showWhisperlogtxtToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showDaglologtxtToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem downloadNvidiaCudaForCPPCuBLASToolStripMenuItem;
         private System.Windows.Forms.LinkLabel linkLabelPostProcessingConfigure;
     }

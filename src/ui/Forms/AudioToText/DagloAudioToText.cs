@@ -71,9 +71,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             Text = LanguageSettings.Current.AudioToText.Title;
             labelInfo.Text = LanguageSettings.Current.AudioToText.DagloInfo;
             groupBoxModels.Text = LanguageSettings.Current.AudioToText.LanguagesAndModels;
-            labelModel.Text = LanguageSettings.Current.AudioToText.ChooseModel;
+            //labelModel.Text = LanguageSettings.Current.AudioToText.ChooseModel;
             labelChooseLanguage.Text = LanguageSettings.Current.AudioToText.ChooseLanguage;
-            linkLabelOpenModelsFolder.Text = LanguageSettings.Current.AudioToText.OpenModelsFolder;
+            //linkLabelOpenModelsFolder.Text = LanguageSettings.Current.AudioToText.OpenModelsFolder;
             checkBoxTranslateToEnglish.Text = LanguageSettings.Current.AudioToText.TranslateToEnglish;
             checkBoxUsePostProcessing.Text = LanguageSettings.Current.AudioToText.UsePostProcessing;
             linkLabelPostProcessingConfigure.Left = checkBoxUsePostProcessing.Right + 1;
@@ -91,7 +91,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             setCPPConstmeModelsFolderToolStripMenuItem.Text = LanguageSettings.Current.AudioToText.SetCppConstMeFolder;
             removeTemporaryFilesToolStripMenuItem.Text = LanguageSettings.Current.AudioToText.RemoveTemporaryFiles;
             buttonAdvanced.Text = LanguageSettings.Current.General.Advanced;
-            SetAdvancedLabel();
+            //SetAdvancedLabel();
 
             columnHeaderFileName.Text = LanguageSettings.Current.JoinSubtitles.FileName;
 
@@ -127,328 +127,28 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             labelTime.Text = string.Empty;
             listViewInputFiles.Visible = false;
             labelElapsed.Text = string.Empty;
-            labelEngine.Text = LanguageSettings.Current.AudioToText.Engine;
-            labelEngine.Left = comboBoxWhisperEngine.Left - labelEngine.Width - 5;
-
-            if (Configuration.Settings.Tools.WhisperChoice == WhisperChoice.PurfviewFasterWhisperXxl
-                && !string.IsNullOrEmpty(Configuration.Settings.Tools.WhisperPurfviewFasterWhisperDefaultCmd))
-            {
-                Configuration.Settings.Tools.WhisperExtraSettings = Configuration.Settings.Tools.WhisperPurfviewFasterWhisperDefaultCmd;
-            }
+            //labelEngine.Text = LanguageSettings.Current.AudioToText.Engine;
+            //labelEngine.Left = comboBoxDagloEngine.Left - labelEngine.Width - 5;
 
             Init();
-            //InitializeWhisperEngines(comboBoxWhisperEngine);
-            //FixPurfviewWhisperStandardArgument(labelAdvanced, comboBoxWhisperEngine.Text);
         }
 
-        public static void InitializeWhisperEngines(NikseComboBox cb)
-        {
-            cb.Items.Clear();
-
-            var is64BitOs = IntPtr.Size * 8 == 64;
-            if (!is64BitOs)
-            {
-                cb.Items.Add(WhisperChoice.Cpp);
-                cb.SelectedIndex = 0;
-                return;
-            }
-
-            var engines = new List<string> { WhisperChoice.OpenAi };
-            if (Configuration.IsRunningOnWindows)
-            {
-                engines.Add(WhisperChoice.PurfviewFasterWhisperXxl);
-                engines.Add(WhisperChoice.Cpp);
-                engines.Add(WhisperChoice.CppCuBlas);
-                engines.Add(WhisperChoice.ConstMe);
-            }
-            else
-            {
-                engines.Add(WhisperChoice.Cpp);
-            }
-            engines.Add(WhisperChoice.CTranslate2);
-            engines.Add(WhisperChoice.StableTs);
-            engines.Add(WhisperChoice.WhisperX);
-
-            foreach (var engine in engines)
-            {
-                cb.Items.Add(engine);
-                if (engine == Configuration.Settings.Tools.WhisperChoice)
-                {
-                    cb.SelectedIndex = cb.Items.Count - 1;
-                }
-            }
-
-            if (cb.SelectedIndex < 0)
-            {
-                cb.SelectedIndex = 0;
-            }
-        }
 
         private void Init()
         {
             InitializeLanguageNames(comboBoxLanguages);
 
-            FillModels(comboBoxModels, string.Empty);
-
             labelFC.Text = string.Empty;
 
             removeTemporaryFilesToolStripMenuItem.Checked = Configuration.Settings.Tools.WhisperDeleteTempFiles;
-            ContextMenuStrip = contextMenuStripWhisperAdvanced;
-        }
-
-        public static void FillModels(NikseComboBox comboBoxModels, string lastDownloadedModel)
-        {
-            var whisperModel = WhisperHelper.GetWhisperModel();
-            var modelsFolder = whisperModel.ModelFolder;
-            var selectName = string.IsNullOrEmpty(lastDownloadedModel) ? Configuration.Settings.Tools.WhisperModel : lastDownloadedModel;
-
-            if (!Directory.Exists(modelsFolder))
-            {
-                whisperModel.CreateModelFolder();
-            }
-
-            comboBoxModels.Items.Clear();
-
-            if (Configuration.Settings.Tools.WhisperChoice == WhisperChoice.CTranslate2 ||
-                Configuration.Settings.Tools.WhisperChoice == WhisperChoice.PurfviewFasterWhisperXxl)
-            {
-                foreach (var model in whisperModel.Models)
-                {
-                    var path = modelsFolder;
-                    var parts = model.Folder.Split('/', '\\').ToList();
-                    path = Path.Combine(path, parts[0]);
-
-                    if (Directory.Exists(path))
-                    {
-                        comboBoxModels.Items.Add(model);
-                        if (model.Name == selectName)
-                        {
-                            try
-                            {
-                                comboBoxModels.SelectedIndex = comboBoxModels.Items.Count - 1;
-                            }
-                            catch
-                            {
-                                // ignore
-                            }
-                        }
-                    }
-                }
-
-                // look for custom models 
-                var modelSubFolders = Directory.GetDirectories(modelsFolder, "faster-whisper-*");
-                foreach (var modelSubFolder in modelSubFolders)
-                {
-                    var folderNameOnly = Path.GetFileName(modelSubFolder);
-                    var x = whisperModel.Models.Where(p => p.Folder.Equals(folderNameOnly, StringComparison.OrdinalIgnoreCase)).ToList();
-                    if (!x.Any())
-                    {
-                        long fileSize = 0;
-                        var files = Directory.GetFiles(modelSubFolder, "*" + WhisperHelper.ModelExtension()).ToList();
-                        foreach (var file in files)
-                        {
-                            var fileInfo = new FileInfo(file);
-                            fileSize += fileInfo.Length;
-                        }
-
-                        var model = new WhisperModel
-                        {
-                            Name = folderNameOnly.Remove(0, "faster-whisper-".Length),
-                            AlreadyDownloaded = false,
-                            Folder = Path.Combine(modelsFolder, modelSubFolder),
-                            Rename = false,
-                            Urls = Array.Empty<string>(),
-                            Dynamic = true,
-                            Size = Utilities.FormatBytesToDisplayFileSize(fileSize),
-                        };
-
-                        comboBoxModels.Items.Add(model);
-
-                        if (model.Name == selectName)
-                        {
-                            try
-                            {
-                                comboBoxModels.SelectedIndex = comboBoxModels.Items.Count - 1;
-                            }
-                            catch
-                            {
-                                // ignore
-                            }
-                        }
-                    }
-                }
-
-                if (comboBoxModels.SelectedIndex < 0 && comboBoxModels.Items.Count > 0)
-                {
-                    try
-                    {
-                        comboBoxModels.SelectedIndex = 0;
-                    }
-                    catch
-                    {
-                        // ignore
-                    }
-                }
-
-                return;
-            }
-
-            var models = new List<WhisperModel>();
-            foreach (var fileName in Directory.GetFiles(modelsFolder))
-            {
-                var name = Path.GetFileName(fileName);
-                var model = whisperModel.Models.FirstOrDefault(p => p.Name + WhisperHelper.ModelExtension() == name);
-                if (model == null)
-                {
-                    continue;
-                }
-
-                var fileInfo = new FileInfo(fileName);
-                if (fileInfo.Length < 10_000_000)
-                {
-                    continue;
-                }
-
-                model.Bytes = fileInfo.Length;
-                models.Add(model);
-            }
-
-            foreach (var model in models.OrderBy(m => m.Bytes))
-            {
-                comboBoxModels.Items.Add(model);
-                if (model.Name == selectName)
-                {
-                    try
-                    {
-                        comboBoxModels.SelectedIndex = comboBoxModels.Items.Count - 1;
-                    }
-                    catch
-                    {
-                        // ignore
-                    }
-                }
-            }
-
-            if (comboBoxModels.SelectedIndex < 0 && comboBoxModels.Items.Count > 0)
-            {
-                try
-                {
-                    comboBoxModels.SelectedIndex = 0;
-                }
-                catch
-                {
-                    // ignore
-                }
-            }
+            ContextMenuStrip = contextMenuStripDagloAdvanced;
         }
 
         private void ButtonGenerate_Click(object sender, EventArgs e)
         {
             _cancel = false;
 
-            // Check if chosen whisper implementation is installed
-            if (comboBoxWhisperEngine.Text == WhisperChoice.Cpp)
-            {
-                if (Configuration.Settings.Tools.WhisperExtraSettings == Configuration.Settings.Tools.WhisperPurfviewFasterWhisperDefaultCmd)
-                {
-                    Configuration.Settings.Tools.WhisperExtraSettings = string.Empty;
-                    SetAdvancedLabel();
-                }
-
-                var fileName = WhisperHelper.GetWhisperPathAndFileName(WhisperChoice.Cpp);
-                if (!File.Exists(fileName))
-                {
-                    if (MessageBox.Show(string.Format(LanguageSettings.Current.Settings.DownloadX, "Whisper CPP"), "Subtitle Edit", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-                    {
-                        using (var downloadForm = new WhisperDownload(WhisperChoice.Cpp))
-                        {
-                            if (downloadForm.ShowDialog(this) != DialogResult.OK)
-                            {
-                                return;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-            }
-
-            if (comboBoxWhisperEngine.Text == WhisperChoice.CppCuBlas)
-            {
-                var fileName = WhisperHelper.GetWhisperPathAndFileName(WhisperChoice.CppCuBlas);
-                if (!File.Exists(fileName))
-                {
-                    if (MessageBox.Show(string.Format(LanguageSettings.Current.Settings.DownloadX, "Whisper " + WhisperChoice.CppCuBlas), "Subtitle Edit", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-                    {
-                        using (var downloadForm = new WhisperDownload(WhisperChoice.CppCuBlas))
-                        {
-                            if (downloadForm.ShowDialog(this) != DialogResult.OK)
-                            {
-                                return;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-            }
-
-            if (comboBoxWhisperEngine.Text == WhisperChoice.PurfviewFasterWhisperXxl)
-            {
-                var fileName = WhisperHelper.GetWhisperPathAndFileName(comboBoxWhisperEngine.Text);
-                if (!File.Exists(fileName))
-                {
-                    if (MessageBox.Show(string.Format(LanguageSettings.Current.Settings.DownloadX, comboBoxWhisperEngine.Text), "Subtitle Edit", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-                    {
-                        using (var downloadForm = new WhisperDownload(comboBoxWhisperEngine.Text))
-                        {
-                            if (downloadForm.ShowDialog(this) != DialogResult.OK)
-                            {
-                                return;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-            }
-
-            // Model must be installed
-            if (comboBoxModels.Items.Count == 0)
-            {
-                buttonDownload_Click(null, null);
-                return;
-            }
-
             _languageCode = GetLanguage(comboBoxLanguages.Text);
-
-            if (comboBoxModels.Items[comboBoxModels.SelectedIndex] is WhisperModel model &&
-                _languageCode != "en" && IsModelEnglishOnly(model))
-            {
-                var result = MessageBox.Show("English model should only be used with English language." + Environment.NewLine +
-                "Continue anyway?", Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-                if (result != DialogResult.Yes)
-                {
-                    return;
-                }
-            }
-
-            if (comboBoxModels.Items[comboBoxModels.SelectedIndex] is WhisperModel model2 &&
-                _languageCode != "no" && _languageCode != "nb" && IsModelNorwegianOnly(model2))
-            {
-                var result = MessageBox.Show("Norwegian model should only be used with Norwegian language." + Environment.NewLine +
-                                             "Continue anyway?", Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-                if (result != DialogResult.Yes)
-                {
-                    return;
-                }
-            }
 
             try
             {
@@ -558,7 +258,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             SeLogger.WhisperInfo(textBoxLog.Text);
             if (transcript == null || transcript.Paragraphs.Count == 0)
             {
-                IncompleteModelName = comboBoxModels.Text;
+                IncompleteModelName = "daglo";
             }
 
             timer1.Stop();
@@ -569,11 +269,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private void SetEnabledState(bool enabled)
         {
             buttonGenerate.Enabled = enabled;
-            buttonDownload.Enabled = enabled;
+            //buttonDownload.Enabled = enabled;
             buttonBatchMode.Enabled = enabled;
             buttonAdvanced.Enabled = enabled;
             comboBoxLanguages.Enabled = enabled;
-            comboBoxModels.Enabled = enabled;
+            //comboBoxModels.Enabled = enabled;
             linkLabelPostProcessingConfigure.Enabled = enabled;
 
             progressBar1.Visible = !enabled;
@@ -628,10 +328,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 lvi.Selected = true;
                 lvi.EnsureVisible();
                 buttonGenerate.Enabled = false;
-                buttonDownload.Enabled = false;
+                //buttonDownload.Enabled = false;
                 buttonBatchMode.Enabled = false;
                 buttonAdvanced.Enabled = false;
-                comboBoxModels.Enabled = false;
+                //comboBoxModels.Enabled = false;
                 comboBoxLanguages.Enabled = false;
 
                 var mediaInfo = FfmpegMediaInfo.Parse(videoFileName);
@@ -715,7 +415,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             EnableGroupBoxInputFiles(true);
             buttonGenerate.Enabled = true;
-            buttonDownload.Enabled = true;
+            //buttonDownload.Enabled = true;
             buttonBatchMode.Enabled = true;
             buttonAdvanced.Enabled = true;
             DialogResult = DialogResult.Cancel;
@@ -861,7 +561,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         public Subtitle TranscribeViaWhisper(string waveFileName, string videoFileName)
         {
             _showProgressPct = -1;
-            var model = comboBoxModels.Items[comboBoxModels.SelectedIndex] as WhisperModel;
+            var model = new DagloModel();
             if (model == null)
             {
                 return new Subtitle();
@@ -917,8 +617,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             _resultList = new List<ResultText>();
 
             var inputFile = waveFileName;
-            if (!_useCenterChannelOnly &&
-                comboBoxWhisperEngine.Text == WhisperChoice.PurfviewFasterWhisperXxl &&
+            if (!_useCenterChannelOnly &&               
                 (videoFileName.EndsWith(".mkv", StringComparison.OrdinalIgnoreCase) ||
                  videoFileName.EndsWith(".mp4", StringComparison.OrdinalIgnoreCase)) &&
                 _audioTrackNumber <= 0)
@@ -958,16 +657,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 WindowsHelper.PreventStandBy();
 
                 if (_cancel)
-                {
-                    if (comboBoxWhisperEngine.Text == WhisperChoice.PurfviewFasterWhisperXxl &&
-                        KillProcessHelper.AttachConsole((uint)process.Id))
-                    {
-                        KillProcessHelper.TryToKillProcessViaCtrlC(process);
-                    }
-                    else
-                    {
-                        process.Kill();
-                    }
+                { 
+                    process.Kill(); 
 
                     progressBar1.Visible = false;
                     buttonCancel.Visible = false;
@@ -1468,7 +1159,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             return process;
         }
 
-        private void linkLabelWhisperWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLabelDagloWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             UiUtil.OpenUrl(DagloHelper.GetWebSiteUrl());
         }
@@ -1476,11 +1167,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private void AudioToText_FormClosing(object sender, FormClosingEventArgs e)
         {
             TaskbarList.SetProgressState(_parentForm.Handle, TaskbarButtonProgressFlags.NoProgress);
-
-            if (comboBoxModels.SelectedItem is WhisperModel model)
-            {
-                Configuration.Settings.Tools.WhisperModel = model.Name;
-            }
 
             if (comboBoxLanguages.SelectedItem is WhisperLanguage language)
             {
@@ -1640,18 +1326,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             progressBar1.Value = p;
             TaskbarList.SetProgressValue(_parentForm.Handle, p, 100);
-        }
-
-        private void buttonDownload_Click(object sender, EventArgs e)
-        {
-            using (var form = new WhisperModelDownload { AutoClose = true })
-            {
-                var result = form.ShowDialog(this);
-                if (result == DialogResult.OK)
-                {
-                    FillModels(comboBoxModels, form.LastDownloadedModel != null ? form.LastDownloadedModel.Name : string.Empty);
-                }
-            }
         }
 
         private void buttonAddFile_Click(object sender, EventArgs e)
@@ -2000,17 +1674,17 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             if (!string.IsNullOrEmpty(Configuration.Settings.General.DefaultLanguages))
             {
                 var favorites = Utilities.GetSubtitleLanguageCultures(true).ToList();
-                var languages = WhisperLanguage.Languages;
-                var languagesToAdd = new List<WhisperLanguage>();
+                var languages = DagloLanguage.Languages;
+                var languagesToAdd = new List<DagloLanguage>();
 
-                foreach (var whisperLanguage in languages)
+                foreach (var dagloLanguage in languages)
                 {
-                    if (favorites.Any(p => p.TwoLetterISOLanguageName == whisperLanguage.Code) ||
-                        favorites.Any(p2 => p2.EnglishName.Contains(whisperLanguage.Name, StringComparison.OrdinalIgnoreCase)) ||
-                        favorites.Any(p3 => whisperLanguage.Name.Contains(p3.EnglishName, StringComparison.OrdinalIgnoreCase)))
+                    if (favorites.Any(p => p.TwoLetterISOLanguageName == dagloLanguage.Code) ||
+                        favorites.Any(p2 => p2.EnglishName.Contains(dagloLanguage.Name, StringComparison.OrdinalIgnoreCase)) ||
+                        favorites.Any(p3 => dagloLanguage.Name.Contains(p3.EnglishName, StringComparison.OrdinalIgnoreCase)))
                     {
                         languagesFilled = true;
-                        languagesToAdd.Add(whisperLanguage);
+                        languagesToAdd.Add(dagloLanguage);
                     }
                 }
 
@@ -2034,37 +1708,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 comboBox.SelectedIndex = 0;
             }
         }
-
-        private void WhisperPhpOriginalChoose()
-        {
-            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.OpenAi;
-
-            if (Configuration.IsRunningOnWindows)
-            {
-                var path = WhisperHelper.GetWhisperFolder();
-                if (string.IsNullOrEmpty(path))
-                {
-                    using (var openFileDialog1 = new OpenFileDialog())
-                    {
-                        openFileDialog1.Title = "Locate whisper.exe (OpenAI Python version)";
-                        openFileDialog1.FileName = string.Empty;
-                        openFileDialog1.Filter = "whisper.exe|whisper.exe";
-
-                        if (openFileDialog1.ShowDialog() != DialogResult.OK || !openFileDialog1.FileName.EndsWith("whisper.exe", StringComparison.OrdinalIgnoreCase))
-                        {
-                            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.Cpp;
-                            comboBoxWhisperEngine.Text = WhisperChoice.Cpp;
-                        }
-                        else
-                        {
-                            Configuration.Settings.Tools.WhisperLocation = openFileDialog1.FileName;
-                        }
-                    }
-                }
-            }
-
-            Init();
-        }
+        
 
         private void removeTemporaryFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2104,224 +1748,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             Init();
         }
 
-        private void WhisperEngineCTranslate2()
-        {
-            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.CTranslate2;
-
-            if (Configuration.IsRunningOnWindows)
-            {
-                var path = WhisperHelper.GetWhisperFolder();
-                if (string.IsNullOrEmpty(path))
-                {
-                    using (var openFileDialog1 = new OpenFileDialog())
-                    {
-                        openFileDialog1.Title = "Locate whisper-ctranslate2.exe (Python version)";
-                        openFileDialog1.FileName = string.Empty;
-                        openFileDialog1.Filter = "whisper-ctranslate2.exe|whisper-ctranslate2.exe";
-
-                        if (openFileDialog1.ShowDialog() != DialogResult.OK || !openFileDialog1.FileName.EndsWith("whisper-ctranslate2.exe", StringComparison.OrdinalIgnoreCase))
-                        {
-                            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.Cpp;
-                            comboBoxWhisperEngine.Text = WhisperChoice.Cpp;
-                        }
-                        else
-                        {
-                            Configuration.Settings.Tools.WhisperCtranslate2Location = openFileDialog1.FileName;
-                        }
-                    }
-                }
-            }
-
-            Init();
-        }
-
-        private void WhisperEnginePurfviewFasterWhisper(string whisperChoice)
-        {
-            var oldChoice = Configuration.Settings.Tools.WhisperChoice;
-            Configuration.Settings.Tools.WhisperChoice = whisperChoice;
-            var fileName = WhisperHelper.GetWhisperPathAndFileName();
-            if (!File.Exists(fileName))
-            {
-                Configuration.Settings.Tools.WhisperChoice = oldChoice;
-                if (MessageBox.Show(string.Format(LanguageSettings.Current.Settings.DownloadX, whisperChoice), "Subtitle Edit", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-                {
-                    using (var downloadForm = new WhisperDownload(whisperChoice))
-                    {
-                        if (downloadForm.ShowDialog(this) == DialogResult.OK)
-                        {
-                            Configuration.Settings.Tools.WhisperChoice = whisperChoice;
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            Configuration.Settings.Tools.WhisperChoice = whisperChoice;
-            Init();
-        }
-
-        private void WhisperEngineWhisperX()
-        {
-            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.WhisperX;
-
-            if (Configuration.IsRunningOnWindows)
-            {
-                var path = WhisperHelper.GetWhisperFolder();
-                if (string.IsNullOrEmpty(path))
-                {
-                    using (var openFileDialog1 = new OpenFileDialog())
-                    {
-                        openFileDialog1.Title = "Locate whisperx.exe (Python version)";
-                        openFileDialog1.FileName = string.Empty;
-                        openFileDialog1.Filter = "whisperx.exe|whisperx.exe";
-
-                        if (openFileDialog1.ShowDialog() != DialogResult.OK || !openFileDialog1.FileName.EndsWith("whisperx.exe", StringComparison.OrdinalIgnoreCase))
-                        {
-                            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.Cpp;
-                            comboBoxWhisperEngine.Text = WhisperChoice.Cpp;
-                        }
-                        else
-                        {
-                            Configuration.Settings.Tools.WhisperXLocation = openFileDialog1.FileName;
-                        }
-                    }
-                }
-            }
-
-            Init();
-        }
-
-        private void WhisperEngineStableTs()
-        {
-            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.StableTs;
-
-            if (Configuration.IsRunningOnWindows)
-            {
-                var path = WhisperHelper.GetWhisperFolder();
-                if (string.IsNullOrEmpty(path))
-                {
-                    using (var openFileDialog1 = new OpenFileDialog())
-                    {
-                        openFileDialog1.Title = "Locate stable-ts.exe (Python version)";
-                        openFileDialog1.FileName = string.Empty;
-                        openFileDialog1.Filter = "stable-ts.exe|stable-ts.exe";
-
-                        if (openFileDialog1.ShowDialog() != DialogResult.OK
-                            || !openFileDialog1.FileName.EndsWith("stable-ts.exe", StringComparison.OrdinalIgnoreCase))
-                        {
-                            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.Cpp;
-                            comboBoxWhisperEngine.Text = WhisperChoice.Cpp;
-                        }
-                        else
-                        {
-                            Configuration.Settings.Tools.WhisperStableTsLocation = openFileDialog1.FileName;
-                        }
-                    }
-                }
-            }
-
-            Init();
-        }
-
-        private void comboBoxWhisperEngine_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            FixPurfviewWhisperStandardArgument(labelAdvanced, comboBoxWhisperEngine.Text);
-
-            if (comboBoxWhisperEngine.Text == Configuration.Settings.Tools.WhisperChoice)
-            {
-                return;
-            }
-
-            if (comboBoxWhisperEngine.Text == WhisperChoice.OpenAi)
-            {
-                WhisperPhpOriginalChoose();
-            }
-            else if (comboBoxWhisperEngine.Text == WhisperChoice.Cpp)
-            {
-                Configuration.Settings.Tools.WhisperChoice = WhisperChoice.Cpp;
-                var fileName = WhisperHelper.GetWhisperPathAndFileName();
-                if (!File.Exists(fileName) || WhisperDownload.IsOld(fileName, WhisperChoice.Cpp))
-                {
-                    if (MessageBox.Show(string.Format(LanguageSettings.Current.Settings.DownloadX, "Whisper CPP"), "Subtitle Edit", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-                    {
-                        using (var downloadForm = new WhisperDownload(WhisperChoice.Cpp))
-                        {
-                            if (downloadForm.ShowDialog(this) != DialogResult.OK)
-                            {
-                                return;
-                            }
-                        }
-                    }
-                }
-
-                Init();
-            }
-            else if (comboBoxWhisperEngine.Text == WhisperChoice.CppCuBlas)
-            {
-                Configuration.Settings.Tools.WhisperChoice = WhisperChoice.CppCuBlas;
-                var fileName = WhisperHelper.GetWhisperPathAndFileName();
-                if (!File.Exists(fileName) || WhisperDownload.IsOld(fileName, WhisperChoice.CppCuBlas))
-                {
-                    if (MessageBox.Show(string.Format(LanguageSettings.Current.Settings.DownloadX, "Whisper " + WhisperChoice.CppCuBlas), "Subtitle Edit", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-                    {
-                        using (var downloadForm = new WhisperDownload(WhisperChoice.CppCuBlas))
-                        {
-                            if (downloadForm.ShowDialog(this) != DialogResult.OK)
-                            {
-                                return;
-                            }
-                        }
-                    }
-                }
-
-                Init();
-            }
-            else if (comboBoxWhisperEngine.Text == WhisperChoice.ConstMe)
-            {
-                whisperConstMeToolStripMenuItem_Click(null, null);
-            }
-            else if (comboBoxWhisperEngine.Text == WhisperChoice.CTranslate2)
-            {
-                WhisperEngineCTranslate2();
-            }
-            else if (comboBoxWhisperEngine.Text == WhisperChoice.PurfviewFasterWhisperXxl)
-            {
-                WhisperEnginePurfviewFasterWhisper(comboBoxWhisperEngine.Text);
-            }
-            else if (comboBoxWhisperEngine.Text == WhisperChoice.WhisperX)
-            {
-                WhisperEngineWhisperX();
-            }
-            else if (comboBoxWhisperEngine.Text == WhisperChoice.StableTs)
-            {
-                WhisperEngineStableTs();
-            }
-        }
-
-        internal static void FixPurfviewWhisperStandardArgument(Label label, string engine)
-        {
-            if (engine != WhisperChoice.PurfviewFasterWhisperXxl &&
-                Configuration.Settings.Tools.WhisperExtraSettings.Contains("--standard", StringComparison.Ordinal))
-            {
-                Configuration.Settings.Tools.WhisperExtraSettings = Configuration.Settings.Tools.WhisperExtraSettings.Replace("--standard", string.Empty).Trim();
-                Configuration.Settings.Tools.WhisperExtraSettings = Configuration.Settings.Tools.WhisperExtraSettings.Replace("--beep_off", string.Empty).Trim();
-            }
-            else if (engine == WhisperChoice.PurfviewFasterWhisperXxl &&
-                     !Configuration.Settings.Tools.WhisperExtraSettings.Contains("--standard", StringComparison.Ordinal) &&
-                     Configuration.Settings.Tools.WhisperPurfviewFasterWhisperDefaultCmd == "--standard --beep_off")
-            {
-                Configuration.Settings.Tools.WhisperExtraSettings = Configuration.Settings.Tools.WhisperPurfviewFasterWhisperDefaultCmd;
-            }
-
-            label.Text = Configuration.Settings.Tools.WhisperExtraSettings;
-        }
+         
 
         private void setCPPConstMeModelsFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2364,12 +1791,12 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             var whisperLogFile = SeLogger.GetWhisperLogFilePath();
             if (File.Exists(whisperLogFile))
             {
-                showWhisperlogtxtToolStripMenuItem.Visible = true;
-                showWhisperlogtxtToolStripMenuItem.Text = string.Format(LanguageSettings.Current.General.ViewX, $"\"{Path.GetFileName(whisperLogFile)}\"");
+                showDaglologtxtToolStripMenuItem.Visible = true;
+                showDaglologtxtToolStripMenuItem.Text = string.Format(LanguageSettings.Current.General.ViewX, $"\"{Path.GetFileName(whisperLogFile)}\"");
             }
             else
             {
-                showWhisperlogtxtToolStripMenuItem.Visible = false;
+                showDaglologtxtToolStripMenuItem.Visible = false;
             }
         }
 
@@ -2414,66 +1841,26 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             finally
             {
                 buttonGenerate.Enabled = true;
-                buttonDownload.Enabled = true;
+                //buttonDownload.Enabled = true;
                 buttonBatchMode.Enabled = true;
                 buttonAdvanced.Enabled = true;
                 comboBoxLanguages.Enabled = true;
-                comboBoxModels.Enabled = true;
+                //comboBoxModels.Enabled = true;
                 linkLabelPostProcessingConfigure.Enabled = true;
             }
         }
 
         private void buttonAdvanced_Click(object sender, EventArgs e)
         {
-            using (var form = new WhisperAdvanced(comboBoxWhisperEngine.Text))
+            /*
+            using (var form = new WhisperAdvanced(comboBoxDagloEngine.Text))
             {
                 form.ShowDialog(this);
                 SetAdvancedLabel();
             }
+            */
         }
-
-        private void SetAdvancedLabel()
-        {
-            labelAdvanced.Text = Configuration.Settings.Tools.WhisperExtraSettings;
-
-            if (labelAdvanced.Right > Width && Math.Abs(labelProgress.Font.Size - labelAdvanced.Font.Size) < 0.01)
-            {
-                labelAdvanced.Font = new Font(labelAdvanced.Font.FontFamily, labelAdvanced.Font.Size - 1);
-            }
-        }
-
-        private static void OutputHandlerCheckCuda(object sendingProcess, DataReceivedEventArgs outLine)
-        {
-            if (string.IsNullOrEmpty(outLine.Data))
-            {
-                return;
-            }
-
-            SeLogger.WhisperInfo("CUDA check reports: " + outLine.Data);
-
-            if (!outLine.Data.Contains("CUDA device: 0") && outLine.Data.Contains("CUDA device:"))
-            {
-                CudaSomeDevice = true;
-            }
-        }
-
-        public static bool IsFasterWhisperCudaInstalled()
-        {
-            var folder = Path.Combine(Configuration.DataDirectory, "Whisper", "Purfview-Whisper-Faster");
-            if (Configuration.Settings.Tools.WhisperChoice == WhisperChoice.CppCuBlas)
-            {
-                folder = Path.Combine(Configuration.DataDirectory, "Whisper", WhisperChoice.CppCuBlas);
-            }
-
-            if (!Directory.Exists(folder))
-            {
-                return false;
-            }
-
-            var cudaFiles = Directory.GetFiles(folder, "cu*.dll");
-            var alreadyInstalled = cudaFiles.Length > 2;
-            return alreadyInstalled;
-        }
+           
 
         private void ShowWhisperLogFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2512,7 +1899,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             }
         }
 
-        private void DagloAudioToText_Activated(object sender, EventArgs e)
+        private void WhisperAudioToText_Activated(object sender, EventArgs e)
         {
             BringToFront();
         }

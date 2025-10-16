@@ -6,34 +6,14 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
 {
     public static class DagloHelper
     {
-        public static IWhisperModel GetWhisperModel()
+        public static IDagloModel GetDagloModel()
         {
-            return GetWhisperModel(Configuration.Settings.Tools.WhisperChoice);
+            return GetDagloModel(Configuration.Settings.Tools.DagloChoice);
         }
 
-        public static IWhisperModel GetWhisperModel(string whisperChoice)
+        public static IDagloModel GetDagloModel(string dagloChoice)
         {
-            if (whisperChoice == WhisperChoice.Cpp || whisperChoice == WhisperChoice.CppCuBlas)
-            {
-                return new WhisperCppModel();
-            }
-
-            if (whisperChoice == WhisperChoice.ConstMe)
-            {
-                return new WhisperConstMeModel();
-            }
-
-            if (whisperChoice == WhisperChoice.CTranslate2)
-            {
-                return new WhisperCTranslate2Model();
-            }
-
-            if (whisperChoice == WhisperChoice.PurfviewFasterWhisperXxl)
-            {
-                return new WhisperPurfviewFasterWhisperModel();
-            }
-
-            return new WhisperModel();
+            return new DagloModel();
         }
 
         public static string ModelExtension()
@@ -59,9 +39,9 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
             return "https://daglo.ai";
         }
 
-        public static bool IsWhisperInstalled()
+        public static bool IsDagloInstalled()
         {
-            if (Directory.Exists(GetWhisperModel().ModelFolder) || Configuration.IsRunningOnLinux)
+            if (Directory.Exists(GetDagloModel().ModelFolder) || Configuration.IsRunningOnLinux)
             {
                 return true;
             }
@@ -460,16 +440,16 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
             return fileNameOnly;
         }
 
-        public static string GetWhisperModelForCmdLine(string model)
+        public static string GetDagloModelForCmdLine(string model)
         {
             if (Configuration.Settings.Tools.WhisperChoice == WhisperChoice.Cpp || Configuration.Settings.Tools.WhisperChoice == WhisperChoice.CppCuBlas)
             {
-                return Path.Combine(GetWhisperModel().ModelFolder, model + ModelExtension());
+                return Path.Combine(GetDagloModel().ModelFolder, model + ModelExtension());
             }
 
             if (Configuration.Settings.Tools.WhisperChoice == WhisperChoice.ConstMe)
             {
-                return Path.Combine(GetWhisperModel().ModelFolder, model + ModelExtension());
+                return Path.Combine(GetDagloModel().ModelFolder, model + ModelExtension());
             }
 
             if (Configuration.Settings.Tools.WhisperChoice == WhisperChoice.WhisperX && model == "large-v3")

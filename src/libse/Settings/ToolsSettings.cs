@@ -42,6 +42,9 @@ namespace Nikse.SubtitleEdit.Core.Settings
         public string MicrosoftTranslatorApiKey { get; set; }
         public string MicrosoftTranslatorTokenEndpoint { get; set; }
         public string MicrosoftTranslatorCategory { get; set; }
+
+        public string DagloApiKey { get; set; }
+
         public string GoogleApiV2Key { get; set; }
         public bool GoogleTranslateNoKeyWarningShow { get; set; }
         public int GoogleApiV1ChunkSize { get; set; }
@@ -431,6 +434,12 @@ namespace Nikse.SubtitleEdit.Core.Settings
 
         public bool VoskPostProcessing { get; set; }
         public string VoskModel { get; set; }
+
+        public string DagloModel { get; set; }
+
+        public string DagloChoice { get; set; }
+
+
         public string WhisperChoice { get; set; }
         public bool WhisperIgnoreVersion { get; set; }
 
