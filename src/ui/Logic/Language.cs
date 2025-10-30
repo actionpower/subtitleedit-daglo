@@ -133,6 +133,7 @@ namespace Nikse.SubtitleEdit.Logic
         public LanguageStructure.WebVttProperties WebVttProperties;
         public LanguageStructure.WebVttStyleManager WebVttStyleManager;
         public LanguageStructure.WhisperAdvanced WhisperAdvanced;
+        public LanguageStructure.DagloTranscribe DagloTranscribe;
 
         public Language()
         {

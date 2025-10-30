@@ -3749,5 +3749,42 @@
             public string EnableVad { get; set; }
             public string VadModelNotFound { get; set; }
         }
+
+        // TODO
+        public class DagloTranscribe
+        {
+            public string Title { get; set; }
+            public string From { get; set; }
+            public string To { get; set; }
+            public string Transcribe { get; set; }
+            public string PleaseWait { get; set; }
+            public string PoweredByX { get; set; }
+            public string LineMergeHandling { get; set; }
+            public string ProcessorMergeNext { get; set; }
+            public string ProcessorSentence { get; set; }
+            public string ProcessorSingle { get; set; }
+            public string AutoTranslateViaCopyPaste { get; set; }
+            public string CopyPasteMaxSize { get; set; }
+            public string AutoCopyToClipboard { get; set; }
+            public string AutoCopyLineSeparator { get; set; }
+            public string TranslateBlockXOfY { get; set; }
+            public string TranslateBlockInfo { get; set; }
+            public string TranslateBlockGetFromClipboard { get; set; }
+            public string TranslateBlockCopySourceText { get; set; }
+            public string TranslateBlockClipboardError1 { get; set; }
+            public string TranslateBlockClipboardError2 { get; set; }
+            public string StartWebServerX { get; set; }
+            public string XRequiresALocalWebServer { get; set; }
+            public string XRequiresAnApiKey { get; set; }
+            public string ReadMore { get; set; }
+            public string Formality { get; set; }
+            public string TranslateCurrentLine { get; set; }
+            public string ReTranslateCurrentLine { get; set; }
+            public string MergeSplitStrategy { get; set; }
+            public string Delay { get; set; }
+            public string MaxBytes { get; set; }
+            public string PromptX { get; set; }
+            public string TranslateLinesSeparately { get; set; }
+        }
     }
 }
