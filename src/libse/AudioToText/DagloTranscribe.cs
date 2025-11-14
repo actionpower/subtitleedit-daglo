@@ -893,38 +893,8 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                     TimeSpan.FromSeconds(5),
                     TimeSpan.FromMinutes(30),
                     onProgress: (progress) =>
-                    {
-                        var statusEmoji = "🔄";
-                        switch (progress.Status)
-                        {
-                            case "ai_requested":
-                                statusEmoji = "🤖";
-                                break;
-                            case "uploaded":
-                                statusEmoji = "📤";
-                                break;
-                            case "file_processing":
-                                statusEmoji = "⚙️";
-                                break;
-                            case "transcribing":
-                                statusEmoji = "🎤";
-                                break;
-                            case "post_processing":
-                                statusEmoji = "✨";
-                                break;
-                            case "transcribed":
-                                statusEmoji = "✅";
-                                break;
-                            case "transcript_error":
-                                statusEmoji = "❌";
-                                break;
-                            case "file_error":
-                                statusEmoji = "⚠️";
-                                break;
-                        }
-
-                        // 기존 코드에서 switch 식 패턴 매칭(예: switch { ... })을 switch 문으로 변경
-                        Debug.WriteLine($"  상태: {statusEmoji} {progress.Status}");
+                    {  
+                        Debug.WriteLine($"  상태: {progress.Status}");
                     }
                 ).ConfigureAwait(false);
 
@@ -933,7 +903,12 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 Debug.WriteLine($"[3/3] 최종 상태: {result.Status}");
 
                 if (result.Status == "transcribed" && result.SttResults != null && result.SttResults.Length > 0)
-                {
+                { 
+                    var srtContent = DagloTranscribe.ConvertToSrt(result.SttResults);
+
+                    string srtFileName = Path.GetFileNameWithoutExtension(filePath) + ".srt";
+                    File.WriteAllText(srtFileName, srtContent, Encoding.UTF8);
+
                     Debug.WriteLine("\n=== 전사 결과 ===");
                     foreach (var sttResult in result.SttResults)
                     {
@@ -988,7 +963,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 }
                 else
                 {
-                    Debug.WriteLine("\n⚠️ 전사 결과가 없습니다.");
+                    Debug.WriteLine("\n전사 결과가 없습니다.");
                     Debug.WriteLine($"상태: {result.Status}");
                 }
 
@@ -1015,6 +990,137 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
             {
                 transcriber?.Dispose();
             }
+        }
+
+        /// <summary>
+        /// SttResult를 .srt 자막 파일 형식으로 변환합니다.
+        /// </summary>
+        /// <param name="sttResults">변환할 SttResult 배열</param>
+        /// <returns>.srt 형식의 문자열</returns>
+        public static string ConvertToSrt(SttResult[] sttResults)
+        {
+            if (sttResults == null || sttResults.Length == 0)
+                return string.Empty;
+
+            var sb = new StringBuilder();
+            int subtitleNumber = 1;
+
+            foreach (var sttResult in sttResults)
+            {
+                if (sttResult == null)
+                    continue;
+
+                // Words 배열이 있고 타임스탬프 정보가 있는 경우
+                if (sttResult.Words != null && sttResult.Words.Length > 0)
+                {
+                    // SegmentId로 그룹화하거나, 시간 순서로 정렬
+                    var wordsWithTime = sttResult.Words
+                        .Where(w => w != null && w.StartTime != null && w.EndTime != null)
+                        .OrderBy(w => GetTotalSeconds(w.StartTime))
+                        .ToList();
+
+                    if (wordsWithTime.Count > 0)
+                    {
+                        // SegmentId로 그룹화
+                        var segments = wordsWithTime
+                            .GroupBy(w => w.SegmentId ?? string.Empty)
+                            .ToList();
+
+                        foreach (var segment in segments)
+                        {
+                            var segmentWords = segment.OrderBy(w => GetTotalSeconds(w.StartTime)).ToList();
+                            if (segmentWords.Count == 0)
+                                continue;
+
+                            var startTime = segmentWords.First().StartTime;
+                            var endTime = segmentWords.Last().EndTime;
+                            var text = string.Join(" ", segmentWords.Select(w => w.Text ?? string.Empty).Where(t => !string.IsNullOrWhiteSpace(t)));
+
+                            if (string.IsNullOrWhiteSpace(text))
+                                continue;
+
+                            // SRT 형식으로 추가
+                            sb.AppendLine(subtitleNumber.ToString());
+                            sb.AppendLine($"{FormatTimeCode(startTime)} --> {FormatTimeCode(endTime)}");
+                            sb.AppendLine(text);
+                            sb.AppendLine();
+                            subtitleNumber++;
+                        }
+                    }
+                    else if (!string.IsNullOrWhiteSpace(sttResult.Transcript))
+                    {
+                        // Words가 있지만 타임스탬프가 없는 경우, Transcript만 사용
+                        // 기본 시간 설정 (0초부터 시작, 3초 지속)
+                        sb.AppendLine(subtitleNumber.ToString());
+                        sb.AppendLine($"00:00:00,000 --> 00:00:03,000");
+                        sb.AppendLine(sttResult.Transcript);
+                        sb.AppendLine();
+                        subtitleNumber++;
+                    }
+                }
+                else if (!string.IsNullOrWhiteSpace(sttResult.Transcript))
+                {
+                    // Words 배열이 없는 경우, Transcript만 사용
+                    // 기본 시간 설정 (0초부터 시작, 3초 지속)
+                    sb.AppendLine(subtitleNumber.ToString());
+                    sb.AppendLine($"00:00:00,000 --> 00:00:03,000");
+                    sb.AppendLine(sttResult.Transcript);
+                    sb.AppendLine();
+                    subtitleNumber++;
+                }
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        /// <summary>
+        /// 단일 SttResult를 .srt 자막 파일 형식으로 변환합니다.
+        /// </summary>
+        /// <param name="sttResult">변환할 SttResult</param>
+        /// <returns>.srt 형식의 문자열</returns>
+        public static string ConvertToSrt(SttResult sttResult)
+        {
+            if (sttResult == null)
+                return string.Empty;
+
+            return ConvertToSrt(new[] { sttResult });
+        }
+
+        /// <summary>
+        /// TimeInfo를 초 단위로 변환합니다.
+        /// </summary>
+        private static double GetTotalSeconds(TimeInfo timeInfo)
+        {
+            if (timeInfo == null)
+                return 0.0;
+
+            var seconds = 0.0;
+            if (!string.IsNullOrWhiteSpace(timeInfo.Seconds) && double.TryParse(timeInfo.Seconds, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var sec))
+            {
+                seconds = sec;
+            }
+
+            var nanos = timeInfo.Nanos / 1_000_000_000.0;
+            return seconds + nanos;
+        }
+
+        /// <summary>
+        /// TimeInfo를 SRT 형식의 시간 코드 문자열로 변환합니다 (HH:MM:SS,mmm).
+        /// </summary>
+        private static string FormatTimeCode(TimeInfo timeInfo)
+        {
+            if (timeInfo == null)
+                return "00:00:00,000";
+
+            var totalSeconds = GetTotalSeconds(timeInfo);
+            var totalMilliseconds = (long)(totalSeconds * 1000);
+
+            var hours = totalMilliseconds / 3_600_000;
+            var minutes = (totalMilliseconds % 3_600_000) / 60_000;
+            var seconds = (totalMilliseconds % 60_000) / 1_000;
+            var milliseconds = totalMilliseconds % 1_000;
+
+            return $"{hours:00}:{minutes:00}:{seconds:00},{milliseconds:000}";
         }
     }
 }

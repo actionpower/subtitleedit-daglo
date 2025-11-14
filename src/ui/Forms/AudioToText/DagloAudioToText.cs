@@ -578,13 +578,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 inputFile = videoFileName;
             }
              
-            //var task = Task.Run(async () => await DagloSttClient48.Test());
-            var task = Task.Run(() => DagloTranscribe.TestFileUploadAsync(inputFile));
-            //task.Wait();  
-                
+            var task = Task.Run(() => DagloTranscribe.TestFileUploadAsync(inputFile));            
+            
             //OutputHandler();
 
-            //var process = GetDagloProcess(inputFile, model.Name, _languageCode, checkBoxTranslateToEnglish.Checked, OutputHandler);
             var sw = Stopwatch.StartNew();
             _outputText.Add($"Calling daglo with : {Environment.NewLine}");
             _startTicks = Stopwatch.GetTimestamp();
@@ -634,8 +631,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 System.Threading.Thread.Sleep(50);
             }
 
-            //process.Dispose();
-
             if (GetResultFromSrt(waveFileName, videoFileName, out var resultTexts, _outputText, _filesToDelete))
             {
                 var subtitle = new Subtitle();
@@ -659,24 +654,18 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 srtFileName = waveFileName.Remove(waveFileName.Length - 4) + ".srt";
             }
 
-            var whisperFolder = WhisperHelper.GetWhisperFolder() ?? string.Empty;
-            if (!string.IsNullOrEmpty(whisperFolder) && !File.Exists(srtFileName) && !string.IsNullOrEmpty(videoFileName))
+            var dagloFolder = DagloHelper.GetDagloFolder() ?? string.Empty;
+            if (!string.IsNullOrEmpty(dagloFolder) && !File.Exists(srtFileName) && !string.IsNullOrEmpty(videoFileName))
             {
-                srtFileName = Path.Combine(whisperFolder, Path.GetFileNameWithoutExtension(videoFileName)) + ".srt";
+                srtFileName = Path.Combine(dagloFolder, Path.GetFileNameWithoutExtension(videoFileName)) + ".srt";
             }
 
             if (!File.Exists(srtFileName))
             {
-                srtFileName = Path.Combine(whisperFolder, Path.GetFileNameWithoutExtension(waveFileName)) + ".srt";
+                srtFileName = Path.Combine(dagloFolder, Path.GetFileNameWithoutExtension(waveFileName)) + ".srt";
             }
 
-            var vttFileName = Path.Combine(whisperFolder, Path.GetFileName(waveFileName) + ".vtt");
-            if (!File.Exists(vttFileName))
-            {
-                vttFileName = Path.Combine(whisperFolder, Path.GetFileNameWithoutExtension(waveFileName)) + ".vtt";
-            }
-
-            if (!File.Exists(srtFileName) && !File.Exists(vttFileName))
+            if (!File.Exists(srtFileName))
             {
                 resultTexts = new List<ResultText>();
                 return false;
@@ -688,13 +677,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 var rawText = FileUtil.ReadAllLinesShared(srtFileName, Encoding.UTF8);
                 new SubRip().LoadSubtitle(sub, rawText, srtFileName);
                 outputText?.Add($"Loading result from {srtFileName}{Environment.NewLine}");
-            }
-            else
-            {
-                var rawText = FileUtil.ReadAllLinesShared(vttFileName, Encoding.UTF8);
-                new WebVTT().LoadSubtitle(sub, rawText, vttFileName);
-                outputText?.Add($"Loading result from {vttFileName}{Environment.NewLine}");
-            }
+            } 
 
             sub.RemoveEmptyLines();
 
@@ -714,11 +697,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             if (File.Exists(srtFileName))
             {
                 filesToDelete?.Add(srtFileName);
-            }
-
-            if (File.Exists(vttFileName))
-            {
-                filesToDelete?.Add(vttFileName);
             }
 
             return true;
