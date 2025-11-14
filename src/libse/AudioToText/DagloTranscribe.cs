@@ -819,14 +819,8 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
         /// <summary>
         /// 파일 업로드를 통한 STT 테스트
         /// </summary>
-        public static async Task TestFileUploadAsync(string filePath = null)
-        {
-            // 테스트용 파일 경로 (없으면 사용자 입력 요청)
-            if (string.IsNullOrEmpty(filePath))
-            {
-                filePath = @"D:\OneDrive - ActionPower\stt_test\m4a\16k-min-playback.m4a";
-            }
-
+        public static async Task TestFileUploadAsync(string filePath = null, string language = "ko-KR")
+        { 
             if (!File.Exists(filePath))
             {
                 Debug.WriteLine($"파일을 찾을 수 없습니다: {filePath}");
@@ -842,7 +836,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 var sttConfig = new SttConfig
                 {
                     Model = "general",
-                    Language = "ko-KR"
+                    Language = language
                     // 필요시 추가 설정:
                     // SpeakerDiarization = new SpeakerDiarization { Enable = true },
                     // KeywordBoost = new KeywordBoost 

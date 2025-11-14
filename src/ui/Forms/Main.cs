@@ -37501,6 +37501,7 @@ namespace Nikse.SubtitleEdit.Forms
                     }
                     else
                     {
+                        /*
                         var customArgument = Configuration.Settings.Tools.WhisperExtraSettings;
                         var extraMessage = string.Empty;
                         if (!string.IsNullOrEmpty(customArgument))
@@ -37513,6 +37514,7 @@ namespace Nikse.SubtitleEdit.Forms
                         {
                             UiUtil.OpenFile(SeLogger.GetWhisperLogFilePath());
                         }
+                        */
                     }
 
                     return;

@@ -63,10 +63,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         public DagloAudioToText(string videoFileName, Subtitle subtitle, int audioTrackNumber, Form parentForm, WavePeakData wavePeaks)
         {
-            UiUtil.PreInitialize(this);
+            //UiUtil.PreInitialize(this);
             InitializeComponent();
-            UiUtil.FixFonts(this);
-            UiUtil.FixLargeFonts(this, buttonGenerate);
+            //UiUtil.FixFonts(this);
+            //UiUtil.FixLargeFonts(this, buttonGenerate);
 
             _videoFileName = videoFileName;
             _subtitle = subtitle;
@@ -81,9 +81,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             labelChooseLanguage.Text = LanguageSettings.Current.AudioToText.ChooseLanguage;
             //linkLabelOpenModelsFolder.Text = LanguageSettings.Current.AudioToText.OpenModelsFolder;
             //checkBoxTranslateToEnglish.Text = LanguageSettings.Current.AudioToText.TranslateToEnglish;
-            checkBoxUsePostProcessing.Text = LanguageSettings.Current.AudioToText.UsePostProcessing;
-            linkLabelPostProcessingConfigure.Left = checkBoxUsePostProcessing.Right + 1;
-            linkLabelPostProcessingConfigure.Text = LanguageSettings.Current.Settings.Title;
+            //checkBoxUsePostProcessing.Text = LanguageSettings.Current.AudioToText.UsePostProcessing;
+            //linkLabelPostProcessingConfigure.Left = checkBoxUsePostProcessing.Right + 1;
+            //linkLabelPostProcessingConfigure.Text = LanguageSettings.Current.Settings.Title;
             checkBoxAutoAdjustTimings.Text = LanguageSettings.Current.AudioToText.AutoAdjustTimings;
             buttonGenerate.Text = LanguageSettings.Current.Watermark.Generate;
             buttonCancel.Text = LanguageSettings.Current.General.Cancel;
@@ -155,21 +155,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             _languageCode = GetLanguage(comboBoxLanguages.Text);
 
-            try
-            {
-                var f = SeLogger.GetWhisperLogFilePath();
-                if (File.Exists(f) && new FileInfo(f).Length > 100_000)
-                {
-                    File.Delete(f);
-                }
-            }
-            catch
-            {
-                // ignore
-            }
-
-            _useCenterChannelOnly = Configuration.Settings.General.FFmpegUseCenterChannelOnly &&
-                                    FfmpegMediaInfo.Parse(_videoFileName).HasFrontCenterAudio(_audioTrackNumber);
+            //_useCenterChannelOnly = Configuration.Settings.General.FFmpegUseCenterChannelOnly &&
+            //                        FfmpegMediaInfo.Parse(_videoFileName).HasFrontCenterAudio(_audioTrackNumber);
 
             IncompleteModel = false;
             ShowProgressBar();
@@ -224,7 +211,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 progressBar1.Value = progressBar1.Maximum;
             }
 
-            if (checkBoxAutoAdjustTimings.Checked || checkBoxUsePostProcessing.Checked)
+            if (checkBoxAutoAdjustTimings.Checked)
             {
                 labelProgress.Text = LanguageSettings.Current.AudioToText.PostProcessing;
             }
@@ -256,7 +243,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             TranscribedSubtitle = postProcessor.Fix(
                 AudioToTextPostProcessor.Engine.Whisper,
                 transcript,
-                checkBoxUsePostProcessing.Checked,
+                false,
                 Configuration.Settings.Tools.WhisperPostProcessingAddPeriods,
                 Configuration.Settings.Tools.WhisperPostProcessingMergeLines,
                 Configuration.Settings.Tools.WhisperPostProcessingFixCasing,
@@ -283,7 +270,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             //buttonAdvanced.Enabled = enabled;
             comboBoxLanguages.Enabled = enabled;
             //comboBoxModels.Enabled = enabled;
-            linkLabelPostProcessingConfigure.Enabled = enabled;
+            //linkLabelPostProcessingConfigure.Enabled = enabled;
 
             progressBar1.Visible = !enabled;
         }
@@ -381,7 +368,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 TranscribedSubtitle = postProcessor.Fix(
                     AudioToTextPostProcessor.Engine.Whisper,
                     transcript,
-                    checkBoxUsePostProcessing.Checked,
+                    false,
                     Configuration.Settings.Tools.WhisperPostProcessingAddPeriods,
                     Configuration.Settings.Tools.WhisperPostProcessingMergeLines,
                     Configuration.Settings.Tools.WhisperPostProcessingFixCasing,
@@ -592,8 +579,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             }
              
             //var task = Task.Run(async () => await DagloSttClient48.Test());
-            var task = Task.Run(() => DagloTranscribe.TestFileUploadAsync());
-            //task.Wait(); // �۾��� �Ϸ�� ������ ���������� ���
+            var task = Task.Run(() => DagloTranscribe.TestFileUploadAsync(inputFile));
+            //task.Wait();  
                 
             //OutputHandler();
 
@@ -1102,7 +1089,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 Configuration.Settings.Tools.WhisperLanguageCode = language.Code;
             }
 
-            Configuration.Settings.Tools.VoskPostProcessing = checkBoxUsePostProcessing.Checked;
+            Configuration.Settings.Tools.VoskPostProcessing = false;
             Configuration.Settings.Tools.WhisperAutoAdjustTimings = checkBoxAutoAdjustTimings.Checked;
 
             DeleteTemporaryFiles(_filesToDelete);
@@ -1298,10 +1285,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         private void ShowHideBatchMode()
         {
+            int bottom = 200;
             if (_batchMode)
             {
                 EnableGroupBoxInputFiles(true);
-                Height = checkBoxUsePostProcessing.Bottom + progressBar1.Height + buttonCancel.Height + 470;
+                Height = bottom + progressBar1.Height + buttonCancel.Height + 470;
                 listViewInputFiles.Visible = true;
                 buttonBatchMode.Text = LanguageSettings.Current.Split.Basic;
                 MinimumSize = new Size(MinimumSize.Width, Height - 75);
@@ -1312,7 +1300,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             else
             {
                 EnableGroupBoxInputFiles(false);
-                var h = checkBoxUsePostProcessing.Bottom + progressBar1.Height + buttonCancel.Height + 110;
+                var h = bottom + progressBar1.Height + buttonCancel.Height + 110;
                 MinimumSize = new Size(MinimumSize.Width, h - 10);
                 Height = h;
                 Width = _initialWidth;
@@ -1752,14 +1740,14 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                     _subtitle = WhisperTimingFixer.ShortenLongDuration(_subtitle);
                     _subtitle = WhisperTimingFixer.ShortenViaWavePeaks(_subtitle, wavePeaks);
                 }
-                else if (!checkBoxUsePostProcessing.Checked)
+                else 
                 {
                     return;
                 }
 
                 TranscribedSubtitle = postProcessor.Fix(AudioToTextPostProcessor.Engine.Whisper,
                     _subtitle,
-                    checkBoxUsePostProcessing.Checked,
+                    false,
                     Configuration.Settings.Tools.WhisperPostProcessingAddPeriods,
                     Configuration.Settings.Tools.WhisperPostProcessingMergeLines,
                     Configuration.Settings.Tools.WhisperPostProcessingFixCasing,
@@ -1775,7 +1763,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 //buttonAdvanced.Enabled = true;
                 comboBoxLanguages.Enabled = true;
                 //comboBoxModels.Enabled = true;
-                linkLabelPostProcessingConfigure.Enabled = true;
+                //linkLabelPostProcessingConfigure.Enabled = true;
             }
         }
            
