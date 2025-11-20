@@ -25,8 +25,8 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
             { 
                 var languages = new List<DagloLanguage>
                 {
-                    new DagloLanguage("en", "english"), 
                     new DagloLanguage("ko", "korean"),
+                    new DagloLanguage("en", "english"), 
                 };                 
 
                 return languages.ToArray();

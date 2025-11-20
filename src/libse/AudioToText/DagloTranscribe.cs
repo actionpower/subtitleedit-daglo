@@ -819,7 +819,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
         /// <summary>
         /// 파일 업로드를 통한 STT 테스트
         /// </summary>
-        public static async Task TestFileUploadAsync(string filePath = null, string language = "ko-KR")
+        public static async Task TranscribeFileUploadAsync(string filePath = null, string language = "ko-KR")
         { 
             if (!File.Exists(filePath))
             {
@@ -837,7 +837,6 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 {
                     Model = "general",
                     Language = language
-                    // 필요시 추가 설정:
                     // SpeakerDiarization = new SpeakerDiarization { Enable = true },
                     // KeywordBoost = new KeywordBoost 
                     // { 
@@ -847,28 +846,27 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                     // }
                 };
 
-                // NLP 설정 (옵션)
+                // NLP Settings (option)
                 var nlpConfig = new NlpConfig
                 {
                     // KeywordExtraction = new KeywordExtraction { Enable = true, MaxCount = 10 },
                     // SentimentAnalysis = new SentimentAnalysis { Enable = true }
                 };
 
-                // Custom 데이터 (옵션)
+                // Custom data (option)
                 var custom = new Dictionary<string, object>
                 {
-                    { "test_source", "file_upload_test" },
-                    { "test_timestamp", DateTime.UtcNow.ToString("O") }
+                    { "source", "Subtitle Edit Daglo" },
+                    { "timestamp", DateTime.UtcNow.ToString("O") }
                 };
 
-                Debug.WriteLine($"=== 파일 업로드 STT 테스트 시작 ===");
-                Debug.WriteLine($"파일 경로: {filePath}");
+                Debug.WriteLine($"=== File Upload STT Start ===");
+                Debug.WriteLine($"File path: {filePath}");
 
                 var fileInfo = new FileInfo(filePath);
-                Debug.WriteLine($"파일 크기: {fileInfo.Length / 1024.0 / 1024.0:F2} MB");
-
-                // 1. 파일 업로드 및 요청 시작
-                Debug.WriteLine("[1/3] 파일 업로드 시작...");
+                Debug.WriteLine($"File size: {fileInfo.Length / 1024.0 / 1024.0:F2} MB");
+                 
+                Debug.WriteLine("[1/3] File Uploading...");
 
                 var response = await transcriber.CreateTranscriptFromFileAsync(
                     filePath,
@@ -878,15 +876,15 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                     custom
                 ).ConfigureAwait(false);
 
-                Debug.WriteLine($"[1/3] 업로드 완료! RID: {response.Rid}");
+                Debug.WriteLine($"[1/3] Upload Complete! RID: {response.Rid}");
                 if (!string.IsNullOrEmpty(response.FileName))
                 {
-                    Debug.WriteLine($"파일명: {response.FileName}");
+                    Debug.WriteLine($"FileName: {response.FileName}");
                 }
                 
                 // 2. 폴링으로 완료 대기
-                Debug.WriteLine("[2/3] 변환 완료 대기 중...");
-                Debug.WriteLine("(상태는 5초마다 업데이트됩니다)");
+                Debug.WriteLine("[2/3] Waiting for transcription...");
+                Debug.WriteLine("(Status is updated every 5 seconds)");
 
                 var result = await transcriber.PollUntilTerminalAsync(
                     response.Rid,
@@ -899,8 +897,8 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 ).ConfigureAwait(false);
 
                 // 3. 결과 출력
-                Debug.WriteLine("[3/3] 결과 출력");
-                Debug.WriteLine($"[3/3] 최종 상태: {result.Status}");
+                Debug.WriteLine("[3/3] Result");
+                Debug.WriteLine($"[3/3] Result status: {result.Status}");
 
                 if (result.Status == "transcribed" && result.SttResults != null && result.SttResults.Length > 0)
                 { 
@@ -909,39 +907,39 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                     string srtFileName = Path.GetFileNameWithoutExtension(filePath) + ".srt";
                     File.WriteAllText(srtFileName, srtContent, Encoding.UTF8);
 
-                    Debug.WriteLine("\n=== 전사 결과 ===");
+                    Debug.WriteLine("\n=== Transcription Result ===");
                     foreach (var sttResult in result.SttResults)
                     {
                         if (!string.IsNullOrEmpty(sttResult.Transcript))
                         {
-                            Debug.WriteLine($"\n전사 텍스트:");
+                            Debug.WriteLine($"\nTranscript:");
                             Debug.WriteLine($"  {sttResult.Transcript}");
                         }
 
                         // 키워드가 있으면 출력
                         if (sttResult.Keywords != null && sttResult.Keywords.Length > 0)
                         {
-                            Debug.WriteLine($"\n추출된 키워드:");
+                            Debug.WriteLine($"\nKeywords:");
                             Debug.WriteLine($"  {string.Join(", ", sttResult.Keywords)}");
                         }
 
                         // 감정 분석 결과가 있으면 출력
                         if (!string.IsNullOrEmpty(sttResult.Sentiment))
                         {
-                            Debug.WriteLine($"\n감정 분석:");
-                            Debug.WriteLine($"  감정: {sttResult.Sentiment}");
+                            Debug.WriteLine($"\nSentiment Analysis:");
+                            Debug.WriteLine($"  Sentiment: {sttResult.Sentiment}");
                             if (sttResult.SentimentScore != null)
                             {
-                                Debug.WriteLine($"  긍정: {sttResult.SentimentScore.Positive:F2}%");
-                                Debug.WriteLine($"  부정: {sttResult.SentimentScore.Negative:F2}%");
-                                Debug.WriteLine($"  중립: {sttResult.SentimentScore.Neutral:F2}%");
+                                Debug.WriteLine($"  Positive: {sttResult.SentimentScore.Positive:F2}%");
+                                Debug.WriteLine($"  Negative: {sttResult.SentimentScore.Negative:F2}%");
+                                Debug.WriteLine($"  Neutral: {sttResult.SentimentScore.Neutral:F2}%");
                             }
                         }
 
                         // 단어별 타임스탬프가 있으면 출력
                         if (sttResult.Words != null && sttResult.Words.Length > 0)
                         {
-                            Debug.WriteLine($"\n단어별 타임스탬프 (처음 10개):");
+                            Debug.WriteLine($"\nWord timestamps (first 10):");
                             var wordsToShow = sttResult.Words.Take(10);
                             foreach (var word in wordsToShow)
                             {
@@ -956,35 +954,35 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                             }
                             if (sttResult.Words.Length > 10)
                             {
-                                Debug.WriteLine($"  ... 외 {sttResult.Words.Length - 10}개 더");
+                                Debug.WriteLine($"  ... and {sttResult.Words.Length - 10} more");
                             }
                         }
                     }
                 }
                 else
                 {
-                    Debug.WriteLine("\n전사 결과가 없습니다.");
-                    Debug.WriteLine($"상태: {result.Status}");
+                    Debug.WriteLine("\nNo transcription result.");
+                    Debug.WriteLine($"Status: {result.Status}");
                 }
 
-                Debug.WriteLine("=== 테스트 완료 ===");
+                Debug.WriteLine("=== Complete ===");
             }
             catch (FileNotFoundException ex)
             {
-                Debug.WriteLine($"파일 오류: {ex.Message}");
+                Debug.WriteLine($"File error: {ex.Message}");
             }
             catch (TimeoutException ex)
             {
-                Debug.WriteLine($"타임아웃: {ex.Message}");
+                Debug.WriteLine($"Timeout: {ex.Message}");
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine($"HTTP 오류: {ex.Message}");
+                Debug.WriteLine($"HTTP Error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"오류 발생: {ex.Message}");
-                Debug.WriteLine($"스택 추적: {ex.StackTrace}");
+                Debug.WriteLine($"Error message: {ex.Message}");
+                Debug.WriteLine($"Stack trace: {ex.StackTrace}");
             }
             finally
             {

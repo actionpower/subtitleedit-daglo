@@ -441,6 +441,9 @@ namespace Nikse.SubtitleEdit.Core.Settings
 
         public string DagloLanguageCode { get; set; }
 
+        public bool DagloAutoAdjustTimings { get; set; }
+
+        public bool DagloDeleteTempFiles { get; set; }
 
         public string WhisperChoice { get; set; }
         public bool WhisperIgnoreVersion { get; set; }
