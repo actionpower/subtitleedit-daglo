@@ -1,6 +1,5 @@
 using Nikse.SubtitleEdit.Controls;
-using Nikse.SubtitleEdit.Core.AudioToText;
-using Nikse.SubtitleEdit.Core.AutoTranslate;
+using Nikse.SubtitleEdit.Core.AudioToText; 
 using Nikse.SubtitleEdit.Core.Common;
 using Nikse.SubtitleEdit.Core.ContainerFormats.Matroska;
 using Nikse.SubtitleEdit.Core.SubtitleFormats;
@@ -19,8 +18,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms; 
-using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
-using Timer = System.Windows.Forms.Timer;
+using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox; 
 
 namespace Nikse.SubtitleEdit.Forms.AudioToText
 {
@@ -234,8 +232,15 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             if (checkBoxAutoAdjustTimings.Checked && wavePeaks != null)
             {
-                transcript = WhisperTimingFixer.ShortenLongDuration(transcript);
-                transcript = WhisperTimingFixer.ShortenViaWavePeaks(transcript, wavePeaks);
+                transcript = DagloTimingFixer.ShortenLongDuration(transcript);
+                // Before timing fix
+                PrintSubtitleInfo("Before ShortenViaWavePeaks", transcript);
+
+                transcript = DagloTimingFixer.ShortenViaWavePeaks(transcript, wavePeaks);
+                transcript = DagloTimingFixer.AdjustEndViaWavePeaks(transcript, wavePeaks);
+
+                // After timing fix
+                PrintSubtitleInfo("After ShortenViaWavePeaks", transcript);
             }
             
 
@@ -265,10 +270,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         {
             buttonGenerate.Enabled = enabled;
             //buttonDownload.Enabled = enabled;
-            buttonBatchMode.Enabled = enabled;
+            //buttonBatchMode.Enabled = enabled;
             //buttonAdvanced.Enabled = enabled;
-            comboBoxLanguages.Enabled = enabled;
-            //comboBoxModels.Enabled = enabled;
+            //comboBoxLanguages.Enabled = enabled; 
             //linkLabelPostProcessingConfigure.Enabled = enabled;
 
             progressBar1.Visible = !enabled;
@@ -356,8 +360,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
                 if (checkBoxAutoAdjustTimings.Checked && wavePeaks != null)
                 {
-                    transcript = WhisperTimingFixer.ShortenLongDuration(transcript);
-                    transcript = WhisperTimingFixer.ShortenViaWavePeaks(transcript, wavePeaks);
+                    transcript = DagloTimingFixer.ShortenLongDuration(transcript);
+                    transcript = DagloTimingFixer.ShortenViaWavePeaks(transcript, wavePeaks);
                 }
 
                 var postProcessor = new AudioToTextPostProcessor(_languageCode)
@@ -700,49 +704,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             return true;
         }
-
-        private void OutputHandler(List<SttResult> sttResults)
-        {
-            foreach (var sttResult in sttResults)
-            {
-                Debug.WriteLine($"음성 텍스트:\n{sttResult.Transcript}\n");
-
-                if (sttResult.Keywords != null)
-                {
-                    Debug.WriteLine($"키워드: {string.Join(", ", sttResult.Keywords)}");
-                }
-
-                if (!string.IsNullOrEmpty(sttResult.Sentiment))
-                {
-                    Debug.WriteLine($"감정: {sttResult.Sentiment}");
-                    if (sttResult.SentimentScore != null)
-                    {
-                        Debug.WriteLine($"  긍정: {sttResult.SentimentScore.Positive:F2}%");
-                        Debug.WriteLine($"  부정: {sttResult.SentimentScore.Negative:F2}%");
-                        Debug.WriteLine($"  중립: {sttResult.SentimentScore.Neutral:F2}%");
-                    }
-                }
-
-                if (sttResult.Words != null)
-                {
-                    Debug.WriteLine("\n화자별 대화:");
-                    foreach (var word in sttResult.Words)
-                    {
-                        if (!string.IsNullOrEmpty(word.Speaker))
-                        {
-                            var startSec = double.Parse(word.StartTime.Seconds) +
-                                            word.StartTime.Nanos / 1_000_000_000.0;
-                            Debug.WriteLine($"  [{startSec:F2}s] 화자{word.Speaker}: {word.Text}");
-                        }
-                    }
-                }
-            }
-        }
-
-        private static decimal GetSeconds(string timeCode)
-        {
-            return (decimal)(TimeCode.ParseToMilliseconds(timeCode) / 1000.0);
-        }
+          
 
         private string GenerateWavFile(string videoFileName, int audioTrackNumber)
         {
@@ -920,23 +882,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 _cancel = true;
             }
         }
-
-        public static Process GetDagloProcess(string waveFileName, string model, string language, bool translate, DataReceivedEventHandler dataReceivedHandler = null)
-        {
-            if (language.ToLowerInvariant() == "english" || language.ToLowerInvariant() == "en")
-            {
-                language = "en";
-            }
-
-            var outputSrt = string.Empty;
-            var postParams = string.Empty;
-            var srtFileName = Path.GetFileNameWithoutExtension(waveFileName);
-
-            //SeLogger.WhisperInfo($"daglo API calling"); 
-            return null;
-        }
-
-        /*
+         
         private void SaveSettings(Type engineType)
         {
             if (engineType == typeof(DagloTranscribe) && !string.IsNullOrWhiteSpace(nikseTextBoxApiKey.Text))
@@ -945,6 +891,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             }
         }
 
+        /*
         private void HandleError(Exception exception, int linesTranslate, Type engineType)
         {
             SeLogger.Error(exception);
@@ -1452,6 +1399,25 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private void WhisperAudioToText_Activated(object sender, EventArgs e)
         {
             BringToFront();
+        }
+
+        private void PrintSubtitleInfo(string title, Subtitle subtitle)
+        {
+            Debug.WriteLine($"--- {title} ---");
+            if (subtitle == null || subtitle.Paragraphs.Count == 0)
+            {
+                Debug.WriteLine("No paragraphs.");
+                return;
+            }
+            for (int i = 0; i < Math.Min(5, subtitle.Paragraphs.Count); i++)
+            {
+                var p = subtitle.Paragraphs[i];
+                Debug.WriteLine($"{i + 1}: [{p.StartTime}] --> [{p.EndTime}] {p.Text}");
+            }
+            if (subtitle.Paragraphs.Count > 5)
+            {
+                Debug.WriteLine($"... {subtitle.Paragraphs.Count - 5} more");
+            }
         }
     }
 }

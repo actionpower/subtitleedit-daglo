@@ -36,7 +36,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.labelInfo = new System.Windows.Forms.Label();
             this.groupBoxModels = new System.Windows.Forms.GroupBox();
             this.labelChooseLanguage = new System.Windows.Forms.Label();
-            this.comboBoxLanguages = new Nikse.SubtitleEdit.Controls.NikseComboBox();
             this.linkLabelDagloWebSite = new System.Windows.Forms.LinkLabel();
             this.labelTime = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -55,10 +54,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.removeTemporaryFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadNvidiaCudaForCPPCuBLASToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showWhisperlogtxtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.labelEngine = new System.Windows.Forms.Label();
-            this.comboBoxWhisperEngine = new Nikse.SubtitleEdit.Controls.NikseComboBox();
-            this.textBoxLog = new Nikse.SubtitleEdit.Controls.NikseTextBox();
             this.checkBoxAutoAdjustTimings = new System.Windows.Forms.CheckBox();
+            this.labelApiKey = new System.Windows.Forms.Label();
+            this.nikseTextBoxApiKey = new Nikse.SubtitleEdit.Controls.NikseTextBox();
+            this.comboBoxLanguages = new Nikse.SubtitleEdit.Controls.NikseComboBox();
+            this.textBoxLog = new Nikse.SubtitleEdit.Controls.NikseTextBox();
             this.groupBoxModels.SuspendLayout();
             this.groupBoxInputFiles.SuspendLayout();
             this.contextMenuStripWhisperAdvanced.SuspendLayout();
@@ -69,7 +69,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonCancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonCancel.Location = new System.Drawing.Point(1052, 674);
+            this.buttonCancel.Location = new System.Drawing.Point(1052, 300);
             this.buttonCancel.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(158, 32);
@@ -82,7 +82,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             this.buttonGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonGenerate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonGenerate.Location = new System.Drawing.Point(637, 674);
+            this.buttonGenerate.Location = new System.Drawing.Point(834, 300);
             this.buttonGenerate.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.buttonGenerate.Name = "buttonGenerate";
             this.buttonGenerate.Size = new System.Drawing.Size(208, 32);
@@ -95,7 +95,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(20, 674);
+            this.progressBar1.Location = new System.Drawing.Point(20, 300);
             this.progressBar1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(607, 17);
@@ -106,7 +106,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             this.labelProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelProgress.AutoSize = true;
-            this.labelProgress.Location = new System.Drawing.Point(20, 649);
+            this.labelProgress.Location = new System.Drawing.Point(20, 275);
             this.labelProgress.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.labelProgress.Name = "labelProgress";
             this.labelProgress.Size = new System.Drawing.Size(118, 18);
@@ -148,31 +148,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.labelChooseLanguage.TabIndex = 4;
             this.labelChooseLanguage.Text = "Choose language";
             // 
-            // comboBoxLanguages
-            // 
-            this.comboBoxLanguages.BackColor = System.Drawing.SystemColors.Window;
-            this.comboBoxLanguages.BackColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.comboBoxLanguages.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-            this.comboBoxLanguages.BorderColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
-            this.comboBoxLanguages.ButtonForeColor = System.Drawing.SystemColors.ControlText;
-            this.comboBoxLanguages.ButtonForeColorDown = System.Drawing.Color.Orange;
-            this.comboBoxLanguages.ButtonForeColorOver = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
-            this.comboBoxLanguages.DropDownHeight = 400;
-            this.comboBoxLanguages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxLanguages.DropDownWidth = 240;
-            this.comboBoxLanguages.FormattingEnabled = true;
-            this.comboBoxLanguages.Location = new System.Drawing.Point(10, 61);
-            this.comboBoxLanguages.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.comboBoxLanguages.MaxLength = 32767;
-            this.comboBoxLanguages.Name = "comboBoxLanguages";
-            this.comboBoxLanguages.SelectedIndex = -1;
-            this.comboBoxLanguages.SelectedItem = null;
-            this.comboBoxLanguages.SelectedText = "";
-            this.comboBoxLanguages.Size = new System.Drawing.Size(323, 33);
-            this.comboBoxLanguages.TabIndex = 0;
-            this.comboBoxLanguages.UsePopupWindow = true;
-            this.comboBoxLanguages.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguages_SelectedIndexChanged);
-            // 
             // linkLabelDagloWebSite
             // 
             this.linkLabelDagloWebSite.AutoSize = true;
@@ -189,7 +164,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             this.labelTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelTime.AutoSize = true;
-            this.labelTime.Location = new System.Drawing.Point(20, 695);
+            this.labelTime.Location = new System.Drawing.Point(20, 321);
             this.labelTime.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.labelTime.Name = "labelTime";
             this.labelTime.Size = new System.Drawing.Size(147, 18);
@@ -204,13 +179,14 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             this.buttonBatchMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonBatchMode.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonBatchMode.Location = new System.Drawing.Point(855, 674);
+            this.buttonBatchMode.Location = new System.Drawing.Point(637, 300);
             this.buttonBatchMode.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.buttonBatchMode.Name = "buttonBatchMode";
             this.buttonBatchMode.Size = new System.Drawing.Size(187, 32);
             this.buttonBatchMode.TabIndex = 92;
             this.buttonBatchMode.Text = "Batch mode";
             this.buttonBatchMode.UseVisualStyleBackColor = true;
+            this.buttonBatchMode.Visible = false;
             this.buttonBatchMode.Click += new System.EventHandler(this.buttonBatchMode_Click);
             // 
             // groupBoxInputFiles
@@ -226,10 +202,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.groupBoxInputFiles.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.groupBoxInputFiles.Name = "groupBoxInputFiles";
             this.groupBoxInputFiles.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.groupBoxInputFiles.Size = new System.Drawing.Size(1185, 237);
+            this.groupBoxInputFiles.Size = new System.Drawing.Size(1185, 0);
             this.groupBoxInputFiles.TabIndex = 30;
             this.groupBoxInputFiles.TabStop = false;
             this.groupBoxInputFiles.Text = "Input files";
+            this.groupBoxInputFiles.Visible = false;
             // 
             // buttonClear
             // 
@@ -280,7 +257,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.listViewInputFiles.Location = new System.Drawing.Point(10, 25);
             this.listViewInputFiles.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.listViewInputFiles.Name = "listViewInputFiles";
-            this.listViewInputFiles.Size = new System.Drawing.Size(1031, 187);
+            this.listViewInputFiles.Size = new System.Drawing.Size(1031, 0);
             this.listViewInputFiles.TabIndex = 0;
             this.listViewInputFiles.UseCompatibleStateImageBehavior = false;
             this.listViewInputFiles.View = System.Windows.Forms.View.Details;
@@ -297,7 +274,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             this.labelFC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.labelFC.ForeColor = System.Drawing.Color.Gray;
-            this.labelFC.Location = new System.Drawing.Point(427, 695);
+            this.labelFC.Location = new System.Drawing.Point(427, 321);
             this.labelFC.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.labelFC.Name = "labelFC";
             this.labelFC.Size = new System.Drawing.Size(200, 24);
@@ -308,7 +285,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // labelElapsed
             // 
             this.labelElapsed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelElapsed.Location = new System.Drawing.Point(358, 648);
+            this.labelElapsed.Location = new System.Drawing.Point(358, 274);
             this.labelElapsed.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.labelElapsed.Name = "labelElapsed";
             this.labelElapsed.Size = new System.Drawing.Size(253, 18);
@@ -327,75 +304,100 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.downloadNvidiaCudaForCPPCuBLASToolStripMenuItem,
             this.showWhisperlogtxtToolStripMenuItem});
             this.contextMenuStripWhisperAdvanced.Name = "contextMenuStripWhisperAdvanced";
-            this.contextMenuStripWhisperAdvanced.Size = new System.Drawing.Size(290, 98);
+            this.contextMenuStripWhisperAdvanced.Size = new System.Drawing.Size(407, 138);
             // 
             // runOnlyPostProcessingToolStripMenuItem
             // 
             this.runOnlyPostProcessingToolStripMenuItem.Name = "runOnlyPostProcessingToolStripMenuItem";
-            this.runOnlyPostProcessingToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
+            this.runOnlyPostProcessingToolStripMenuItem.Size = new System.Drawing.Size(406, 32);
             this.runOnlyPostProcessingToolStripMenuItem.Text = "Run only post processing";
             this.runOnlyPostProcessingToolStripMenuItem.Click += new System.EventHandler(this.runOnlyPostProcessingToolStripMenuItem_Click);
             // 
             // toolStripSeparatorRunOnlyPostprocessing
             // 
             this.toolStripSeparatorRunOnlyPostprocessing.Name = "toolStripSeparatorRunOnlyPostprocessing";
-            this.toolStripSeparatorRunOnlyPostprocessing.Size = new System.Drawing.Size(286, 6);
+            this.toolStripSeparatorRunOnlyPostprocessing.Size = new System.Drawing.Size(403, 6);
             // 
             // removeTemporaryFilesToolStripMenuItem
             // 
             this.removeTemporaryFilesToolStripMenuItem.Name = "removeTemporaryFilesToolStripMenuItem";
-            this.removeTemporaryFilesToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
+            this.removeTemporaryFilesToolStripMenuItem.Size = new System.Drawing.Size(406, 32);
             this.removeTemporaryFilesToolStripMenuItem.Text = "Remove temporary files";
             this.removeTemporaryFilesToolStripMenuItem.Click += new System.EventHandler(this.removeTemporaryFilesToolStripMenuItem_Click);
             // 
             // downloadNvidiaCudaForCPPCuBLASToolStripMenuItem
             // 
             this.downloadNvidiaCudaForCPPCuBLASToolStripMenuItem.Name = "downloadNvidiaCudaForCPPCuBLASToolStripMenuItem";
-            this.downloadNvidiaCudaForCPPCuBLASToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
+            this.downloadNvidiaCudaForCPPCuBLASToolStripMenuItem.Size = new System.Drawing.Size(406, 32);
             this.downloadNvidiaCudaForCPPCuBLASToolStripMenuItem.Text = "Download Nvidia cuda for Whisper CPP";
             // 
             // showWhisperlogtxtToolStripMenuItem
             // 
             this.showWhisperlogtxtToolStripMenuItem.Name = "showWhisperlogtxtToolStripMenuItem";
-            this.showWhisperlogtxtToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
+            this.showWhisperlogtxtToolStripMenuItem.Size = new System.Drawing.Size(406, 32);
             this.showWhisperlogtxtToolStripMenuItem.Text = "Show whisper_log.txt";
             this.showWhisperlogtxtToolStripMenuItem.Click += new System.EventHandler(this.ShowWhisperLogFileToolStripMenuItem_Click);
             // 
-            // labelEngine
+            // checkBoxAutoAdjustTimings
             // 
-            this.labelEngine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelEngine.AutoSize = true;
-            this.labelEngine.Location = new System.Drawing.Point(802, 19);
-            this.labelEngine.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.labelEngine.Name = "labelEngine";
-            this.labelEngine.Size = new System.Drawing.Size(62, 18);
-            this.labelEngine.TabIndex = 27;
-            this.labelEngine.Text = "Engine";
+            this.checkBoxAutoAdjustTimings.AutoSize = true;
+            this.checkBoxAutoAdjustTimings.Checked = true;
+            this.checkBoxAutoAdjustTimings.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxAutoAdjustTimings.Location = new System.Drawing.Point(25, 214);
+            this.checkBoxAutoAdjustTimings.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.checkBoxAutoAdjustTimings.Name = "checkBoxAutoAdjustTimings";
+            this.checkBoxAutoAdjustTimings.Size = new System.Drawing.Size(189, 22);
+            this.checkBoxAutoAdjustTimings.TabIndex = 21;
+            this.checkBoxAutoAdjustTimings.Text = "Auto adjust timings";
+            this.checkBoxAutoAdjustTimings.UseVisualStyleBackColor = true;
+            this.checkBoxAutoAdjustTimings.Visible = false;
             // 
-            // comboBoxWhisperEngine
+            // labelApiKey
             // 
-            this.comboBoxWhisperEngine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxWhisperEngine.BackColor = System.Drawing.SystemColors.Window;
-            this.comboBoxWhisperEngine.BackColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.comboBoxWhisperEngine.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-            this.comboBoxWhisperEngine.BorderColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
-            this.comboBoxWhisperEngine.ButtonForeColor = System.Drawing.SystemColors.ControlText;
-            this.comboBoxWhisperEngine.ButtonForeColorDown = System.Drawing.Color.Orange;
-            this.comboBoxWhisperEngine.ButtonForeColorOver = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
-            this.comboBoxWhisperEngine.DropDownHeight = 400;
-            this.comboBoxWhisperEngine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxWhisperEngine.DropDownWidth = 0;
-            this.comboBoxWhisperEngine.FormattingEnabled = false;
-            this.comboBoxWhisperEngine.Location = new System.Drawing.Point(883, 12);
-            this.comboBoxWhisperEngine.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.comboBoxWhisperEngine.MaxLength = 32767;
-            this.comboBoxWhisperEngine.Name = "comboBoxWhisperEngine";
-            this.comboBoxWhisperEngine.SelectedIndex = -1;
-            this.comboBoxWhisperEngine.SelectedItem = null;
-            this.comboBoxWhisperEngine.SelectedText = "";
-            this.comboBoxWhisperEngine.Size = new System.Drawing.Size(333, 32);
-            this.comboBoxWhisperEngine.TabIndex = 1;
-            this.comboBoxWhisperEngine.UsePopupWindow = false;
+            this.labelApiKey.AutoSize = true;
+            this.labelApiKey.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.labelApiKey.Location = new System.Drawing.Point(690, 20);
+            this.labelApiKey.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.labelApiKey.Name = "labelApiKey";
+            this.labelApiKey.Size = new System.Drawing.Size(69, 18);
+            this.labelApiKey.TabIndex = 96;
+            this.labelApiKey.Text = "API key";
+            // 
+            // nikseTextBoxApiKey
+            // 
+            this.nikseTextBoxApiKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nikseTextBoxApiKey.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
+            this.nikseTextBoxApiKey.Location = new System.Drawing.Point(769, 17);
+            this.nikseTextBoxApiKey.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.nikseTextBoxApiKey.Name = "nikseTextBoxApiKey";
+            this.nikseTextBoxApiKey.Size = new System.Drawing.Size(441, 28);
+            this.nikseTextBoxApiKey.TabIndex = 95;
+            // 
+            // comboBoxLanguages
+            // 
+            this.comboBoxLanguages.BackColor = System.Drawing.SystemColors.Window;
+            this.comboBoxLanguages.BackColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.comboBoxLanguages.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+            this.comboBoxLanguages.BorderColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
+            this.comboBoxLanguages.ButtonForeColor = System.Drawing.SystemColors.ControlText;
+            this.comboBoxLanguages.ButtonForeColorDown = System.Drawing.Color.Orange;
+            this.comboBoxLanguages.ButtonForeColorOver = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
+            this.comboBoxLanguages.DropDownHeight = 400;
+            this.comboBoxLanguages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxLanguages.DropDownWidth = 240;
+            this.comboBoxLanguages.FormattingEnabled = true;
+            this.comboBoxLanguages.Location = new System.Drawing.Point(10, 61);
+            this.comboBoxLanguages.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.comboBoxLanguages.MaxLength = 32767;
+            this.comboBoxLanguages.Name = "comboBoxLanguages";
+            this.comboBoxLanguages.SelectedIndex = -1;
+            this.comboBoxLanguages.SelectedItem = null;
+            this.comboBoxLanguages.SelectedText = "";
+            this.comboBoxLanguages.Size = new System.Drawing.Size(323, 33);
+            this.comboBoxLanguages.TabIndex = 0;
+            this.comboBoxLanguages.UsePopupWindow = true;
+            this.comboBoxLanguages.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguages_SelectedIndexChanged);
             // 
             // textBoxLog
             // 
@@ -409,30 +411,17 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ReadOnly = true;
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxLog.Size = new System.Drawing.Size(326, 130);
+            this.textBoxLog.Size = new System.Drawing.Size(326, 0);
             this.textBoxLog.TabIndex = 0;
-            // 
-            // checkBoxAutoAdjustTimings
-            // 
-            this.checkBoxAutoAdjustTimings.AutoSize = true;
-            this.checkBoxAutoAdjustTimings.Checked = true;
-            this.checkBoxAutoAdjustTimings.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAutoAdjustTimings.Location = new System.Drawing.Point(25, 244);
-            this.checkBoxAutoAdjustTimings.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.checkBoxAutoAdjustTimings.Name = "checkBoxAutoAdjustTimings";
-            this.checkBoxAutoAdjustTimings.Size = new System.Drawing.Size(182, 22);
-            this.checkBoxAutoAdjustTimings.TabIndex = 21;
-            this.checkBoxAutoAdjustTimings.Text = "Auto adjust timings";
-            this.checkBoxAutoAdjustTimings.UseVisualStyleBackColor = true;
             // 
             // DagloAudioToText
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1230, 726);
+            this.ClientSize = new System.Drawing.Size(1230, 352);
+            this.Controls.Add(this.labelApiKey);
+            this.Controls.Add(this.nikseTextBoxApiKey);
             this.Controls.Add(this.labelTime);
-            this.Controls.Add(this.labelEngine);
-            this.Controls.Add(this.comboBoxWhisperEngine);
             this.Controls.Add(this.labelElapsed);
             this.Controls.Add(this.checkBoxAutoAdjustTimings);
             this.Controls.Add(this.groupBoxInputFiles);
@@ -494,12 +483,12 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private System.Windows.Forms.Label labelElapsed;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripWhisperAdvanced;
         private System.Windows.Forms.ToolStripMenuItem removeTemporaryFilesToolStripMenuItem;
-        private Nikse.SubtitleEdit.Controls.NikseComboBox comboBoxWhisperEngine;
-        private System.Windows.Forms.Label labelEngine; 
         private System.Windows.Forms.ToolStripMenuItem runOnlyPostProcessingToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorRunOnlyPostprocessing;
         private System.Windows.Forms.ToolStripMenuItem showWhisperlogtxtToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem downloadNvidiaCudaForCPPCuBLASToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxAutoAdjustTimings;
+        private System.Windows.Forms.Label labelApiKey;
+        private Controls.NikseTextBox nikseTextBoxApiKey;
     }
 }
