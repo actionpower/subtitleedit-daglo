@@ -2160,7 +2160,7 @@ namespace Nikse.SubtitleEdit.Forms
             NetflixLanguage.GlyphCheckReport = LanguageSettings.Current.NetflixQualityCheck.GlyphCheckReport;
             NetflixLanguage.WhiteSpaceCheckForXReport = LanguageSettings.Current.NetflixQualityCheck.WhiteSpaceCheckForXReport;
             NetflixLanguage.WhiteSpaceLineEnding = LanguageSettings.Current.NetflixQualityCheck.WhiteSpaceLineEncding;
-            NetflixLanguage.WhiteSpaceCheckconsecutive = LanguageSettings.Current.NetflixQualityCheck.WhiteSpaceCheckconsecutive;
+            NetflixLanguage.WhiteSpaceCheckConsecutive = LanguageSettings.Current.NetflixQualityCheck.WhiteSpaceCheckconsecutive;
             NetflixLanguage.WhiteSpaceBeforePunctuation = LanguageSettings.Current.NetflixQualityCheck.WhiteSpaceBeforePunctuation;
 
             DvdSubtitleLanguage.Language.NotSpecified = LanguageSettings.Current.LanguageNames.NotSpecified;
@@ -3770,6 +3770,13 @@ namespace Nikse.SubtitleEdit.Forms
             if (format == null && file.Length > 100 && FileUtil.IsZip(fileName))
             {
                 MessageBox.Show(_language.ErrorLoadZip);
+                return;
+            }
+
+            // check for .gzip file
+            if (format == null && file.Length > 100 && FileUtil.IsGZip(fileName))
+            {
+                MessageBox.Show(_language.ErrorLoadGZip);
                 return;
             }
 
@@ -8598,11 +8605,11 @@ namespace Nikse.SubtitleEdit.Forms
         private void LiveSpellCheckTimer_Tick(object sender, EventArgs e)
         {
             _liveSpellCheckTimer.Stop();
-            InitializeLiveSpellChcek();
+            InitializeLiveSpellCheck();
             _liveSpellCheckTimer.Start();
         }
 
-        private void InitializeLiveSpellChcek()
+        private void InitializeLiveSpellCheck()
         {
             if (IsSubtitleLoaded)
             {
@@ -23954,6 +23961,7 @@ namespace Nikse.SubtitleEdit.Forms
                             ShowStatus(string.Empty, false);
                             if (string.IsNullOrEmpty(_videoFileName) || !File.Exists(_videoFileName))
                             {
+                                Cursor = Cursors.Default;
                                 return;
                             }
 
@@ -28745,9 +28753,13 @@ namespace Nikse.SubtitleEdit.Forms
                     textBoxSource.Paste();
                 }
             }
-            else if (GetFocusedTextBox().Enabled)
+            else
             {
-                GetFocusedTextBox().Paste();
+                var tb = GetFocusedTextBox();
+                if (tb.Enabled)
+                {
+                    tb.Paste();
+                }
             }
         }
 

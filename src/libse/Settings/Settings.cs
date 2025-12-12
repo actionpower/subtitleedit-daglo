@@ -2401,6 +2401,18 @@ namespace Nikse.SubtitleEdit.Core.Settings
                 settings.Tools.AvalAiModel = subNode.InnerText;
             }
 
+            subNode = node.SelectSingleNode("BaiduUrl");
+            if (subNode != null)
+            {
+                settings.Tools.BaiduUrl = subNode.InnerText;
+            }
+
+            subNode = node.SelectSingleNode("BaiduApiKey");
+            if (subNode != null)
+            {
+                settings.Tools.BaiduApiKey = subNode.InnerText;
+            }
+
             subNode = node.SelectSingleNode("AutoTranslateDelaySeconds");
             if (subNode != null)
             {
@@ -4442,6 +4454,12 @@ namespace Nikse.SubtitleEdit.Core.Settings
             if (subNode != null)
             {
                 settings.Tools.WhisperUseLineMaxChars = Convert.ToBoolean(subNode.InnerText, CultureInfo.InvariantCulture);
+            }
+
+            subNode = node.SelectSingleNode("WhisperTranslateToEnglish");
+            if (subNode != null)
+            {
+                settings.Tools.WhisperTranslateToEnglish = Convert.ToBoolean(subNode.InnerText, CultureInfo.InvariantCulture);
             }
 
             subNode = node.SelectSingleNode("AudioToTextLineMaxChars");
@@ -9264,6 +9282,8 @@ namespace Nikse.SubtitleEdit.Core.Settings
                 xmlWriter.WriteElementString("AvalAiPrompt", settings.Tools.AvalAiPrompt);
                 xmlWriter.WriteElementString("AvalAiApiKey", settings.Tools.AvalAiApiKey);
                 xmlWriter.WriteElementString("AvalAiModel", settings.Tools.AvalAiModel);
+                xmlWriter.WriteElementString("BaiduUrl", settings.Tools.BaiduUrl);
+                xmlWriter.WriteElementString("BaiduApiKey", settings.Tools.BaiduApiKey);
                 xmlWriter.WriteElementString("AutoTranslateDelaySeconds", settings.Tools.AutoTranslateDelaySeconds.ToString(CultureInfo.InvariantCulture));
                 xmlWriter.WriteElementString("AutoTranslateMaxBytes", settings.Tools.AutoTranslateMaxBytes.ToString(CultureInfo.InvariantCulture));
                 xmlWriter.WriteElementString("AutoTranslateStrategy", settings.Tools.AutoTranslateStrategy);
@@ -9602,6 +9622,7 @@ namespace Nikse.SubtitleEdit.Core.Settings
                 xmlWriter.WriteElementString("WhisperPostProcessingMergeLines", settings.Tools.WhisperPostProcessingMergeLines.ToString(CultureInfo.InvariantCulture));
                 xmlWriter.WriteElementString("WhisperPostProcessingFixCasing", settings.Tools.WhisperPostProcessingFixCasing.ToString(CultureInfo.InvariantCulture));
                 xmlWriter.WriteElementString("WhisperPostProcessingFixShortDuration", settings.Tools.WhisperPostProcessingFixShortDuration.ToString(CultureInfo.InvariantCulture));
+                xmlWriter.WriteElementString("WhisperTranslateToEnglish", settings.Tools.WhisperTranslateToEnglish.ToString(CultureInfo.InvariantCulture));
                 xmlWriter.WriteElementString("AudioToTextLineMaxChars", settings.Tools.AudioToTextLineMaxChars.ToString(CultureInfo.InvariantCulture));
                 xmlWriter.WriteElementString("AudioToTextLineMaxCharsJp", settings.Tools.AudioToTextLineMaxCharsJp.ToString(CultureInfo.InvariantCulture));
                 xmlWriter.WriteElementString("AudioToTextLineMaxCharsCn", settings.Tools.AudioToTextLineMaxCharsCn.ToString(CultureInfo.InvariantCulture));

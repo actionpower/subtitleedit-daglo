@@ -164,118 +164,113 @@ namespace Nikse.SubtitleEdit.Forms
 
         public static string GetTimeCode(TimeCode timeCode, string template)
         {
-            var t = template;
-            var templateTrimmed = t.Trim();
-            if (templateTrimmed == "ss")
+            var isNegative = timeCode.TotalMilliseconds < 0;
+            var result = template;
+
+            // Replace milliseconds/fractional seconds (z's)
+            result = ReplaceMilliseconds(result, timeCode);
+
+            // Replace seconds (s's)
+            result = ReplaceSeconds(result, timeCode);
+
+            // Replace standard time components
+            result = ReplaceStandardComponents(result, timeCode);
+
+            // Add negative sign if needed
+            if (isNegative)
             {
-                t = t.Replace("ss", $"{timeCode.TotalSeconds:00}");
+                result = "-" + result;
             }
 
-            if (templateTrimmed == "s")
+            return result;
+        }
+
+        private static string ReplaceMilliseconds(string template, TimeCode timeCode)
+        {
+            var isPureZMode = Regex.IsMatch(template, @"^z+$");
+
+            return Regex.Replace(template, @"z+", match =>
             {
-                t = t.Replace("s", $"{(long)Math.Round(timeCode.TotalSeconds, MidpointRounding.AwayFromZero)}");
+                var zCount = match.Value.Length;
+
+                if (isPureZMode)
+                {
+                    return FormatTotalMilliseconds(timeCode, zCount);
+                }
+                else
+                {
+                    return FormatFractionalSeconds(timeCode, zCount);
+                }
+            });
+        }
+
+        private static string FormatTotalMilliseconds(TimeCode timeCode, int desiredLength)
+        {
+            var totalMilliseconds = Math.Abs(Math.Round(timeCode.TotalMilliseconds, MidpointRounding.AwayFromZero));
+            var ms = (long)totalMilliseconds;
+            var msString = ms.ToString();
+
+            return desiredLength <= msString.Length
+                ? msString
+                : msString.PadLeft(desiredLength, '0');
+        }
+
+        private static string FormatFractionalSeconds(TimeCode timeCode, int desiredLength)
+        {
+            var absoluteSeconds = Math.Abs(timeCode.TotalSeconds);
+            var fractionalSeconds = absoluteSeconds - Math.Floor(absoluteSeconds);
+
+            string fracString;
+
+            if (fractionalSeconds == 0)
+            {
+                fracString = "000";
+            }
+            else
+            {
+                fracString = fractionalSeconds
+                    .ToString(CultureInfo.InvariantCulture)
+                    .Split('.')[1]
+                    .TrimEnd('0');
+
+                // Ensure at least 3 digits for milliseconds
+                if (fracString.Length < 3)
+                {
+                    fracString = fracString.PadRight(3, '0');
+                }
             }
 
-            if (templateTrimmed == "zzz")
+            // Return exactly the requested number of digits
+            if (desiredLength <= fracString.Length)
             {
-                t = t.Replace("zzz", $"{timeCode.TotalMilliseconds:000}");
+                return fracString.Substring(0, desiredLength);
             }
-
-            if (templateTrimmed == "z")
+            else
             {
-                t = t.Replace("z", $"{(long)Math.Round(timeCode.TotalMilliseconds, MidpointRounding.AwayFromZero)}");
+                return fracString.PadRight(desiredLength, '0');
             }
+        }
 
-            if (templateTrimmed == "ff")
+        private static string ReplaceSeconds(string template, TimeCode timeCode)
+        {
+            return Regex.Replace(template, @"s+", match =>
             {
-                t = t.Replace("ff", $"{SubtitleFormat.MillisecondsToFrames(timeCode.TotalMilliseconds)}");
-            }
+                var length = match.Value.Length;
+                var seconds = Math.Abs(timeCode.Seconds);
+                return seconds.ToString().PadLeft(length, '0');
+            });
+        }
 
-            var totalSeconds = (int)Math.Round(timeCode.TotalSeconds, MidpointRounding.AwayFromZero);
-            if (t.StartsWith("ssssssss", StringComparison.Ordinal))
-            {
-                t = t.Replace("ssssssss", $"{totalSeconds:00000000}");
-            }
-
-            if (t.StartsWith("sssssss", StringComparison.Ordinal))
-            {
-                t = t.Replace("sssssss", $"{totalSeconds:0000000}");
-            }
-
-            if (t.StartsWith("ssssss", StringComparison.Ordinal))
-            {
-                t = t.Replace("ssssss", $"{totalSeconds:000000}");
-            }
-
-            if (t.StartsWith("sssss", StringComparison.Ordinal))
-            {
-                t = t.Replace("sssss", $"{totalSeconds:00000}");
-            }
-
-            if (t.StartsWith("ssss", StringComparison.Ordinal))
-            {
-                t = t.Replace("ssss", $"{totalSeconds:0000}");
-            }
-
-            if (t.StartsWith("sss", StringComparison.Ordinal))
-            {
-                t = t.Replace("sss", $"{totalSeconds:000}");
-            }
-
-            if (t.StartsWith("ss", StringComparison.Ordinal))
-            {
-                t = t.Replace("ss", $"{totalSeconds:00}");
-            }
-
-            var totalMilliseconds = (long)Math.Round(timeCode.TotalMilliseconds, MidpointRounding.AwayFromZero);
-            if (t.StartsWith("zzzzzzzz", StringComparison.Ordinal))
-            {
-                t = t.Replace("zzzzzzzz", $"{totalMilliseconds:00000000}");
-            }
-
-            if (t.StartsWith("zzzzzzz", StringComparison.Ordinal))
-            {
-                t = t.Replace("zzzzzzz", $"{totalMilliseconds:0000000}");
-            }
-
-            if (t.StartsWith("zzzzzz", StringComparison.Ordinal))
-            {
-                t = t.Replace("zzzzzz", $"{totalMilliseconds:000000}");
-            }
-
-            if (t.StartsWith("zzzzz", StringComparison.Ordinal))
-            {
-                t = t.Replace("zzzzz", $"{totalMilliseconds:00000}");
-            }
-
-            if (t.StartsWith("zzzz", StringComparison.Ordinal))
-            {
-                t = t.Replace("zzzz", $"{totalMilliseconds:0000}");
-            }
-
-            if (t.StartsWith("zzz", StringComparison.Ordinal))
-            {
-                t = t.Replace("zzz", $"{totalMilliseconds:000}");
-            }
-
-            t = t.Replace("hh", $"{timeCode.Hours:00}");
-            t = t.Replace("h", $"{timeCode.Hours}");
-            t = t.Replace("mm", $"{timeCode.Minutes:00}");
-            t = t.Replace("m", $"{timeCode.Minutes}");
-            t = t.Replace("ss", $"{timeCode.Seconds:00}");
-            t = t.Replace("s", $"{timeCode.Seconds}");
-            t = t.Replace("zzz", $"{timeCode.Milliseconds:000}");
-            t = t.Replace("zz", $"{Math.Round(timeCode.Milliseconds / 10.0):00}");
-            t = t.Replace("z", $"{Math.Round(timeCode.Milliseconds / 100.0):0}");
-            t = t.Replace("ff", $"{SubtitleFormat.MillisecondsToFramesMaxFrameRate(timeCode.Milliseconds):00}");
-            t = t.Replace("f", $"{SubtitleFormat.MillisecondsToFramesMaxFrameRate(timeCode.Milliseconds)}");
-
-            if (timeCode.TotalMilliseconds < 0)
-            {
-                return "-" + t.RemoveChar('-');
-            }
-
-            return t;
+        private static string ReplaceStandardComponents(string template, TimeCode timeCode)
+        {
+            // Process longer patterns first to avoid partial matches
+            return template
+                .Replace("hh", $"{Math.Abs(timeCode.Hours):00}")
+                .Replace("mm", $"{Math.Abs(timeCode.Minutes):00}")
+                .Replace("ff", $"{SubtitleFormat.MillisecondsToFrames(timeCode.TotalMilliseconds):00}")
+                .Replace("h", $"{Math.Abs(timeCode.Hours)}")
+                .Replace("m", $"{Math.Abs(timeCode.Minutes)}")
+                .Replace("f", $"{SubtitleFormat.MillisecondsToFramesMaxFrameRate(timeCode.Milliseconds)}");
         }
 
         private void InsertTag(object sender, EventArgs e)

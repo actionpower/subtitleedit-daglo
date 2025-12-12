@@ -507,7 +507,7 @@ namespace Nikse.SubtitleEdit.Logic
                 }
                 else if (control is SETextBox seTextBox)
                 {
-                    seTextBox.UpdateFontAndColors(seTextBox);
+                    seTextBox.ConfigureTextBoxAppearance(seTextBox);
                 }
                 else if (control is TextBox)
                 {
@@ -1277,7 +1277,11 @@ namespace Nikse.SubtitleEdit.Logic
                     var process = new Process
                     {
                         EnableRaisingEvents = false,
-                        StartInfo = { FileName = "xdg-open", Arguments = item }
+                        StartInfo = 
+                        { 
+                            FileName = "xdg-open", 
+                            Arguments = item,
+                        }
                     };
                     process.Start();
                 }

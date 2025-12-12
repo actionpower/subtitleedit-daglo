@@ -2,7 +2,7 @@
 <Language Name="Čeština">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>4.0.13</Version>
+    <Version>4.0.14</Version>
     <TranslatedBy>Přeložil Matěj Fouma</TranslatedBy>
     <CultureName>cs-CZ</CultureName>
     <HelpFile />
@@ -55,7 +55,7 @@
     <Name>Název</Name>
     <FileNameXAndSize>Název souboru: {0} ({1})</FileNameXAndSize>
     <ResolutionX>Rozlišení: {0}</ResolutionX>
-    <FrameRateX>Snímková frekvence: {0:0,0###}</FrameRateX>
+    <FrameRateX>Snímková frekvence: {0:0.0###}</FrameRateX>
     <TotalFramesX>Celkový počet snímků: {0:#,##0.##}</TotalFramesX>
     <VideoEncodingX>Kódování videa: {0}</VideoEncodingX>
     <SingleLineLengths>Délka jednotlivých řádků:</SingleLineLengths>
@@ -576,10 +576,12 @@
   </CompareSubtitles>
   <ConvertActor>
     <Title>Převést herce</Title>
-    <ConvertActorFrom>Převést herce z</ConvertActorFrom>
-    <ConvertActorTo> Převést herce na</ConvertActorTo>
+    <ConvertActorFrom>Změnit herce z</ConvertActorFrom>
+    <ConvertActorTo>Změnit herce na</ConvertActorTo>
     <InlineActorViaX>Řadový herec pomocí {0}</InlineActorViaX>
-    <NumberOfConversionsX>Počet převedení: {0}</NumberOfConversionsX>
+    <NumberOfConversionsX>Počet převodů herců: {0}</NumberOfConversionsX>
+    <SetColor>Nastavit barvu</SetColor>
+    <OnlyNames>Pouze jména</OnlyNames>
   </ConvertActor>
   <ConvertColorsToDialog>
     <Title>Převést barvy na dialog</Title>
@@ -1060,7 +1062,7 @@
     <TranslateCurrentLine>Přeložit pouze aktuální řádek</TranslateCurrentLine>
     <ReTranslateCurrentLine>Přeložit aktuální řádek jinak</ReTranslateCurrentLine>
     <MergeSplitStrategy>Rozdělit/sloučit zpracování</MergeSplitStrategy>
-    <Delay>Prodleva mezi voláními serveru</Delay>
+    <Delay>Prodleva mezi voláními serveru v sekundách</Delay>
     <MaxBytes>Maximální počet bajtů v každém volání serveru</MaxBytes>
     <PromptX>Výzva k zadání {0}</PromptX>
     <TranslateLinesSeparately>Přeložit každý řádek jednotlivě</TranslateLinesSeparately>
@@ -1375,7 +1377,7 @@
         <StartNumberingFrom>Přečíslovat…</StartNumberingFrom>
         <RemoveTextForHearingImpaired>Odebrat text pro neslyšící…</RemoveTextForHearingImpaired>
         <ConvertColorsToDialog>Převést barvy na dialog…</ConvertColorsToDialog>
-        <ConvertActors>Převést herce...</ConvertActors>
+        <ConvertActors>Převést herce…</ConvertActors>
         <ChangeCasing>Změnit velikost písmen…</ChangeCasing>
         <ChangeFrameRate>Změnit snímkovou frekvenci…</ChangeFrameRate>
         <ChangeSpeedInPercent>Změnit rychlost (v procentech)…</ChangeSpeedInPercent>
@@ -1526,7 +1528,7 @@
         <InsertSubtitleAfter>Vložit soubor titulků za tento řádek…</InsertSubtitleAfter>
         <CopyToClipboard>Zkopírovat jako text do schránky</CopyToClipboard>
         <Column>Buňka</Column>
-        <ColumnDeleteText>Smazat text</ColumnDeleteText>
+        <ColumnDeleteText>Smazat titulek</ColumnDeleteText>
         <ColumnDeleteTextAndShiftCellsUp>Smazat text a posunout buňky nahoru</ColumnDeleteTextAndShiftCellsUp>
         <ColumnInsertEmptyTextAndShiftCellsDown>Vložit prázdný text a posunout buňky dolů</ColumnInsertEmptyTextAndShiftCellsDown>
         <ColumnInsertTextFromSubtitle>Vložit text z titulků…</ColumnInsertTextFromSubtitle>
@@ -1614,10 +1616,10 @@
       <AutoContinueOn>Automat. pokračování zap.</AutoContinueOn>
       <DelayInSeconds>Zpoždění (sekund)</DelayInSeconds>
       <OriginalText>Originální titulky</OriginalText>
-      <Previous>&lt; Před&amp;chozí</Previous>
+      <Previous>&lt; Před.</Previous>
       <Stop>&amp;Zastavit</Stop>
       <PlayCurrent>&amp;Přehrát aktuální</PlayCurrent>
-      <Next>&amp;Další &gt;</Next>
+      <Next>&amp;Násl. &gt;</Next>
       <Playing>Přehrávání…</Playing>
       <RepeatingLastTime>Opakování… naposledy</RepeatingLastTime>
       <RepeatingXTimesLeft>Opakování… Zbývá {0}krát</RepeatingXTimesLeft>
@@ -1858,7 +1860,7 @@
     <BeforeSetEndTimeAndOffsetTheRest>Před nastavením času konce a posunutím zbytku</BeforeSetEndTimeAndOffsetTheRest>
     <BeforeSetEndAndVideoPosition>Před nastavením času konce na pozici videa a automatickým výpočtem začátku</BeforeSetEndAndVideoPosition>
     <ContinueWithCurrentSpellCheck>Pokračovat v aktuální kontrole pravopisu?</ContinueWithCurrentSpellCheck>
-    <CharactersPerSecond>Znaků/sek.: {0:#,###,##0,00}</CharactersPerSecond>
+    <CharactersPerSecond>Znaků/sek.: {0:#,###,##0.00}</CharactersPerSecond>
     <GetFrameRateFromVideoFile>Získat snímkovou frekvenci ze souboru videa</GetFrameRateFromVideoFile>
     <NetworkMessage>Nová zpráva: {0} ({1}): {2}</NetworkMessage>
     <NetworkUpdate>Řádek aktualizován: {0} ({1}): Index = {2}, Text = {3}</NetworkUpdate>
@@ -2429,12 +2431,15 @@
     <WaveformTextColor>Barva textu</WaveformTextColor>
     <WaveformTextFontSize>Velikost písma textu</WaveformTextFontSize>
     <WaveformAndSpectrogramsFolderEmpty>Vyprázdnit složky 'Spectrograms' a 'Waveforms'</WaveformAndSpectrogramsFolderEmpty>
-    <WaveformAndSpectrogramsFolderInfo>Složky 'Waveforms' a 'Spectrograms' obsahují {0} souborů ({1:0,00} MB)</WaveformAndSpectrogramsFolderInfo>
+    <WaveformAndSpectrogramsFolderInfo>Složky 'Waveforms' a 'Spectrograms' obsahují {0} souborů ({1:0.00} MB)</WaveformAndSpectrogramsFolderInfo>
     <Spectrogram>Spektrogram</Spectrogram>
     <GenerateSpectrogram>Vygenerovat spektrogram</GenerateSpectrogram>
     <SpectrogramAppearance>Vzhled spektrogramu</SpectrogramAppearance>
     <SpectrogramOneColorGradient>Jednobarevný přechod</SpectrogramOneColorGradient>
     <SpectrogramClassic>Klasický</SpectrogramClassic>
+    <SpectrogramHeat>Teplota</SpectrogramHeat>
+    <SpectrogramCyanToOrange>Tyrkysová na oranžovou</SpectrogramCyanToOrange>
+    <SpectrogramWaveformOpacity>Průhlednost spektrogramu/křivky:</SpectrogramWaveformOpacity>
     <WaveformUseFFmpeg>Pro extrahování křivky použít FFmpeg</WaveformUseFFmpeg>
     <WaveformUseCenterChannelOnly>Použít pouze přední středový kanál (pro 5.1/7.1)</WaveformUseCenterChannelOnly>
     <DownloadX>Stáhnout {0}</DownloadX>
@@ -3144,7 +3149,7 @@
     <GeneratingSpeechFromTextXOfY>Generování řeči z textu: {0} / {1}…</GeneratingSpeechFromTextXOfY>
     <ReviewAudioClips>Zkontrolovat audio klipy</ReviewAudioClips>
     <CustomAudioEncoding>Vlastní kódování audia</CustomAudioEncoding>
-    <UseVoiceOver>Použijte hlas</UseVoiceOver>
+    <UseVoiceOver>Použít voiceover</UseVoiceOver>
     <ReviewInfo>Zkontrolovat a upravit/odebrat audio klipy</ReviewInfo>
     <Play>Přehrát</Play>
     <AutoContinue>Automatické pokračování</AutoContinue>
@@ -3384,6 +3389,7 @@
     <ExtendToNext>Rozšířit k následujícímu</ExtendToNext>
     <PlaySelection>Přehrát výběr</PlaySelection>
     <ShowWaveformAndSpectrogram>Zobrazit křivku a spektrogram</ShowWaveformAndSpectrogram>
+    <CombineWaveformAndSpectrogram>Kombinovat křivku a spektrogram</CombineWaveformAndSpectrogram>
     <ShowWaveformOnly>Zobrazit pouze křivku</ShowWaveformOnly>
     <ShowSpectrogramOnly>Zobrazit pouze spektrogram</ShowSpectrogramOnly>
     <AddShotChange>Přidat změnu záběru</AddShotChange>
@@ -3393,8 +3399,8 @@
     <SeekSilence>Hledat ticho…</SeekSilence>
     <InsertSubtitleHere>Vložit titulek sem</InsertSubtitleHere>
     <InsertSubtitleFileHere>Vložit soubor titulků sem…</InsertSubtitleFileHere>
-    <CharsSecX>Znaků/sek.: {0:#,###,##0,00}</CharsSecX>
-    <WordsMinX>Slov/min.: {0:#,###,##0,00}</WordsMinX>
+    <CharsSecX>Znaků/sek.: {0:#,###,##0.00}</CharsSecX>
+    <WordsMinX>Slov/min.: {0:#,###,##0.00}</WordsMinX>
   </Waveform>
   <WaveformGenerateTimeCodes>
     <Title>Odhadnout časové kódy</Title>
@@ -3434,5 +3440,7 @@
     <HighlightCurrentWord>Zvýraznit aktuální slovo</HighlightCurrentWord>
     <SingleWords>Jednotlivá slova</SingleWords>
     <Sentence>Věta</Sentence>
+    <EnableVad>Povolit VAD</EnableVad>
+    <VadModelNotFound>Model VAD nenalezen.</VadModelNotFound>
   </WhisperAdvanced>
 </Language>
