@@ -63,8 +63,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         {
             //UiUtil.PreInitialize(this);
             InitializeComponent();
-            //UiUtil.FixFonts(this);
-            //UiUtil.FixLargeFonts(this, buttonGenerate);
+            UiUtil.FixFonts(this);
+            UiUtil.FixLargeFonts(this, buttonGenerate);
 
             _videoFileName = videoFileName;
             _subtitle = subtitle;
@@ -105,7 +105,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             if (string.IsNullOrEmpty(videoFileName))
             {
-                _batchMode = true;
+                // 배치모드는 허용하지 않음
+                _batchMode = false;
                 buttonBatchMode.Enabled = false;
             }
             else
@@ -1123,7 +1124,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         private void ShowHideBatchMode()
         {
-            int bottom = 200;
+            int bottom = 100;
             if (_batchMode)
             {
                 EnableGroupBoxInputFiles(true);

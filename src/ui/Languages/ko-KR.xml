@@ -191,11 +191,9 @@ FFmpeg를 다운로드하고 사용하시겠습니까?</FfmpegNotFound>
     <Title>오디오를 텍스트로</Title>
     <Info>Vosk/Kaldi 음성 인식을 통해 오디오로 텍스트 만들기</Info>
     <WhisperInfo>Whisper 음성 인식을 통해 오디오로 텍스트 만들기</WhisperInfo>
-    <DagloInfo>다글로 음성 인식을 통해 오디오로 텍스트 만들기</DagloInfo>
     <Engine>엔진</Engine>
     <VoskWebsite>Vosk 홈페이지</VoskWebsite>
     <WhisperWebsite>Whisper 웹사이트</WhisperWebsite>
-    <DagloWebsite>다글로 웹사이트</DagloWebsite>
     <Model>모델</Model>
     <Models>모델</Models>
     <LanguagesAndModels>언어 및 모델</LanguagesAndModels>
@@ -220,6 +218,8 @@ FFmpeg를 다운로드하고 사용하시겠습니까?</FfmpegNotFound>
     <FixCasing>대/소문자 수정</FixCasing>
     <AddPeriods>마침표 추가</AddPeriods>
     <FixShortDuration>짧은 표시시간 수정</FixShortDuration>
+    <DagloInfo>다글로 음성 인식을 통해 오디오로 텍스트 만들기</DagloInfo>
+    <DagloWebsite>다글로 홈페이지</DagloWebsite>
   </AudioToText>
   <AssaAttachments>
     <Title>Advanced Sub Station Alpha 첨부파일</Title>

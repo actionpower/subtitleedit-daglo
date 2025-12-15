@@ -36,6 +36,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.labelInfo = new System.Windows.Forms.Label();
             this.groupBoxModels = new System.Windows.Forms.GroupBox();
             this.labelChooseLanguage = new System.Windows.Forms.Label();
+            this.comboBoxLanguages = new Nikse.SubtitleEdit.Controls.NikseComboBox();
             this.linkLabelDagloWebSite = new System.Windows.Forms.LinkLabel();
             this.labelTime = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -57,7 +58,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.checkBoxAutoAdjustTimings = new System.Windows.Forms.CheckBox();
             this.labelApiKey = new System.Windows.Forms.Label();
             this.nikseTextBoxApiKey = new Nikse.SubtitleEdit.Controls.NikseTextBox();
-            this.comboBoxLanguages = new Nikse.SubtitleEdit.Controls.NikseComboBox();
             this.textBoxLog = new Nikse.SubtitleEdit.Controls.NikseTextBox();
             this.groupBoxModels.SuspendLayout();
             this.groupBoxInputFiles.SuspendLayout();
@@ -119,9 +119,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.labelInfo.Location = new System.Drawing.Point(20, 12);
             this.labelInfo.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.labelInfo.Name = "labelInfo";
-            this.labelInfo.Size = new System.Drawing.Size(470, 18);
+            this.labelInfo.Size = new System.Drawing.Size(451, 18);
             this.labelInfo.TabIndex = 1;
-            this.labelInfo.Text = "Generate text from audio via Whisper speech recognition";
+            this.labelInfo.Text = "Generate text from audio via Daglo speech recognition";
             // 
             // groupBoxModels
             // 
@@ -147,6 +147,31 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.labelChooseLanguage.Size = new System.Drawing.Size(151, 18);
             this.labelChooseLanguage.TabIndex = 4;
             this.labelChooseLanguage.Text = "Choose language";
+            // 
+            // comboBoxLanguages
+            // 
+            this.comboBoxLanguages.BackColor = System.Drawing.SystemColors.Window;
+            this.comboBoxLanguages.BackColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.comboBoxLanguages.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+            this.comboBoxLanguages.BorderColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
+            this.comboBoxLanguages.ButtonForeColor = System.Drawing.SystemColors.ControlText;
+            this.comboBoxLanguages.ButtonForeColorDown = System.Drawing.Color.Orange;
+            this.comboBoxLanguages.ButtonForeColorOver = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
+            this.comboBoxLanguages.DropDownHeight = 400;
+            this.comboBoxLanguages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxLanguages.DropDownWidth = 240;
+            this.comboBoxLanguages.FormattingEnabled = true;
+            this.comboBoxLanguages.Location = new System.Drawing.Point(10, 61);
+            this.comboBoxLanguages.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.comboBoxLanguages.MaxLength = 32767;
+            this.comboBoxLanguages.Name = "comboBoxLanguages";
+            this.comboBoxLanguages.SelectedIndex = -1;
+            this.comboBoxLanguages.SelectedItem = null;
+            this.comboBoxLanguages.SelectedText = "";
+            this.comboBoxLanguages.Size = new System.Drawing.Size(323, 33);
+            this.comboBoxLanguages.TabIndex = 0;
+            this.comboBoxLanguages.UsePopupWindow = true;
+            this.comboBoxLanguages.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguages_SelectedIndexChanged);
             // 
             // linkLabelDagloWebSite
             // 
@@ -356,7 +381,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             this.labelApiKey.AutoSize = true;
             this.labelApiKey.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.labelApiKey.Location = new System.Drawing.Point(690, 20);
+            this.labelApiKey.Location = new System.Drawing.Point(634, 20);
             this.labelApiKey.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.labelApiKey.Name = "labelApiKey";
             this.labelApiKey.Size = new System.Drawing.Size(69, 18);
@@ -368,36 +393,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.nikseTextBoxApiKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.nikseTextBoxApiKey.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
-            this.nikseTextBoxApiKey.Location = new System.Drawing.Point(769, 17);
+            this.nikseTextBoxApiKey.Location = new System.Drawing.Point(711, 17);
             this.nikseTextBoxApiKey.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.nikseTextBoxApiKey.Name = "nikseTextBoxApiKey";
-            this.nikseTextBoxApiKey.Size = new System.Drawing.Size(441, 28);
+            this.nikseTextBoxApiKey.Size = new System.Drawing.Size(499, 28);
             this.nikseTextBoxApiKey.TabIndex = 95;
-            // 
-            // comboBoxLanguages
-            // 
-            this.comboBoxLanguages.BackColor = System.Drawing.SystemColors.Window;
-            this.comboBoxLanguages.BackColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.comboBoxLanguages.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-            this.comboBoxLanguages.BorderColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
-            this.comboBoxLanguages.ButtonForeColor = System.Drawing.SystemColors.ControlText;
-            this.comboBoxLanguages.ButtonForeColorDown = System.Drawing.Color.Orange;
-            this.comboBoxLanguages.ButtonForeColorOver = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
-            this.comboBoxLanguages.DropDownHeight = 400;
-            this.comboBoxLanguages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxLanguages.DropDownWidth = 240;
-            this.comboBoxLanguages.FormattingEnabled = true;
-            this.comboBoxLanguages.Location = new System.Drawing.Point(10, 61);
-            this.comboBoxLanguages.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.comboBoxLanguages.MaxLength = 32767;
-            this.comboBoxLanguages.Name = "comboBoxLanguages";
-            this.comboBoxLanguages.SelectedIndex = -1;
-            this.comboBoxLanguages.SelectedItem = null;
-            this.comboBoxLanguages.SelectedText = "";
-            this.comboBoxLanguages.Size = new System.Drawing.Size(323, 33);
-            this.comboBoxLanguages.TabIndex = 0;
-            this.comboBoxLanguages.UsePopupWindow = true;
-            this.comboBoxLanguages.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguages_SelectedIndexChanged);
             // 
             // textBoxLog
             // 

@@ -1853,6 +1853,7 @@ namespace Nikse.SubtitleEdit.Forms
             generaeTransparentVideoWithSubtitleToolStripMenuItem.Text = _language.Menu.Video.GenerateTransparentVideoWithSubs;
             videoaudioToTextToolStripMenuItem.Text = string.Format(_language.Menu.Video.VideoAudioToTextX, "Vosk/Kaldi");
             audioToTextWhisperTolStripMenuItem.Text = string.Format(_language.Menu.Video.VideoAudioToTextX, "Whisper");
+            audioToTextDagloToolStripMenuItem.Text = string.Format(_language.Menu.Video.VideoAudioToTextX, "Daglo");
             textToSpeechAndAddToVideoToolStripMenuItem.Text = _language.Menu.Video.TextToSpeechAndAddToVideo;
 
             smpteTimeModedropFrameToolStripMenuItem.Text = _language.Menu.Video.SmptTimeMode;
@@ -37436,7 +37437,7 @@ namespace Nikse.SubtitleEdit.Forms
             }
         }
 
-        private void audioToTextDagloTolStripMenuItem_Click(object sender, EventArgs e)
+        private void audioToTextDagloToolStripMenuItem_Click(object sender, EventArgs e)
         { 
             if (!string.IsNullOrEmpty(_videoFileName) &&
                (_videoFileName.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||

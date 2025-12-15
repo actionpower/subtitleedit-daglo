@@ -353,11 +353,9 @@ namespace Nikse.SubtitleEdit.Logic
                 Title = "Audio to text",
                 Info = "Generate text from audio via Vosk/Kaldi speech recognition",
                 WhisperInfo = "Generate text from audio via Whisper speech recognition",
-                DagloInfo = "Generate text from audio via Daglo speech recognition",
                 Engine = "Engine",
                 VoskWebsite = "Vosk website",
                 WhisperWebsite = "Whisper website",
-                DagloWebsite = "Daglo website",
                 Model = "Model",
                 Models = "Models",
                 LanguagesAndModels = "Languages and models",
@@ -382,6 +380,8 @@ namespace Nikse.SubtitleEdit.Logic
                 FixCasing = "Fix casing",
                 AddPeriods = "Add periods",
                 FixShortDuration = "Fix short duration",
+                DagloInfo = "Generate text from audio via Daglo speech recognition",
+                DagloWebsite = "Daglo website",
             };
 
             AssaAttachments = new LanguageStructure.AssaAttachments

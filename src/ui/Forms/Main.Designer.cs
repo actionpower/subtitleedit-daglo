@@ -247,7 +247,7 @@ namespace Nikse.SubtitleEdit.Forms
             this.generateVideoWithSoftcodedSubtitlesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateVideoWithHardcodedSubtitleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generaeTransparentVideoWithSubtitleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.audioToTextDagloTolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.audioToTextDagloToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.audioToTextWhisperTolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.videoaudioToTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textToSpeechAndAddToVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -2313,7 +2313,7 @@ namespace Nikse.SubtitleEdit.Forms
             this.generateVideoWithSoftcodedSubtitlesToolStripMenuItem,
             this.generateVideoWithHardcodedSubtitleToolStripMenuItem,
             this.generaeTransparentVideoWithSubtitleToolStripMenuItem,
-            this.audioToTextDagloTolStripMenuItem,
+            this.audioToTextDagloToolStripMenuItem,
             this.audioToTextWhisperTolStripMenuItem,
             this.videoaudioToTextToolStripMenuItem,
             this.textToSpeechAndAddToVideoToolStripMenuItem,
@@ -2437,12 +2437,12 @@ namespace Nikse.SubtitleEdit.Forms
             this.generaeTransparentVideoWithSubtitleToolStripMenuItem.Text = "Generae transparent video with subtitle";
             this.generaeTransparentVideoWithSubtitleToolStripMenuItem.Click += new System.EventHandler(this.generaeTransparentVideoWithSubtitleToolStripMenuItem_Click);
             // 
-            // audioToTextDagloTolStripMenuItem
+            // audioToTextDagloToolStripMenuItem
             // 
-            this.audioToTextDagloTolStripMenuItem.Name = "audioToTextDagloTolStripMenuItem";
-            this.audioToTextDagloTolStripMenuItem.Size = new System.Drawing.Size(439, 34);
-            this.audioToTextDagloTolStripMenuItem.Text = "Audio to text (daglo)...";
-            this.audioToTextDagloTolStripMenuItem.Click += new System.EventHandler(this.audioToTextDagloTolStripMenuItem_Click);
+            this.audioToTextDagloToolStripMenuItem.Name = "audioToTextDagloTolStripMenuItem";
+            this.audioToTextDagloToolStripMenuItem.Size = new System.Drawing.Size(439, 34);
+            this.audioToTextDagloToolStripMenuItem.Text = "Audio to text (daglo)...";
+            this.audioToTextDagloToolStripMenuItem.Click += new System.EventHandler(this.audioToTextDagloToolStripMenuItem_Click);
             // 
             // audioToTextWhisperTolStripMenuItem
             // 
@@ -6593,6 +6593,6 @@ namespace Nikse.SubtitleEdit.Forms
         private ToolStripMenuItem generaeTransparentVideoWithSubtitleToolStripMenuItem;
         private ToolStripMenuItem toolStripMenuItemConvertActors;
         private ToolStripMenuItem toolStripMenuItemCombineWaveformAndSpectrogram;
-        private ToolStripMenuItem audioToTextDagloTolStripMenuItem;
+        private ToolStripMenuItem audioToTextDagloToolStripMenuItem;
     }
 }

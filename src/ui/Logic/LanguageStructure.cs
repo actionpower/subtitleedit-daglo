@@ -199,11 +199,9 @@
             public string Title { get; set; }
             public string Info { get; set; }
             public string WhisperInfo { get; set; }
-            public string DagloInfo { get; set; }
             public string Engine { get; set; }
             public string VoskWebsite { get; set; }
             public string WhisperWebsite { get; set; }
-            public string DagloWebsite { get; set; }
             public string Model { get; set; }
             public string Models { get; set; }
             public string LanguagesAndModels { get; set; }
@@ -228,6 +226,8 @@
             public string FixCasing { get; set; }
             public string AddPeriods { get; set; }
             public string FixShortDuration { get; set; }
+            public string DagloInfo { get; set; }
+            public string DagloWebsite { get; set; }
         }
 
         public class AssaAttachments
