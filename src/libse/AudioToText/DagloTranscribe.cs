@@ -336,80 +336,12 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
             };
         }
 
-        /// <summary>
-        /// 환경 변수 또는 .env 파일에서 Daglo API 키를 읽습니다.
-        /// 우선순위: 환경 변수 > .env 파일 > 설정
-        /// </summary>
-        private static string GetDagloApiKeyFromEnvironment()
-        {
-            // 1. 환경 변수에서 읽기
-            var envKey = Environment.GetEnvironmentVariable("DAGLO_API_KEY");
-            if (!string.IsNullOrWhiteSpace(envKey))
-            {
-                return envKey.Trim();
-            }
-
-            // 2. .env 파일에서 읽기 (BaseDirectory/.env 또는 DataDirectory/.env)
-            try
-            {
-                var envFiles = new[]
-                {
-                    Path.Combine(Configuration.BaseDirectory, ".env"),
-                    Path.Combine(Configuration.DataDirectory, ".env")
-                };
-
-                foreach (var envFile in envFiles)
-                {
-                    if (File.Exists(envFile))
-                    {
-                        var lines = File.ReadAllLines(envFile);
-                        foreach (var line in lines)
-                        {
-                            var trimmedLine = line.Trim();
-                            // 주석 무시
-                            if (trimmedLine.StartsWith("#", StringComparison.Ordinal) || string.IsNullOrWhiteSpace(trimmedLine))
-                            {
-                                continue;
-                            }
-
-                            // KEY=VALUE 형식 파싱
-                            var equalIndex = trimmedLine.IndexOf('=');
-                            if (equalIndex > 0 && equalIndex < trimmedLine.Length - 1)
-                            {
-                                var key = trimmedLine.Substring(0, equalIndex).Trim();
-                                var value = trimmedLine.Substring(equalIndex + 1).Trim();
-                                
-                                // 따옴표 제거
-                                if ((value.StartsWith("\"", StringComparison.Ordinal) && value.EndsWith("\"", StringComparison.Ordinal)) ||
-                                    (value.StartsWith("'", StringComparison.Ordinal) && value.EndsWith("'", StringComparison.Ordinal)))
-                                {
-                                    value = value.Substring(1, value.Length - 2);
-                                }
-
-                                if (key.Equals("DAGLO_API_KEY", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(value))
-                                {
-                                    return value;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                // 파일 읽기 실패 시 무시
-            }
-
-            // 3. 기존 설정에서 읽기
-            return Configuration.Settings.Tools.DagloApiKey;
-        }
-
         public void Initialize()
         {
-            _apiKey = GetDagloApiKeyFromEnvironment();
+            _apiKey = Configuration.Settings.Tools.DagloApiKey;
 
             if (string.IsNullOrWhiteSpace(_apiKey))
-                throw new InvalidOperationException("Daglo API key is not configured. Please set DAGLO_API_KEY environment variable, add it to .env file, or configure it in the settings.");
+                throw new InvalidOperationException("Daglo API key is not configured. Please configure it in the settings.");
 
             _httpClient = HttpClientFactoryWithProxy.CreateHttpClientWithProxy();
             _httpClient.Timeout = TimeSpan.FromMinutes(30);
@@ -423,15 +355,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
             return new List<TranslationPair>
             {
                 new TranslationPair("KOREAN", "ko-KR"),
-                new TranslationPair("ENGLISH", "en-US"),
-                new TranslationPair("JAPANESE", "ja-JP"),
-                new TranslationPair("CHINESE", "cmn-Hans-CN"),
-                new TranslationPair("GERMAN", "de-DE"),
-                new TranslationPair("FRENCH", "fr-FR"),
-                new TranslationPair("SPANISH", "es-ES"),
-                new TranslationPair("ITALIAN", "it-IT"),
-                new TranslationPair("DUTCH", "nl-NL"),
-                new TranslationPair("SWEDISH", "sv-SE"),
+                new TranslationPair("ENGLISH", "en-US")
             };
         }
 
@@ -492,8 +416,17 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
             }
             catch (HttpRequestException ex)
             {
-                Error = ex.Message;
-                SeLogger.Error("DagloTranscribe error: " + ex.Message);
+                // API 키 관련 오류 메시지를 더 명확하게 설정
+                if (ex.Message.Contains("Invalid or expired API key") || ex.Message.Contains("Authentication failed"))
+                {
+                    Error = "Invalid API key. Please check your Daglo API key in settings.";
+                    SeLogger.Error("DagloTranscribe API key error: " + ex.Message);
+                }
+                else
+                {
+                    Error = ex.Message;
+                    SeLogger.Error("DagloTranscribe error: " + ex.Message);
+                }
                 throw;
             }
             catch (Exception ex)
@@ -738,7 +671,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 ct.ThrowIfCancellationRequested();
 
                 var result = await GetTranscriptAsync(rid, ct).ConfigureAwait(false);
-                
+
                 if (onProgress != null)
                     onProgress(result);
 
@@ -785,11 +718,28 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
         private static async Task EnsureSuccessWithDetails(HttpResponseMessage resp)
         {
             if (resp.IsSuccessStatusCode) return;
-            var body = resp.Content != null 
-                ? await resp.Content.ReadAsStringAsync().ConfigureAwait(false) 
-                : "";
+
+            var body = resp.Content != null
+                ? await resp.Content.ReadAsStringAsync().ConfigureAwait(false)
+             : "";
+
+            // 401 Unauthorized - API 키 문제
+            if (resp.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new HttpRequestException(
+                 "유효하지 않은 API 키 입니다. API 키를 확인해주세요.");
+            }
+
+            // 403 Forbidden - 권한 문제
+            if (resp.StatusCode == HttpStatusCode.Forbidden)
+            {
+                throw new HttpRequestException(
+                    "API 키에 권한이 없습니다.");
+            }
+
+            // 기타 오류
             throw new HttpRequestException(
-                $"HTTP {(int)resp.StatusCode} {resp.ReasonPhrase}. Body: {body}");
+                  $"HTTP {(int)resp.StatusCode} {resp.ReasonPhrase}. Body: {body}");
         }
 
         private static string GuessMimeType(string ext)
@@ -820,7 +770,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
         /// 파일 업로드를 통한 STT 테스트
         /// </summary>
         public static async Task TranscribeFileUploadAsync(string filePath = null, string language = "ko-KR")
-        { 
+        {
             if (!File.Exists(filePath))
             {
                 Debug.WriteLine($"파일을 찾을 수 없습니다: {filePath}");
@@ -865,7 +815,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
 
                 var fileInfo = new FileInfo(filePath);
                 Debug.WriteLine($"File size: {fileInfo.Length / 1024.0 / 1024.0:F2} MB");
-                 
+
                 Debug.WriteLine("[1/3] File Uploading...");
 
                 var response = await transcriber.CreateTranscriptFromFileAsync(
@@ -881,7 +831,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 {
                     Debug.WriteLine($"FileName: {response.FileName}");
                 }
-                
+
                 // 2. 폴링으로 완료 대기
                 Debug.WriteLine("[2/3] Waiting for transcription...");
                 Debug.WriteLine("(Status is updated every 5 seconds)");
@@ -891,7 +841,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                     TimeSpan.FromSeconds(5),
                     TimeSpan.FromMinutes(30),
                     onProgress: (progress) =>
-                    {  
+                    {
                         Debug.WriteLine($"  상태: {progress.Status}");
                     }
                 ).ConfigureAwait(false);
@@ -901,7 +851,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 Debug.WriteLine($"[3/3] Result status: {result.Status}");
 
                 if (result.Status == "transcribed" && result.SttResults != null && result.SttResults.Length > 0)
-                { 
+                {
                     var srtContent = DagloTranscribe.ConvertToSrt(result.SttResults);
 
                     string srtFileName = Path.GetFileNameWithoutExtension(filePath) + ".srt";
@@ -945,8 +895,8 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                             {
                                 if (word.StartTime != null)
                                 {
-                                    var startSec = double.TryParse(word.StartTime.Seconds, out var sec) 
-                                        ? sec + (word.StartTime.Nanos / 1_000_000_000.0) 
+                                    var startSec = double.TryParse(word.StartTime.Seconds, out var sec)
+                                        ? sec + (word.StartTime.Nanos / 1_000_000_000.0)
                                         : 0.0;
                                     var speaker = !string.IsNullOrEmpty(word.Speaker) ? $" [화자{word.Speaker}]" : "";
                                     Debug.WriteLine($"  [{startSec:F2}s]{speaker} {word.Text}");
@@ -970,19 +920,31 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
             catch (FileNotFoundException ex)
             {
                 Debug.WriteLine($"File error: {ex.Message}");
+                throw ex;
             }
             catch (TimeoutException ex)
             {
                 Debug.WriteLine($"Timeout: {ex.Message}");
+                throw ex;
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine($"HTTP Error: {ex.Message}");
+                // API 키 관련 오류는 더 명확한 메시지로 표시
+                if (ex.Message.Contains("Invalid or expired API key") || ex.Message.Contains("Authentication failed"))
+                {
+                    Debug.WriteLine($"API Key Error: {ex.Message}");
+                }
+                else
+                {
+                    Debug.WriteLine($"HTTP Error: {ex.Message}");
+                }
+                throw ex;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error message: {ex.Message}");
                 Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+                throw ex;
             }
             finally
             {
