@@ -613,6 +613,12 @@ namespace Nikse.SubtitleEdit.Logic
                 case "AudioToText/FixShortDuration":
                     language.AudioToText.FixShortDuration = reader.Value;
                     break;
+                case "AudioToText/DagloInfo":
+                    language.AudioToText.DagloInfo = reader.Value;
+                    break;
+                case "AudioToText/DagloWebsite":
+                    language.AudioToText.DagloWebsite = reader.Value;
+                    break;
                 case "AssaAttachments/Title":
                     language.AssaAttachments.Title = reader.Value;
                     break;
@@ -9555,8 +9561,7 @@ namespace Nikse.SubtitleEdit.Logic
                     break;
                 case "WhisperAdvanced/VadModelNotFound":
                     language.WhisperAdvanced.VadModelNotFound = reader.Value;
-                    break;
-
+                    break;             
             }
         }
     }
