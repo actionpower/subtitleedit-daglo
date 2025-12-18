@@ -101,6 +101,36 @@ namespace Nikse.SubtitleEdit.Core.Common
             return Path.Combine(Configuration.DataDirectory, "whisper_log.txt");
         }
 
+
+        public static void DagloInfo(string message)
+        {
+            try
+            {
+                var filePath = GetDagloLogFilePath();
+                using (var writer = new StreamWriter(filePath, true, Encoding.UTF8))
+                {
+                    writer.WriteLine("-----------------------------------------------------------------------------");
+                    writer.WriteLine($"Date: {DateTime.Now.ToString(CultureInfo.InvariantCulture)}");
+                    writer.WriteLine($"SE: {GetSeInfo()}");
+                    if (!string.IsNullOrWhiteSpace(message))
+                    {
+                        writer.WriteLine("Message: " + message);
+                    }
+
+                    writer.WriteLine();
+                }
+            }
+            catch
+            {
+                // ignore
+            }
+        }
+
+        public static string GetDagloLogFilePath()
+        {
+            return Path.Combine(Configuration.DataDirectory, "daglo_log.txt");
+        }
+
         /// <summary>
         /// Get information about the machine that is cached and accessed by the SeLogger class.
         /// </summary>
