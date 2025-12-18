@@ -1,9 +1,9 @@
 using Nikse.SubtitleEdit.Controls;
-using Nikse.SubtitleEdit.Core.AudioToText; 
+using Nikse.SubtitleEdit.Core.AudioToText;
 using Nikse.SubtitleEdit.Core.Common;
 using Nikse.SubtitleEdit.Core.ContainerFormats.Matroska;
 using Nikse.SubtitleEdit.Core.SubtitleFormats;
-using Nikse.SubtitleEdit.Forms.Options; 
+using Nikse.SubtitleEdit.Forms.Options;
 using Nikse.SubtitleEdit.Logic;
 using System;
 using System.Collections.Concurrent;
@@ -15,10 +15,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms; 
-using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox; 
+using System.Windows.Forms;
+using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
 
 namespace Nikse.SubtitleEdit.Forms.AudioToText
 {
@@ -91,13 +90,14 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             buttonAddFile.Text = LanguageSettings.Current.DvdSubRip.Add;
             buttonRemoveFile.Text = LanguageSettings.Current.DvdSubRip.Remove;
             buttonClear.Text = LanguageSettings.Current.DvdSubRip.Clear;
-            runOnlyPostProcessingToolStripMenuItem.Text = LanguageSettings.Current.AudioToText.OnlyRunPostProcessing;            
+            runOnlyPostProcessingToolStripMenuItem.Text = LanguageSettings.Current.AudioToText.OnlyRunPostProcessing;
             removeTemporaryFilesToolStripMenuItem.Text = LanguageSettings.Current.AudioToText.RemoveTemporaryFiles;
             //buttonAdvanced.Text = LanguageSettings.Current.General.Advanced;
             //SetAdvancedLabel();
 
             columnHeaderFileName.Text = LanguageSettings.Current.JoinSubtitles.FileName;
 
+            nikseTextBoxApiKey.Text = Configuration.Settings.Tools.DagloApiKey;
             //checkBoxUsePostProcessing.Checked = Configuration.Settings.Tools.VoskPostProcessing;
             //checkBoxAutoAdjustTimings.Checked = Configuration.Settings.Tools.WhisperAutoAdjustTimings;
 
@@ -133,9 +133,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             labelElapsed.Text = string.Empty;
             //labelEngine.Text = LanguageSettings.Current.AudioToText.Engine;
             //labelEngine.Left = comboBoxDagloEngine.Left - labelEngine.Width - 5;
-             
+
             Init();
-        } 
+        }
 
         private void Init()
         {
@@ -149,6 +149,27 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         private void ButtonGenerate_Click(object sender, EventArgs e)
         {
+            var apiKey = nikseTextBoxApiKey.Text?.Trim();
+            Configuration.Settings.Tools.DagloApiKey = apiKey;
+
+            if (string.IsNullOrWhiteSpace(nikseTextBoxApiKey.Text))
+            {
+                MessageBox.Show(this, string.Format(LanguageSettings.Current.GoogleTranslate.XRequiresAnApiKey, "Daglo"), Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            /*
+            if (string.IsNullOrWhiteSpace(nikseComboBoxUrl.Text))
+            {
+                MessageBox.Show(this, string.Format("{0} requires an url", "Daglo"), Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            */
+
+            SaveSettings();
+
+
+
             _cancel = false;
 
             _languageCode = GetLanguage(comboBoxLanguages.Text);
@@ -194,7 +215,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             progressBar1.Style = ProgressBarStyle.Blocks;
             timer1.Start();
             var transcript = TranscribeViaDaglo(waveFileName, _videoFileName);
-            
+
             timer1.Stop();
             if (_cancel && (transcript == null || transcript.Paragraphs.Count == 0 || MessageBox.Show(LanguageSettings.Current.AudioToText.KeepPartialTranscription, Text, MessageBoxButtons.YesNoCancel) != DialogResult.Yes))
             {
@@ -218,12 +239,12 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             labelProgress.Refresh();
             Application.DoEvents();
 
-            
+
             var postProcessor = new AudioToTextPostProcessor("en")
             {
                 ParagraphMaxChars = Configuration.Settings.General.SubtitleLineMaximumLength * 2,
             };
-            
+
 
             WavePeakData wavePeaks = null;
             if (checkBoxAutoAdjustTimings.Checked)
@@ -243,20 +264,21 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 // After timing fix
                 PrintSubtitleInfo("After ShortenViaWavePeaks", transcript);
             }
-            
+
 
             TranscribedSubtitle = postProcessor.Fix(
                 AudioToTextPostProcessor.Engine.Whisper,
                 transcript,
                 false,
-                Configuration.Settings.Tools.WhisperPostProcessingAddPeriods,
-                Configuration.Settings.Tools.WhisperPostProcessingMergeLines,
-                Configuration.Settings.Tools.WhisperPostProcessingFixCasing,
-                Configuration.Settings.Tools.WhisperPostProcessingFixShortDuration,
-                Configuration.Settings.Tools.WhisperPostProcessingSplitLines);
+                true, //Configuration.Settings.Tools.WhisperPostProcessingAddPeriods,
+                true, //Configuration.Settings.Tools.WhisperPostProcessingMergeLines,
+                true, //Configuration.Settings.Tools.WhisperPostProcessingFixCasing,
+                true, //Configuration.Settings.Tools.WhisperPostProcessingFixShortDuration,
+                true //Configuration.Settings.Tools.WhisperPostProcessingSplitLines
+                );
 
             UpdateLog();
-            SeLogger.WhisperInfo(textBoxLog.Text);
+            SeLogger.DagloInfo(textBoxLog.Text);
             if (transcript == null || transcript.Paragraphs.Count == 0)
             {
                 IncompleteModelName = "daglo";
@@ -278,7 +300,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             progressBar1.Visible = !enabled;
         }
-          
+
         private void ShowProgressBar()
         {
             progressBar1.Maximum = 100;
@@ -341,6 +363,18 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 _outputText.Add(string.Empty);
                 progressBar1.Style = ProgressBarStyle.Blocks;
                 var transcript = TranscribeViaDaglo(waveFileName, videoFileName);
+
+                // 에러로 빈 자막이 반환된 경우 다음 파일로 계속
+                if (transcript == null || transcript.Paragraphs.Count == 0)
+                {
+                    if (!_cancel)
+                    {
+                        errors.AppendLine($"Failed to transcribe: {videoFileName}");
+                        errorCount++;
+                        continue;
+                    }
+                }
+
                 if (_cancel)
                 {
                     TaskbarList.SetProgressState(_parentForm.Handle, TaskbarButtonProgressFlags.NoProgress);
@@ -542,7 +576,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         internal static string GetLanguage(string name)
         {
-            var language = WhisperLanguage.Languages.FirstOrDefault(l => l.Name == name);
+            var language = DagloLanguage.Languages.FirstOrDefault(l => l.Name == name);
             return language != null ? language.Code : "en";
         }
 
@@ -567,7 +601,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             {
                 TaskbarList.SetProgressValue(_parentForm.Handle, 1, 100);
             }
-                      
+
 
             labelProgress.Refresh();
             Application.DoEvents();
@@ -581,9 +615,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             {
                 inputFile = videoFileName;
             }
-             
-            var task = Task.Run(() => DagloTranscribe.TranscribeFileUploadAsync(inputFile));            
-            
+
+
+
+            var task = Task.Run(() => DagloTranscribe.TranscribeFileUploadAsync(inputFile));
+
             //OutputHandler();
 
             var sw = Stopwatch.StartNew();
@@ -598,10 +634,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 progressBar1.Style = ProgressBarStyle.Marquee;
             }
 
-            buttonCancel.Visible = true; 
+            buttonCancel.Visible = true;
             _cancel = false;
             labelProgress.Text = LanguageSettings.Current.AudioToText.Transcribing;
-             
+
             while (!task.IsCompleted)
             {
                 Application.DoEvents();
@@ -625,7 +661,28 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
                     return null;
                 }
-            } 
+            }
+
+            // Task 완료 후 예외 확인
+            if (task.IsFaulted)
+            {
+                progressBar1.Visible = false;
+                buttonCancel.Visible = false;
+
+                var exception = task.Exception?.GetBaseException() ?? task.Exception;
+                _outputText.Add($"Error during Daglo transcription: {exception?.Message}{Environment.NewLine}");
+                SeLogger.Error(exception, "Daglo transcription failed");
+
+                // 사용자에게 오류 메시지 표시
+                MessageBox.Show(
+                    this,
+                    $"{exception?.Message}",
+                    "오류",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return new Subtitle(); // 빈 자막 반환
+            }
 
             _outputText.Add($"Calling daglo done in {sw.Elapsed}{Environment.NewLine}");
 
@@ -681,7 +738,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 var rawText = FileUtil.ReadAllLinesShared(srtFileName, Encoding.UTF8);
                 new SubRip().LoadSubtitle(sub, rawText, srtFileName);
                 outputText?.Add($"Loading result from {srtFileName}{Environment.NewLine}");
-            } 
+            }
 
             sub.RemoveEmptyLines();
 
@@ -705,7 +762,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             return true;
         }
-          
+
 
         private string GenerateWavFile(string videoFileName, int audioTrackNumber)
         {
@@ -883,12 +940,13 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 _cancel = true;
             }
         }
-         
-        private void SaveSettings(Type engineType)
+
+        private void SaveSettings()
         {
-            if (engineType == typeof(DagloTranscribe) && !string.IsNullOrWhiteSpace(nikseTextBoxApiKey.Text))
+            if (!string.IsNullOrWhiteSpace(nikseTextBoxApiKey.Text))
             {
                 Configuration.Settings.Tools.DagloApiKey = nikseTextBoxApiKey.Text.Trim();
+                Configuration.Settings.Save();
             }
         }
 
@@ -989,7 +1047,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 e.SuppressKeyPress = true;
             }
         }
-        
+
 
         private void UpdateLog()
         {
@@ -1161,10 +1219,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         {
             buttonGenerate.Focus();
             _initialWidth = Width;
-             
+
             AudioToText_ResizeEnd(null, null);
         }
-        
+
 
         private void listViewInputFiles_DragEnter(object sender, DragEventArgs e)
         {
@@ -1301,21 +1359,22 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 comboBox.Text = lang != null ? lang.ToString() : "Korean";
             }
 
-            comboBox.Items.Add(LanguageSettings.Current.General.ChangeLanguageFilter);
+            // 언어 필터는 사용하지 않음
+            //comboBox.Items.Add(LanguageSettings.Current.General.ChangeLanguageFilter);
 
             if (string.IsNullOrEmpty(comboBox.Text) && comboBox.Items.Count > 0)
             {
                 comboBox.SelectedIndex = 0;
             }
         }
-        
+
 
         private void removeTemporaryFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Configuration.Settings.Tools.DagloDeleteTempFiles = !Configuration.Settings.Tools.DagloDeleteTempFiles;
             removeTemporaryFilesToolStripMenuItem.Checked = Configuration.Settings.Tools.DagloDeleteTempFiles;
         }
-   
+
 
         private void runOnlyPostProcessingToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1340,7 +1399,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                     _subtitle = WhisperTimingFixer.ShortenLongDuration(_subtitle);
                     _subtitle = WhisperTimingFixer.ShortenViaWavePeaks(_subtitle, wavePeaks);
                 }
-                else 
+                else
                 {
                     return;
                 }
@@ -1360,20 +1419,20 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             {
                 buttonGenerate.Enabled = true;
                 //buttonDownload.Enabled = true;
-                buttonBatchMode.Enabled = true;
+                buttonBatchMode.Enabled = false;
                 //buttonAdvanced.Enabled = true;
                 comboBoxLanguages.Enabled = true;
                 //comboBoxModels.Enabled = true;
                 //linkLabelPostProcessingConfigure.Enabled = true;
             }
         }
-           
+
 
         private void ShowWhisperLogFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UiUtil.OpenFile(SeLogger.GetWhisperLogFilePath());
         }
-                  
+
 
         public static void ShowPostProcessingSettings(Form owner)
         {
@@ -1397,13 +1456,14 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             }
         }
 
-        private void WhisperAudioToText_Activated(object sender, EventArgs e)
+        private void DagloAudioToText_Activated(object sender, EventArgs e)
         {
             BringToFront();
         }
 
         private void PrintSubtitleInfo(string title, Subtitle subtitle)
         {
+            // For debugging
             Debug.WriteLine($"--- {title} ---");
             if (subtitle == null || subtitle.Paragraphs.Count == 0)
             {
