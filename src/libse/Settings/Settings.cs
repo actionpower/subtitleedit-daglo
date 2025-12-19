@@ -4461,6 +4461,11 @@ namespace Nikse.SubtitleEdit.Core.Settings
             {
                 settings.Tools.WhisperTranslateToEnglish = Convert.ToBoolean(subNode.InnerText, CultureInfo.InvariantCulture);
             }
+            subNode = node.SelectSingleNode("DagloApiKey");
+            if (subNode != null)
+            {
+                settings.Tools.DagloApiKey = subNode.InnerText;
+            }
 
             subNode = node.SelectSingleNode("AudioToTextLineMaxChars");
             if (subNode != null)
@@ -9631,6 +9636,7 @@ namespace Nikse.SubtitleEdit.Core.Settings
                 xmlWriter.WriteElementString("ChangeActorColorAdd", settings.Tools.ConvertActorColorAdd.ToString(CultureInfo.InvariantCulture));
                 xmlWriter.WriteElementString("ChangeActorColor", ToHtml(settings.Tools.ConvertActorColor));
                 xmlWriter.WriteElementString("ChangeActorCasing", settings.Tools.ConvertActorCasing.ToString(CultureInfo.InvariantCulture));
+                xmlWriter.WriteElementString("DagloApiKey", settings.Tools.DagloApiKey);
 
                 if (settings.Tools.FindHistory != null && settings.Tools.FindHistory.Count > 0)
                 {
