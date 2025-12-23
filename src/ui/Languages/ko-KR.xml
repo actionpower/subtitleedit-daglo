@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Language Name="Korean (한국어)">
   <General>
-    <Title>Subtitle Edit</Title>
+    <Title>Subtitle Edit - AI Previewer</Title>
     <Version>4.0.14</Version>
     <TranslatedBy>☞ 한글화: 도움돌 (domddol@gmail.com)</TranslatedBy>
     <CultureName>ko-KR</CultureName>
@@ -218,8 +218,8 @@ FFmpeg를 다운로드하고 사용하시겠습니까?</FfmpegNotFound>
     <FixCasing>대/소문자 수정</FixCasing>
     <AddPeriods>마침표 추가</AddPeriods>
     <FixShortDuration>짧은 표시시간 수정</FixShortDuration>
-    <DagloInfo>다글로 음성 인식을 통해 오디오로 텍스트 만들기</DagloInfo>
-    <DagloWebsite>다글로 홈페이지</DagloWebsite>
+    <DagloInfo>AI Previewer 오디오로 텍스트 만들기</DagloInfo>
+    <DagloWebsite>AI Previewer 홈페이지</DagloWebsite>
   </AudioToText>
   <AssaAttachments>
     <Title>Advanced Sub Station Alpha 첨부파일</Title>

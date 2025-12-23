@@ -1853,7 +1853,7 @@ namespace Nikse.SubtitleEdit.Forms
             generaeTransparentVideoWithSubtitleToolStripMenuItem.Text = _language.Menu.Video.GenerateTransparentVideoWithSubs;
             videoaudioToTextToolStripMenuItem.Text = string.Format(_language.Menu.Video.VideoAudioToTextX, "Vosk/Kaldi");
             audioToTextWhisperTolStripMenuItem.Text = string.Format(_language.Menu.Video.VideoAudioToTextX, "Whisper");
-            audioToTextDagloToolStripMenuItem.Text = string.Format(_language.Menu.Video.VideoAudioToTextX, "Daglo");
+            audioToTextDagloToolStripMenuItem.Text = string.Format(_language.Menu.Video.VideoAudioToTextX, "AI Previewer");
             textToSpeechAndAddToVideoToolStripMenuItem.Text = _language.Menu.Video.TextToSpeechAndAddToVideo;
 
             smpteTimeModedropFrameToolStripMenuItem.Text = _language.Menu.Video.SmptTimeMode;
@@ -26533,6 +26533,8 @@ namespace Nikse.SubtitleEdit.Forms
                 checkForUpdatesToolStripMenuItem.Visible = false;
                 toolStripMenuItemSplitterCheckForUpdates.Visible = false;
             }
+            // 자동 업데이트 체크 비활성화
+            /*
             else if (Configuration.Settings.General.CheckForUpdates && Configuration.Settings.General.LastCheckForUpdates < DateTime.Now.AddDays(-5))
             {
                 _checkForUpdatesHelper = new CheckForUpdatesHelper();
@@ -26542,6 +26544,7 @@ namespace Nikse.SubtitleEdit.Forms
                 _timerCheckForUpdates.Start();
                 Configuration.Settings.General.LastCheckForUpdates = DateTime.Now;
             }
+            */
 
             _dragAndDropTimer.Interval = 50;
             _dragAndDropTimer.Tick += DoSubtitleListview1Drop;

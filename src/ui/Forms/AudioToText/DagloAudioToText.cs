@@ -86,7 +86,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             buttonCancel.Text = LanguageSettings.Current.General.Cancel;
             buttonBatchMode.Text = LanguageSettings.Current.AudioToText.BatchMode;
             groupBoxInputFiles.Text = LanguageSettings.Current.BatchConvert.Input;
-            linkLabelDagloWebSite.Text = LanguageSettings.Current.AudioToText.DagloWebsite;
+            //linkLabelDagloWebSite.Text = LanguageSettings.Current.AudioToText.DagloWebsite;
             buttonAddFile.Text = LanguageSettings.Current.DvdSubRip.Add;
             buttonRemoveFile.Text = LanguageSettings.Current.DvdSubRip.Remove;
             buttonClear.Text = LanguageSettings.Current.DvdSubRip.Clear;
@@ -214,7 +214,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             progressBar1.Style = ProgressBarStyle.Blocks;
             timer1.Start();
-            var transcript = TranscribeViaDaglo(waveFileName, _videoFileName);
+            var transcript = TranscribeViaDaglo(waveFileName, _videoFileName, _languageCode);
 
             timer1.Stop();
             if (_cancel && (transcript == null || transcript.Paragraphs.Count == 0 || MessageBox.Show(LanguageSettings.Current.AudioToText.KeepPartialTranscription, Text, MessageBoxButtons.YesNoCancel) != DialogResult.Yes))
@@ -583,7 +583,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
 
 
-        public Subtitle TranscribeViaDaglo(string waveFileName, string videoFileName)
+        public Subtitle TranscribeViaDaglo(string waveFileName, string videoFileName, string languageCode = "ko-KR")
         {
             _showProgressPct = -1;
             var model = new DagloModel();
@@ -618,7 +618,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
 
 
-            var task = Task.Run(() => DagloTranscribe.TranscribeFileUploadAsync(inputFile));
+            var task = Task.Run(() => DagloTranscribe.TranscribeFileUploadAsync(inputFile, languageCode));
 
             //OutputHandler();
 
