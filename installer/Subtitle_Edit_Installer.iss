@@ -26,7 +26,7 @@
   #error Use Inno Setup unicode
 #endif
 
-#define app_name             "Subtitle Edit"
+#define app_name             "Subtitle Edit - AI Previewer"
 #define app_copyright        "Nikse"
 #define app_copyright_start  "2001"
 #define app_copyright_end    GetDateTimeString('yyyy','','')
@@ -316,6 +316,7 @@ Source: {#bindir}\Languages\zh-TW.xml;             DestDir: {app}\Languages;    
 #endif
 
 Source: {#bindir}\SubtitleEdit.exe;                DestDir: {app};                                    Flags: ignoreversion; Components: main
+Source: {#bindir}\SubtitleEdit.exe.config;        DestDir: {app};                                    Flags: ignoreversion; Components: main
 Source: {#bindir}\Hunspellx64.dll;                 DestDir: {app};                                    Flags: ignoreversion; Components: main
 Source: {#bindir}\Hunspellx86.dll;                 DestDir: {app};                                    Flags: ignoreversion; Components: main
 Source: {#bindir}\libse.dll;                       DestDir: {app};                                    Flags: ignoreversion; Components: main
@@ -343,6 +344,21 @@ Source: ..\Tesseract302\tessdata\music.traineddata;  DestDir: {app}\Tesseract302
 Source: ..\Tesseract302\tesseract.exe;               DestDir: {app}\Tesseract302;                     Flags: ignoreversion; Components: main
 Source: ..\Tesseract302\msvcp90.dll;                 DestDir: {app}\Tesseract302;                     Flags: ignoreversion; Components: main
 Source: ..\Tesseract302\msvcr90.dll;                 DestDir: {app}\Tesseract302;                     Flags: ignoreversion; Components: main
+
+Source: {#bindir}\System.Text.Json.dll;                DestDir: {app};                                    Flags: ignoreversion; Components: main
+Source: {#bindir}\System.Memory.dll;                   DestDir: {app};                                    Flags: ignoreversion; Components: main
+Source: {#bindir}\Microsoft.Bcl.AsyncInterfaces.dll;   DestDir: {app};                                    Flags: ignoreversion; Components: main
+Source: {#bindir}\System.Text.Encodings.Web.dll;       DestDir: {app};                                    Flags: ignoreversion; Components: main
+Source: {#bindir}\System.Text.Encoding.CodePages.dll;  DestDir: {app};                                    Flags: ignoreversion; Components: main
+Source: {#bindir}\System.Buffers.dll;                  DestDir: {app};                                    Flags: ignoreversion; Components: main
+Source: {#bindir}\System.ValueTuple.dll;               DestDir: {app};                                    Flags: ignoreversion; Components: main
+Source: {#bindir}\System.Drawing.Common.dll;           DestDir: {app};                                    Flags: ignoreversion; Components: main
+Source: {#bindir}\System.Numerics.Vectors.dll;         DestDir: {app};                                    Flags: ignoreversion; Components: main
+Source: {#bindir}\System.Threading.Tasks.Extensions.dll;      DestDir: {app};                                    Flags: ignoreversion; Components: main
+Source: {#bindir}\System.Runtime.CompilerServices.Unsafe.dll; DestDir: {app};                                    Flags: ignoreversion; Components: main
+Source: {#bindir}\System.Security.AccessControl.dll;          DestDir: {app};                                    Flags: ignoreversion; Components: main
+Source: {#bindir}\System.Security.Principal.Windows.dll;      DestDir: {app};                                    Flags: ignoreversion; Components: main
+
 
 
 [Icons]
@@ -378,6 +394,21 @@ Type: files;      Name: {app}\System.Net.Http.Primitives.dll;         Check: IsU
 Type: files;      Name: {app}\NAudio.Core.dll;                        Check: IsUpgrade()
 Type: files;      Name: {app}\NAudio.WinMM.dll;                       Check: IsUpgrade()
 Type: files;      Name: {app}\Microsoft.Win32.Registry.dll;           Check: IsUpgrade()
+
+Type: files;      Name: {app}\System.Text.Json.dll;                   Check: IsUpgrade()
+Type: files;      Name: {app}\System.Memory.dll;                      Check: IsUpgrade()
+Type: files;      Name: {app}\Microsoft.Bcl.AsyncInterfaces.dll;      Check: IsUpgrade()
+Type: files;      Name: {app}\System.Text.Encodings.Web.dll;          Check: IsUpgrade()
+Type: files;      Name: {app}\System.Text.Encoding.CodePages.dll;     Check: IsUpgrade()
+Type: files;      Name: {app}\System.Buffers.dll;                     Check: IsUpgrade()
+Type: files;      Name: {app}\System.ValueTuple.dll;                  Check: IsUpgrade()
+Type: files;      Name: {app}\System.Drawing.Common.dll;              Check: IsUpgrade()
+Type: files;      Name: {app}\System.Numerics.Vectors.dll;            Check: IsUpgrade()
+Type: files;      Name: {app}\System.Threading.Tasks.Extensions.dll;      Check: IsUpgrade()
+Type: files;      Name: {app}\System.Runtime.CompilerServices.Unsafe.dll; Check: IsUpgrade()
+Type: files;      Name: {app}\System.Security.AccessControl.dll;      Check: IsUpgrade()
+Type: files;      Name: {app}\System.Security.Principal.Windows.dll;  Check: IsUpgrade()
+
 
 
 ; Remove old files from the {app} dir
