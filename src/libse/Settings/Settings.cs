@@ -4467,6 +4467,18 @@ namespace Nikse.SubtitleEdit.Core.Settings
                 settings.Tools.DagloApiKey = subNode.InnerText;
             }
 
+            subNode = node.SelectSingleNode("DagloHelloVisionMaxCharsPerLine");
+            if (subNode != null)
+            {
+                settings.Tools.DagloHelloVisionMaxCharsPerLine = Convert.ToInt32(subNode.InnerText, CultureInfo.InvariantCulture);
+            }
+
+            subNode = node.SelectSingleNode("DagloHelloVisionMaxLines");
+            if (subNode != null)
+            {
+                settings.Tools.DagloHelloVisionMaxLines = Convert.ToInt32(subNode.InnerText, CultureInfo.InvariantCulture);
+            }
+
             subNode = node.SelectSingleNode("AudioToTextLineMaxChars");
             if (subNode != null)
             {
@@ -9637,6 +9649,8 @@ namespace Nikse.SubtitleEdit.Core.Settings
                 xmlWriter.WriteElementString("ChangeActorColor", ToHtml(settings.Tools.ConvertActorColor));
                 xmlWriter.WriteElementString("ChangeActorCasing", settings.Tools.ConvertActorCasing.ToString(CultureInfo.InvariantCulture));
                 xmlWriter.WriteElementString("DagloApiKey", settings.Tools.DagloApiKey);
+                xmlWriter.WriteElementString("DagloHelloVisionMaxCharsPerLine", settings.Tools.DagloHelloVisionMaxCharsPerLine.ToString(CultureInfo.InvariantCulture));
+                xmlWriter.WriteElementString("DagloHelloVisionMaxLines", settings.Tools.DagloHelloVisionMaxLines.ToString(CultureInfo.InvariantCulture));
 
                 if (settings.Tools.FindHistory != null && settings.Tools.FindHistory.Count > 0)
                 {

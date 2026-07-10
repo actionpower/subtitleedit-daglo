@@ -37,6 +37,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.groupBoxModels = new System.Windows.Forms.GroupBox();
             this.labelChooseLanguage = new System.Windows.Forms.Label();
             this.comboBoxLanguages = new Nikse.SubtitleEdit.Controls.NikseComboBox();
+            this.labelMaxCharsPerLine = new System.Windows.Forms.Label();
+            this.numericUpDownMaxCharsPerLine = new System.Windows.Forms.NumericUpDown();
+            this.labelMaxLines = new System.Windows.Forms.Label();
+            this.numericUpDownMaxLines = new System.Windows.Forms.NumericUpDown();
             this.labelTime = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.buttonBatchMode = new System.Windows.Forms.Button();
@@ -59,6 +63,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.nikseTextBoxApiKey = new Nikse.SubtitleEdit.Controls.NikseTextBox();
             this.textBoxLog = new Nikse.SubtitleEdit.Controls.NikseTextBox();
             this.groupBoxModels.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxCharsPerLine)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLines)).BeginInit();
             this.groupBoxInputFiles.SuspendLayout();
             this.contextMenuStripWhisperAdvanced.SuspendLayout();
             this.SuspendLayout();
@@ -128,6 +134,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxModels.Controls.Add(this.labelChooseLanguage);
             this.groupBoxModels.Controls.Add(this.comboBoxLanguages);
+            this.groupBoxModels.Controls.Add(this.labelMaxCharsPerLine);
+            this.groupBoxModels.Controls.Add(this.numericUpDownMaxCharsPerLine);
+            this.groupBoxModels.Controls.Add(this.labelMaxLines);
+            this.groupBoxModels.Controls.Add(this.numericUpDownMaxLines);
             this.groupBoxModels.Location = new System.Drawing.Point(26, 82);
             this.groupBoxModels.Margin = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.groupBoxModels.Name = "groupBoxModels";
@@ -171,9 +181,75 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.comboBoxLanguages.TabIndex = 0;
             this.comboBoxLanguages.UsePopupWindow = true;
             this.comboBoxLanguages.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguages_SelectedIndexChanged);
-            // 
+            //
+            // labelMaxCharsPerLine
+            //
+            this.labelMaxCharsPerLine.AutoSize = true;
+            this.labelMaxCharsPerLine.Location = new System.Drawing.Point(370, 28);
+            this.labelMaxCharsPerLine.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelMaxCharsPerLine.Name = "labelMaxCharsPerLine";
+            this.labelMaxCharsPerLine.Size = new System.Drawing.Size(151, 18);
+            this.labelMaxCharsPerLine.TabIndex = 5;
+            this.labelMaxCharsPerLine.Text = "Single line max. length";
+            //
+            // numericUpDownMaxCharsPerLine
+            //
+            this.numericUpDownMaxCharsPerLine.Location = new System.Drawing.Point(374, 62);
+            this.numericUpDownMaxCharsPerLine.Margin = new System.Windows.Forms.Padding(6, 4, 6, 4);
+            this.numericUpDownMaxCharsPerLine.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownMaxCharsPerLine.Maximum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numericUpDownMaxCharsPerLine.Name = "numericUpDownMaxCharsPerLine";
+            this.numericUpDownMaxCharsPerLine.Size = new System.Drawing.Size(100, 28);
+            this.numericUpDownMaxCharsPerLine.TabIndex = 1;
+            this.numericUpDownMaxCharsPerLine.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
+            //
+            // labelMaxLines
+            //
+            this.labelMaxLines.AutoSize = true;
+            this.labelMaxLines.Location = new System.Drawing.Point(540, 28);
+            this.labelMaxLines.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelMaxLines.Name = "labelMaxLines";
+            this.labelMaxLines.Size = new System.Drawing.Size(151, 18);
+            this.labelMaxLines.TabIndex = 6;
+            this.labelMaxLines.Text = "Max. number of lines";
+            //
+            // numericUpDownMaxLines
+            //
+            this.numericUpDownMaxLines.Location = new System.Drawing.Point(544, 62);
+            this.numericUpDownMaxLines.Margin = new System.Windows.Forms.Padding(6, 4, 6, 4);
+            this.numericUpDownMaxLines.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownMaxLines.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDownMaxLines.Name = "numericUpDownMaxLines";
+            this.numericUpDownMaxLines.Size = new System.Drawing.Size(80, 28);
+            this.numericUpDownMaxLines.TabIndex = 2;
+            this.numericUpDownMaxLines.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            //
             // labelTime
-            // 
+            //
             this.labelTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelTime.AutoSize = true;
             this.labelTime.Location = new System.Drawing.Point(20, 321);
@@ -437,6 +513,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AudioToText_KeyDown);
             this.groupBoxModels.ResumeLayout(false);
             this.groupBoxModels.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxCharsPerLine)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLines)).EndInit();
             this.groupBoxInputFiles.ResumeLayout(false);
             this.contextMenuStripWhisperAdvanced.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -465,6 +543,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private System.Windows.Forms.Label labelFC;
         private System.Windows.Forms.Label labelChooseLanguage;
         private Nikse.SubtitleEdit.Controls.NikseComboBox comboBoxLanguages;
+        private System.Windows.Forms.Label labelMaxCharsPerLine;
+        private System.Windows.Forms.NumericUpDown numericUpDownMaxCharsPerLine;
+        private System.Windows.Forms.Label labelMaxLines;
+        private System.Windows.Forms.NumericUpDown numericUpDownMaxLines;
         private System.Windows.Forms.Label labelElapsed;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripWhisperAdvanced;
         private System.Windows.Forms.ToolStripMenuItem removeTemporaryFilesToolStripMenuItem;

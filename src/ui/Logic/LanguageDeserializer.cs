@@ -9561,7 +9561,104 @@ namespace Nikse.SubtitleEdit.Logic
                     break;
                 case "WhisperAdvanced/VadModelNotFound":
                     language.WhisperAdvanced.VadModelNotFound = reader.Value;
-                    break;             
+                    break;
+                case "DagloTranscribe/Title":
+                    language.DagloTranscribe.Title = reader.Value;
+                    break;
+                case "DagloTranscribe/From":
+                    language.DagloTranscribe.From = reader.Value;
+                    break;
+                case "DagloTranscribe/To":
+                    language.DagloTranscribe.To = reader.Value;
+                    break;
+                case "DagloTranscribe/Transcribe":
+                    language.DagloTranscribe.Transcribe = reader.Value;
+                    break;
+                case "DagloTranscribe/PleaseWait":
+                    language.DagloTranscribe.PleaseWait = reader.Value;
+                    break;
+                case "DagloTranscribe/PoweredByX":
+                    language.DagloTranscribe.PoweredByX = reader.Value;
+                    break;
+                case "DagloTranscribe/LineMergeHandling":
+                    language.DagloTranscribe.LineMergeHandling = reader.Value;
+                    break;
+                case "DagloTranscribe/ProcessorMergeNext":
+                    language.DagloTranscribe.ProcessorMergeNext = reader.Value;
+                    break;
+                case "DagloTranscribe/ProcessorSentence":
+                    language.DagloTranscribe.ProcessorSentence = reader.Value;
+                    break;
+                case "DagloTranscribe/ProcessorSingle":
+                    language.DagloTranscribe.ProcessorSingle = reader.Value;
+                    break;
+                case "DagloTranscribe/AutoTranslateViaCopyPaste":
+                    language.DagloTranscribe.AutoTranslateViaCopyPaste = reader.Value;
+                    break;
+                case "DagloTranscribe/CopyPasteMaxSize":
+                    language.DagloTranscribe.CopyPasteMaxSize = reader.Value;
+                    break;
+                case "DagloTranscribe/AutoCopyToClipboard":
+                    language.DagloTranscribe.AutoCopyToClipboard = reader.Value;
+                    break;
+                case "DagloTranscribe/AutoCopyLineSeparator":
+                    language.DagloTranscribe.AutoCopyLineSeparator = reader.Value;
+                    break;
+                case "DagloTranscribe/TranslateBlockXOfY":
+                    language.DagloTranscribe.TranslateBlockXOfY = reader.Value;
+                    break;
+                case "DagloTranscribe/TranslateBlockInfo":
+                    language.DagloTranscribe.TranslateBlockInfo = reader.Value;
+                    break;
+                case "DagloTranscribe/TranslateBlockGetFromClipboard":
+                    language.DagloTranscribe.TranslateBlockGetFromClipboard = reader.Value;
+                    break;
+                case "DagloTranscribe/TranslateBlockCopySourceText":
+                    language.DagloTranscribe.TranslateBlockCopySourceText = reader.Value;
+                    break;
+                case "DagloTranscribe/TranslateBlockClipboardError1":
+                    language.DagloTranscribe.TranslateBlockClipboardError1 = reader.Value;
+                    break;
+                case "DagloTranscribe/TranslateBlockClipboardError2":
+                    language.DagloTranscribe.TranslateBlockClipboardError2 = reader.Value;
+                    break;
+                case "DagloTranscribe/StartWebServerX":
+                    language.DagloTranscribe.StartWebServerX = reader.Value;
+                    break;
+                case "DagloTranscribe/XRequiresALocalWebServer":
+                    language.DagloTranscribe.XRequiresALocalWebServer = reader.Value;
+                    break;
+                case "DagloTranscribe/XRequiresAnApiKey":
+                    language.DagloTranscribe.XRequiresAnApiKey = reader.Value;
+                    break;
+                case "DagloTranscribe/ReadMore":
+                    language.DagloTranscribe.ReadMore = reader.Value;
+                    break;
+                case "DagloTranscribe/Formality":
+                    language.DagloTranscribe.Formality = reader.Value;
+                    break;
+                case "DagloTranscribe/TranslateCurrentLine":
+                    language.DagloTranscribe.TranslateCurrentLine = reader.Value;
+                    break;
+                case "DagloTranscribe/ReTranslateCurrentLine":
+                    language.DagloTranscribe.ReTranslateCurrentLine = reader.Value;
+                    break;
+                case "DagloTranscribe/MergeSplitStrategy":
+                    language.DagloTranscribe.MergeSplitStrategy = reader.Value;
+                    break;
+                case "DagloTranscribe/Delay":
+                    language.DagloTranscribe.Delay = reader.Value;
+                    break;
+                case "DagloTranscribe/MaxBytes":
+                    language.DagloTranscribe.MaxBytes = reader.Value;
+                    break;
+                case "DagloTranscribe/PromptX":
+                    language.DagloTranscribe.PromptX = reader.Value;
+                    break;
+                case "DagloTranscribe/TranslateLinesSeparately":
+                    language.DagloTranscribe.TranslateLinesSeparately = reader.Value;
+                    break;
+
             }
         }
     }

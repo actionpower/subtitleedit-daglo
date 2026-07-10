@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
@@ -48,6 +49,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private readonly WavePeakData _wavePeaks;
         private readonly List<string> _outputBatchFileNames = new List<string>();
         private IAutoTranscriber _autoTranscriber;
+        private CancellationTokenSource _cancellationTokenSource;
 
         public bool UnknownArgument { get; set; }
         public bool RunningOnCuda { get; set; }
@@ -76,6 +78,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             groupBoxModels.Text = LanguageSettings.Current.AudioToText.LanguagesAndModels;
             //labelModel.Text = LanguageSettings.Current.AudioToText.ChooseModel;
             labelChooseLanguage.Text = LanguageSettings.Current.AudioToText.ChooseLanguage;
+            labelMaxCharsPerLine.Text = LanguageSettings.Current.Settings.SubtitleLineMaximumLength;
+            labelMaxLines.Text = LanguageSettings.Current.Settings.MaximumLines;
             //linkLabelOpenModelsFolder.Text = LanguageSettings.Current.AudioToText.OpenModelsFolder;
             //checkBoxTranslateToEnglish.Text = LanguageSettings.Current.AudioToText.TranslateToEnglish;
             //checkBoxUsePostProcessing.Text = LanguageSettings.Current.AudioToText.UsePostProcessing;
@@ -98,6 +102,23 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             columnHeaderFileName.Text = LanguageSettings.Current.JoinSubtitles.FileName;
 
             nikseTextBoxApiKey.Text = Configuration.Settings.Tools.DagloApiKey;
+
+            // 헬로비전 룰 설정 로드 (범위를 벗어나면 기본값: 한 줄 25글자, 자막당 2줄)
+            var maxCharsPerLine = Configuration.Settings.Tools.DagloHelloVisionMaxCharsPerLine;
+            if (maxCharsPerLine < numericUpDownMaxCharsPerLine.Minimum || maxCharsPerLine > numericUpDownMaxCharsPerLine.Maximum)
+            {
+                maxCharsPerLine = 25;
+            }
+
+            numericUpDownMaxCharsPerLine.Value = maxCharsPerLine;
+
+            var maxLines = Configuration.Settings.Tools.DagloHelloVisionMaxLines;
+            if (maxLines < numericUpDownMaxLines.Minimum || maxLines > numericUpDownMaxLines.Maximum)
+            {
+                maxLines = 2;
+            }
+
+            numericUpDownMaxLines.Value = maxLines;
             //checkBoxUsePostProcessing.Checked = Configuration.Settings.Tools.VoskPostProcessing;
             //checkBoxAutoAdjustTimings.Checked = Configuration.Settings.Tools.WhisperAutoAdjustTimings;
 
@@ -240,16 +261,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             Application.DoEvents();
 
 
-            var postProcessor = new AudioToTextPostProcessor("en")
-            {
-                ParagraphMaxChars = Configuration.Settings.General.SubtitleLineMaximumLength * 2,
-            };
-
-
             WavePeakData wavePeaks = null;
             if (checkBoxAutoAdjustTimings.Checked)
             {
-                wavePeaks = _wavePeaks ?? MakeWavePeaks();
+                wavePeaks = _wavePeaks ?? MakeWavePeaks(_videoFileName);
             }
 
             if (checkBoxAutoAdjustTimings.Checked && wavePeaks != null)
@@ -266,16 +281,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             }
 
 
-            TranscribedSubtitle = postProcessor.Fix(
-                AudioToTextPostProcessor.Engine.Whisper,
-                transcript,
-                false,
-                true, //Configuration.Settings.Tools.WhisperPostProcessingAddPeriods,
-                true, //Configuration.Settings.Tools.WhisperPostProcessingMergeLines,
-                true, //Configuration.Settings.Tools.WhisperPostProcessingFixCasing,
-                true, //Configuration.Settings.Tools.WhisperPostProcessingFixShortDuration,
-                true //Configuration.Settings.Tools.WhisperPostProcessingSplitLines
-                );
+            // 헬로비전 룰이 줄 바이트/줄 수/타임코드를 이미 보장하므로
+            // 텍스트를 변경하는 후처리(줄 병합/분할, 문장부호 등)는 적용하지 않는다.
+            transcript?.Renumber();
+            TranscribedSubtitle = transcript;
 
             UpdateLog();
             SeLogger.DagloInfo(textBoxLog.Text);
@@ -291,12 +300,15 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         private void SetEnabledState(bool enabled)
         {
+            // 변환 대기 루프가 Application.DoEvents() 로 UI 를 살려두므로,
+            // 실행에 영향을 주는 컨트롤은 전부 잠가 재진입/설정 변경을 막는다
             buttonGenerate.Enabled = enabled;
-            //buttonDownload.Enabled = enabled;
-            //buttonBatchMode.Enabled = enabled;
-            //buttonAdvanced.Enabled = enabled;
-            //comboBoxLanguages.Enabled = enabled; 
-            //linkLabelPostProcessingConfigure.Enabled = enabled;
+            buttonBatchMode.Enabled = enabled && !string.IsNullOrEmpty(_videoFileName);
+            comboBoxLanguages.Enabled = enabled;
+            nikseTextBoxApiKey.Enabled = enabled;
+            numericUpDownMaxCharsPerLine.Enabled = enabled;
+            numericUpDownMaxLines.Enabled = enabled;
+            EnableGroupBoxInputFiles(enabled && _batchMode);
 
             progressBar1.Visible = !enabled;
         }
@@ -390,7 +402,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 WavePeakData wavePeaks = null;
                 if (checkBoxAutoAdjustTimings.Checked)
                 {
-                    wavePeaks = _wavePeaks ?? MakeWavePeaks();
+                    // 배치 항목마다 해당 파일의 파형을 사용한다 (_wavePeaks 는 폼을 연 비디오의 것)
+                    wavePeaks = string.Equals(videoFileName, _videoFileName, StringComparison.OrdinalIgnoreCase)
+                        ? _wavePeaks ?? MakeWavePeaks(videoFileName)
+                        : MakeWavePeaks(videoFileName);
                 }
 
                 if (checkBoxAutoAdjustTimings.Checked && wavePeaks != null)
@@ -399,19 +414,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                     transcript = DagloTimingFixer.ShortenViaWavePeaks(transcript, wavePeaks);
                 }
 
-                var postProcessor = new AudioToTextPostProcessor(_languageCode)
-                {
-                    ParagraphMaxChars = Configuration.Settings.General.SubtitleLineMaximumLength * 2,
-                };
-                TranscribedSubtitle = postProcessor.Fix(
-                    AudioToTextPostProcessor.Engine.Whisper,
-                    transcript,
-                    false,
-                    Configuration.Settings.Tools.WhisperPostProcessingAddPeriods,
-                    Configuration.Settings.Tools.WhisperPostProcessingMergeLines,
-                    Configuration.Settings.Tools.WhisperPostProcessingFixCasing,
-                    Configuration.Settings.Tools.WhisperPostProcessingFixShortDuration,
-                    Configuration.Settings.Tools.WhisperPostProcessingSplitLines);
+                // 헬로비전 룰이 줄 바이트/줄 수/타임코드를 이미 보장하므로
+                // 텍스트를 변경하는 후처리(줄 병합/분할, 문장부호 등)는 적용하지 않는다.
+                transcript.Renumber();
+                TranscribedSubtitle = transcript;
 
 
                 SaveToSourceFolder(videoFileName);
@@ -443,9 +449,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             DialogResult = DialogResult.Cancel;
         }
 
-        private WavePeakData MakeWavePeaks()
+        private WavePeakData MakeWavePeaks(string videoFileName)
         {
-            if (string.IsNullOrEmpty(_videoFileName) || !File.Exists(_videoFileName))
+            if (string.IsNullOrEmpty(videoFileName) || !File.Exists(videoFileName))
             {
                 return null;
             }
@@ -453,7 +459,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             var targetFile = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".wav");
             try
             {
-                var process = AddWaveform.GetCommandLineProcess(_videoFileName, -1, targetFile, Configuration.Settings.General.VlcWaveTranscodeSettings, out var encoderName);
+                var process = AddWaveform.GetCommandLineProcess(videoFileName, -1, targetFile, Configuration.Settings.General.VlcWaveTranscodeSettings, out var encoderName);
                 process.Start();
                 while (!process.HasExited)
                 {
@@ -464,11 +470,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 var delayInMilliseconds = 0;
                 var audioTrackNames = new List<string>();
                 var mkvAudioTrackNumbers = new Dictionary<int, int>();
-                if (_videoFileName.ToLowerInvariant().EndsWith(".mkv", StringComparison.OrdinalIgnoreCase))
+                if (videoFileName.ToLowerInvariant().EndsWith(".mkv", StringComparison.OrdinalIgnoreCase))
                 {
                     try
                     {
-                        using (var matroska = new MatroskaFile(_videoFileName))
+                        using (var matroska = new MatroskaFile(videoFileName))
                         {
                             if (matroska.IsValid)
                             {
@@ -498,7 +504,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                     }
                     catch (Exception exception)
                     {
-                        SeLogger.Error(exception, $"Error getting delay from mkv: {_videoFileName}");
+                        SeLogger.Error(exception, $"Error getting delay from mkv: {videoFileName}");
                     }
                 }
 
@@ -506,9 +512,9 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 {
                     using (var waveFile = new WavePeakGenerator(targetFile))
                     {
-                        if (!string.IsNullOrEmpty(_videoFileName) && File.Exists(_videoFileName))
+                        if (!string.IsNullOrEmpty(videoFileName) && File.Exists(videoFileName))
                         {
-                            return waveFile.GeneratePeaks(delayInMilliseconds, WavePeakGenerator.GetPeakWaveFileName(_videoFileName));
+                            return waveFile.GeneratePeaks(delayInMilliseconds, WavePeakGenerator.GetPeakWaveFileName(videoFileName));
                         }
                     }
                 }
@@ -618,9 +624,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
 
 
-            var task = Task.Run(() => DagloTranscribe.TranscribeFileUploadAsync(inputFile, languageCode));
-
-            //OutputHandler();
+            _cancellationTokenSource?.Dispose();
+            _cancellationTokenSource = new CancellationTokenSource();
+            var cancellationToken = _cancellationTokenSource.Token;
+            var task = Task.Run(() => DagloTranscribe.TranscribeFileUploadAsync(inputFile, languageCode, cancellationToken));
 
             var sw = Stopwatch.StartNew();
             _outputText.Add($"Calling daglo with : {Environment.NewLine}");
@@ -646,7 +653,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
                 if (_cancel)
                 {
-                    //process.Kill();
+                    // 백그라운드 업로드/폴링을 실제로 중단시키고,
+                    // 뒤늦게 fault 로 끝나도 unobserved exception 이 되지 않게 예외를 관찰해 둔다
+                    _cancellationTokenSource.Cancel();
+                    task.ContinueWith(t => { var _ = t.Exception; }, TaskContinuationOptions.OnlyOnFaulted);
 
                     progressBar1.Visible = false;
                     buttonCancel.Visible = false;
@@ -663,7 +673,14 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 }
             }
 
-            // Task 완료 후 예외 확인
+            // Task 완료 후 취소/예외 확인 (Canceled 상태에서 task.Result 를 건드리면 예외가 난다)
+            if (task.IsCanceled)
+            {
+                progressBar1.Visible = false;
+                buttonCancel.Visible = false;
+                return new Subtitle();
+            }
+
             if (task.IsFaulted)
             {
                 progressBar1.Visible = false;
@@ -686,13 +703,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             _outputText.Add($"Calling daglo done in {sw.Elapsed}{Environment.NewLine}");
 
-            for (var i = 0; i < 10; i++)
-            {
-                Application.DoEvents();
-                System.Threading.Thread.Sleep(50);
-            }
-
-            if (GetResultFromSrt(waveFileName, videoFileName, out var resultTexts, _outputText, _filesToDelete))
+            if (GetResultFromSrt(waveFileName, videoFileName, task.Result, out var resultTexts, _outputText, _filesToDelete))
             {
                 var subtitle = new Subtitle();
                 subtitle.Paragraphs.AddRange(resultTexts.Select(p => new Paragraph(p.Text, (double)p.Start * 1000.0, (double)p.End * 1000.0)).ToList());
@@ -707,9 +718,15 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         }
 
 
-        public static bool GetResultFromSrt(string waveFileName, string videoFileName, out List<ResultText> resultTexts, ConcurrentBag<string> outputText, List<string> filesToDelete)
+        public static bool GetResultFromSrt(string waveFileName, string videoFileName, string resultSrtFileName, out List<ResultText> resultTexts, ConcurrentBag<string> outputText, List<string> filesToDelete)
         {
-            var srtFileName = waveFileName + ".srt";
+            // 변환 결과로 받은 SRT 경로를 우선 사용하고, 없으면 기존 규칙대로 탐색
+            var srtFileName = resultSrtFileName;
+            if (string.IsNullOrEmpty(srtFileName) || !File.Exists(srtFileName))
+            {
+                srtFileName = waveFileName + ".srt";
+            }
+
             if (!File.Exists(srtFileName) && waveFileName.EndsWith(".wav"))
             {
                 srtFileName = waveFileName.Remove(waveFileName.Length - 4) + ".srt";
@@ -721,7 +738,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 srtFileName = Path.Combine(dagloFolder, Path.GetFileNameWithoutExtension(videoFileName)) + ".srt";
             }
 
-            if (!File.Exists(srtFileName))
+            if (!string.IsNullOrEmpty(dagloFolder) && !File.Exists(srtFileName))
             {
                 srtFileName = Path.Combine(dagloFolder, Path.GetFileNameWithoutExtension(waveFileName)) + ".srt";
             }
@@ -946,8 +963,13 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             if (!string.IsNullOrWhiteSpace(nikseTextBoxApiKey.Text))
             {
                 Configuration.Settings.Tools.DagloApiKey = nikseTextBoxApiKey.Text.Trim();
-                Configuration.Settings.Save();
             }
+
+            // 헬로비전 룰의 한 줄 최대 글자수/최대 줄 수 — 변환(ConvertToSrt)이 이 설정값을 읽는다
+            Configuration.Settings.Tools.DagloHelloVisionMaxCharsPerLine = (int)numericUpDownMaxCharsPerLine.Value;
+            Configuration.Settings.Tools.DagloHelloVisionMaxLines = (int)numericUpDownMaxLines.Value;
+
+            Configuration.Settings.Save();
         }
 
         /*
@@ -983,6 +1005,16 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         private void AudioToText_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // 진행 중인 백그라운드 업로드/폴링 중단
+            try
+            {
+                _cancellationTokenSource?.Cancel();
+            }
+            catch
+            {
+                // ignore
+            }
+
             TaskbarList.SetProgressState(_parentForm.Handle, TaskbarButtonProgressFlags.NoProgress);
 
             if (comboBoxLanguages.SelectedItem is DagloLanguage language)
@@ -992,6 +1024,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             //Configuration.Settings.Tools.VoskPostProcessing = false;
             Configuration.Settings.Tools.DagloAutoAdjustTimings = checkBoxAutoAdjustTimings.Checked;
+            Configuration.Settings.Tools.DagloHelloVisionMaxCharsPerLine = (int)numericUpDownMaxCharsPerLine.Value;
+            Configuration.Settings.Tools.DagloHelloVisionMaxLines = (int)numericUpDownMaxLines.Value;
 
             DeleteTemporaryFiles(_filesToDelete);
         }
@@ -1391,7 +1425,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 WavePeakData wavePeaks = null;
                 if (checkBoxAutoAdjustTimings.Checked)
                 {
-                    wavePeaks = _wavePeaks ?? MakeWavePeaks();
+                    wavePeaks = _wavePeaks ?? MakeWavePeaks(_videoFileName);
                 }
 
                 if (checkBoxAutoAdjustTimings.Checked && wavePeaks != null)

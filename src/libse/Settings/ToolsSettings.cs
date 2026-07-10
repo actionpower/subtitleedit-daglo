@@ -448,6 +448,16 @@ namespace Nikse.SubtitleEdit.Core.Settings
 
         public bool DagloDeleteTempFiles { get; set; }
 
+        /// <summary>
+        /// 헬로비전 룰: 한 줄 최대 글자수(한글 기준). 한 줄 최대 바이트 = 이 값 * 2.
+        /// </summary>
+        public int DagloHelloVisionMaxCharsPerLine { get; set; }
+
+        /// <summary>
+        /// 헬로비전 룰: 한 자막 최대 줄 수.
+        /// </summary>
+        public int DagloHelloVisionMaxLines { get; set; }
+
         public string WhisperChoice { get; set; }
         public bool WhisperIgnoreVersion { get; set; }
 
@@ -740,6 +750,8 @@ namespace Nikse.SubtitleEdit.Core.Settings
             GenVideoOutputFileSuffix = "_new";
             GenTransparentVideoExtension = ".mov";
             VoskPostProcessing = true;
+            DagloHelloVisionMaxCharsPerLine = 25;
+            DagloHelloVisionMaxLines = 2;
             WhisperChoice = Configuration.IsRunningOnWindows ? AudioToText.WhisperChoice.PurfviewFasterWhisperXxl : AudioToText.WhisperChoice.OpenAi;
             WhisperDeleteTempFiles = true;
             WhisperPurfviewFasterWhisperDefaultCmd = "--standard --beep_off";

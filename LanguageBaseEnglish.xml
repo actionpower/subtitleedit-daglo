@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Language Name="English">
   <General>
-    <Title>Subtitle Edit</Title>
+    <Title>Subtitle Edit - AI Previewer</Title>
     <Version>4.0.14</Version>
     <TranslatedBy>Translated by Nikse</TranslatedBy>
     <CultureName>en-US</CultureName>
@@ -195,11 +195,9 @@ Note: Do check free disk space.</WaveFileMalformed>
     <Title>Audio to text</Title>
     <Info>Generate text from audio via Vosk/Kaldi speech recognition</Info>
     <WhisperInfo>Generate text from audio via Whisper speech recognition</WhisperInfo>
-    <DagloInfo>Generate text from audio via AI Previewer speech recognition</DagloInfo>
     <Engine>Engine</Engine>
     <VoskWebsite>Vosk website</VoskWebsite>
     <WhisperWebsite>Whisper website</WhisperWebsite>
-    <DagloWebsite>AI Previewer website</DagloWebsite>
     <Model>Model</Model>
     <Models>Models</Models>
     <LanguagesAndModels>Languages and models</LanguagesAndModels>
@@ -224,6 +222,8 @@ Note: Do check free disk space.</WaveFileMalformed>
     <FixCasing>Fix casing</FixCasing>
     <AddPeriods>Add periods</AddPeriods>
     <FixShortDuration>Fix short duration</FixShortDuration>
+    <DagloInfo>Generate text from audio via AI Previewer speech recognition</DagloInfo>
+    <DagloWebsite>Daglo website</DagloWebsite>
   </AudioToText>
   <AssaAttachments>
     <Title>Advanced Sub Station Alpha attachments</Title>

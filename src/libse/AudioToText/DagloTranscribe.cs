@@ -755,8 +755,13 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 case ".aac": return "audio/aac";
                 case ".opus": return "audio/opus";
                 case ".weba": return "audio/webm";
+                case ".ogg": return "audio/ogg";
+                case ".wma": return "audio/x-ms-wma";
                 case ".mp4": return "video/mp4";
                 case ".mov": return "video/quicktime";
+                case ".mkv": return "video/x-matroska";
+                case ".webm": return "video/webm";
+                case ".avi": return "video/x-msvideo";
                 default: return "application/octet-stream";
             }
         }
@@ -767,14 +772,15 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
         }
 
         /// <summary>
-        /// 파일 업로드를 통한 STT
+        /// 파일 업로드를 통한 STT.
+        /// 성공 시 변환 결과를 임시 폴더에 SRT 파일로 저장하고 그 경로를 반환한다 (결과 없으면 null).
         /// </summary>
-        public static async Task TranscribeFileUploadAsync(string filePath = null, string language = "ko-KR")
+        public static async Task<string> TranscribeFileUploadAsync(string filePath = null, string language = "ko-KR", CancellationToken cancellationToken = default(CancellationToken))
         {
             if (!File.Exists(filePath))
             {
                 Debug.WriteLine($"파일을 찾을 수 없습니다: {filePath}");
-                return;
+                return null;
             }
 
             var transcriber = new DagloTranscribe();
@@ -825,7 +831,8 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                     sttConfig,
                     nlpConfig,
                     callback: null,
-                    custom
+                    custom,
+                    cancellationToken
                 ).ConfigureAwait(false);
 
                 Debug.WriteLine($"[1/3] Upload Complete! RID: {response.Rid}");
@@ -845,18 +852,22 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                     onProgress: (progress) =>
                     {
                         Debug.WriteLine($"  상태: {progress.Status}");
-                    }
+                    },
+                    cancellationToken
                 ).ConfigureAwait(false);
 
                 // 3. 결과 출력
                 Debug.WriteLine("[3/3] Result");
                 Debug.WriteLine($"[3/3] Result status: {result.Status}");
 
+                string srtFileName = null;
                 if (result.Status == "transcribed" && result.SttResults != null && result.SttResults.Length > 0)
                 {
                     var srtContent = DagloTranscribe.ConvertToSrt(result.SttResults);
 
-                    string srtFileName = Path.GetFileNameWithoutExtension(filePath) + ".srt";
+                    // 임시 폴더에 유니크한 이름으로 저장 (설치 폴더 등 작업 디렉터리에는 쓰기 권한이 없을 수 있고,
+                    // 같은 이름의 기존 파일을 덮어쓸 위험이 있다)
+                    srtFileName = Path.Combine(Path.GetTempPath(), Path.GetFileNameWithoutExtension(filePath) + "_" + Guid.NewGuid().ToString("N").Substring(0, 8) + ".srt");
                     File.WriteAllText(srtFileName, srtContent, Encoding.UTF8);
 
                     Debug.WriteLine("\n=== Transcription Result ===");
@@ -897,9 +908,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                             {
                                 if (word.StartTime != null)
                                 {
-                                    var startSec = double.TryParse(word.StartTime.Seconds, out var sec)
-                                        ? sec + (word.StartTime.Nanos / 1_000_000_000.0)
-                                        : 0.0;
+                                    var startSec = GetTotalSeconds(word.StartTime);
                                     var speaker = !string.IsNullOrEmpty(word.Speaker) ? $" [화자{word.Speaker}]" : "";
                                     Debug.WriteLine($"  [{startSec:F2}s]{speaker} {word.Text}");
                                 }
@@ -918,16 +927,17 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 }
 
                 Debug.WriteLine("=== Complete ===");
+                return srtFileName;
             }
             catch (FileNotFoundException ex)
             {
                 Debug.WriteLine($"File error: {ex.Message}");
-                throw ex;
+                throw;
             }
             catch (TimeoutException ex)
             {
                 Debug.WriteLine($"Timeout: {ex.Message}");
-                throw ex;
+                throw;
             }
             catch (HttpRequestException ex)
             {
@@ -940,13 +950,18 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 {
                     Debug.WriteLine($"HTTP Error: {ex.Message}");
                 }
-                throw ex;
+                throw;
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.WriteLine("Transcription canceled.");
+                throw;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error message: {ex.Message}");
                 Debug.WriteLine($"Stack trace: {ex.StackTrace}");
-                throw ex;
+                throw;
             }
             finally
             {
@@ -975,35 +990,44 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 // Words 배열이 있고 타임스탬프 정보가 있는 경우
                 if (sttResult.Words != null && sttResult.Words.Length > 0)
                 {
-                    // SegmentId로 그룹화하거나, 시간 순서로 정렬
                     var wordsWithTime = sttResult.Words
-                        .Where(w => w != null && w.StartTime != null && w.EndTime != null)
+                        .Where(w => w != null && w.StartTime != null && w.EndTime != null && !string.IsNullOrWhiteSpace(w.Text))
                         .OrderBy(w => GetTotalSeconds(w.StartTime))
                         .ToList();
 
                     if (wordsWithTime.Count > 0)
                     {
-                        // SegmentId로 그룹화
-                        var segments = wordsWithTime
-                            .GroupBy(w => w.SegmentId ?? string.Empty)
-                            .ToList();
-
-                        foreach (var segment in segments)
+                        // 헬로비전 룰: word 단위로 자막 덩어리/줄을 나누고
+                        // 타임코드는 각 자막의 첫/마지막 word 실제 시각을 사용
+                        var hvWords = wordsWithTime.Select(w => new HelloVisionWord
                         {
-                            var segmentWords = segment.OrderBy(w => GetTotalSeconds(w.StartTime)).ToList();
-                            if (segmentWords.Count == 0)
-                                continue;
+                            Text = w.Text,
+                            Speaker = w.Speaker,
+                            StartSeconds = GetTotalSeconds(w.StartTime),
+                            EndSeconds = GetTotalSeconds(w.EndTime)
+                        }).ToList();
 
-                            var startTime = segmentWords.First().StartTime;
-                            var endTime = segmentWords.Last().EndTime;
-                            var text = string.Join(" ", segmentWords.Select(w => w.Text ?? string.Empty).Where(t => !string.IsNullOrWhiteSpace(t)));
+                        var maxCharsPerLine = Configuration.Settings.Tools.DagloHelloVisionMaxCharsPerLine;
+                        var maxLines = Configuration.Settings.Tools.DagloHelloVisionMaxLines;
+                        if (maxCharsPerLine <= 0)
+                        {
+                            maxCharsPerLine = 25;
+                        }
 
+                        if (maxLines <= 0)
+                        {
+                            maxLines = 2;
+                        }
+
+                        foreach (var s in HelloVisionRule.Convert(hvWords, maxCharsPerLine, maxLines))
+                        {
+                            var text = string.Join(Environment.NewLine, s.Lines.Where(l => !string.IsNullOrWhiteSpace(l)));
                             if (string.IsNullOrWhiteSpace(text))
                                 continue;
 
                             // SRT 형식으로 추가
                             sb.AppendLine(subtitleNumber.ToString());
-                            sb.AppendLine($"{FormatTimeCode(startTime)} --> {FormatTimeCode(endTime)}");
+                            sb.AppendLine($"{FormatTimeCode(s.StartSeconds)} --> {FormatTimeCode(s.EndSeconds)}");
                             sb.AppendLine(text);
                             sb.AppendLine();
                             subtitleNumber++;
@@ -1074,7 +1098,14 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
             if (timeInfo == null)
                 return "00:00:00,000";
 
-            var totalSeconds = GetTotalSeconds(timeInfo);
+            return FormatTimeCode(GetTotalSeconds(timeInfo));
+        }
+
+        /// <summary>
+        /// 초 단위 시각을 SRT 형식의 시간 코드 문자열로 변환합니다 (HH:MM:SS,mmm).
+        /// </summary>
+        private static string FormatTimeCode(double totalSeconds)
+        {
             var totalMilliseconds = (long)(totalSeconds * 1000);
 
             var hours = totalMilliseconds / 3_600_000;
