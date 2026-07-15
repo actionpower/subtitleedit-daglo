@@ -89,6 +89,11 @@
     <Compile Update="Forms\ShotChanges\ImportShotChangesFromSe.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Resources\HunspellBackupDictionaries.xml.gz" />
     <EmbeddedResource Include="Resources\TesseractDictionaries.xml.gz" />
     <EmbeddedResource Include="Resources\eleven-labs-voices.zip" />
@@ -311,6 +316,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Languages\hy-AM.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Target Name="InvokeBuildHelpers" BeforeTargets="BeforeCompile;CoreCompile">
     <Exec Condition="'$(OS)' == 'Windows_NT'" Command="%22$(SolutionDir)build_helpers.bat%22 rev %22$(ConfigurationName)%22" />

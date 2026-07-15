@@ -477,14 +477,14 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.comboBoxLanguages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxLanguages.DropDownWidth = 240;
             this.comboBoxLanguages.FormattingEnabled = true;
-            this.comboBoxLanguages.Location = new System.Drawing.Point(15, 98);
+            this.comboBoxLanguages.Location = new System.Drawing.Point(19, 98);
             this.comboBoxLanguages.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxLanguages.MaxLength = 32767;
             this.comboBoxLanguages.Name = "comboBoxLanguages";
             this.comboBoxLanguages.SelectedIndex = -1;
             this.comboBoxLanguages.SelectedItem = null;
             this.comboBoxLanguages.SelectedText = "";
-            this.comboBoxLanguages.Size = new System.Drawing.Size(226, 28);
+            this.comboBoxLanguages.Size = new System.Drawing.Size(226, 22);
             this.comboBoxLanguages.TabIndex = 0;
             this.comboBoxLanguages.UsePopupWindow = true;
             this.comboBoxLanguages.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguages_SelectedIndexChanged);

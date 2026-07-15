@@ -40,6 +40,12 @@ namespace Nikse.SubtitleEdit.Core.Common
 
         public static readonly string DefaultLinuxFontName = "DejaVu Serif";
 
+        /// <summary>
+        /// Daglo application version (independent of the base Subtitle Edit version).
+        /// Bump this when releasing a new Daglo build.
+        /// </summary>
+        public static readonly string DagloVersion = "0.1.0";
+
         public static List<string> GetPlugins()
         {
             var plugins = new List<string>();
@@ -171,7 +177,7 @@ namespace Nikse.SubtitleEdit.Core.Common
                 return DataDirectoryOverride.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal) ? DataDirectoryOverride : DataDirectoryOverride + Path.DirectorySeparatorChar;
             }
 
-            var appDataRoamingPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Subtitle Edit");
+            var appDataRoamingPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Subtitle Edit - Daglo");
             if (IsRunningOnLinux || IsRunningOnMac)
             {
                 if (!Directory.Exists(appDataRoamingPath) && !File.Exists(Path.Combine(BaseDirectory, ".PACKAGE-MANAGER")))

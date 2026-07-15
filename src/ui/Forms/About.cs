@@ -31,12 +31,12 @@ namespace Nikse.SubtitleEdit.Forms
 
             if (revisionNumber == "0" || revisionNumber == "1") // don't append build number for rev 0 - and also 1 in case first build goes wrong
             {
-                labelProduct.Text = $"{_languageGeneral.Title} {versionInfo[0]}.{versionInfo[1]}.{versionInfo[2]}";
+                labelProduct.Text = $"{_languageGeneral.Title} {Configuration.DagloVersion} (SE {versionInfo[0]}.{versionInfo[1]}.{versionInfo[2]})";
                 linkLabelGitBuildHash.Hide();
             }
             else
             {
-                labelProduct.Text = $"{_languageGeneral.Title} {versionInfo[0]}.{versionInfo[1]}.{versionInfo[2]} NEXT, beta";
+                labelProduct.Text = $"{_languageGeneral.Title} {Configuration.DagloVersion} (SE {versionInfo[0]}.{versionInfo[1]}.{versionInfo[2]} NEXT, beta)";
                 linkLabelGitBuildHash.Left = labelProduct.Left + labelProduct.Width;
                 linkLabelGitBuildHash.Text = revisionNumber;
                 tooltip.SetToolTip(linkLabelGitBuildHash, GetGitHubHashLink());

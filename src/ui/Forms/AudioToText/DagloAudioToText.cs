@@ -33,7 +33,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private readonly List<string> _filesToDelete;
         private readonly Form _parentForm;
         private bool _useCenterChannelOnly;
-        private int _initialWidth = 725;
         private readonly Regex _timeRegexShort = new Regex(@"^\[\d\d:\d\d[\.,]\d\d\d --> \d\d:\d\d[\.,]\d\d\d\]", RegexOptions.Compiled);
         private readonly Regex _timeRegexLong = new Regex(@"^\[\d\d:\d\d:\d\d[\.,]\d\d\d --> \d\d:\d\d:\d\d[\.,]\d\d\d]", RegexOptions.Compiled);
         private readonly Regex _pctWhisper = new Regex(@"^\d+%\|", RegexOptions.Compiled);
@@ -1216,14 +1215,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         private void ShowHideBatchMode()
         {
-            int bottom = 100;
             if (_batchMode)
             {
                 EnableGroupBoxInputFiles(true);
-                Height = bottom + progressBar1.Height + buttonCancel.Height + 470;
                 listViewInputFiles.Visible = true;
                 buttonBatchMode.Text = LanguageSettings.Current.Split.Basic;
-                //MinimumSize = new Size(MinimumSize.Width, Height - 75);
                 FormBorderStyle = FormBorderStyle.Sizable;
                 MaximizeBox = true;
                 MinimizeBox = true;
@@ -1231,10 +1227,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             else
             {
                 EnableGroupBoxInputFiles(false);
-                var h = bottom + progressBar1.Height + buttonCancel.Height + 110;
-                //MinimumSize = new Size(MinimumSize.Width, h - 10);
-                Height = h;
-                Width = _initialWidth;
                 listViewInputFiles.Visible = false;
                 buttonBatchMode.Text = LanguageSettings.Current.AudioToText.BatchMode;
                 FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -1252,7 +1244,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private void AudioToText_Shown(object sender, EventArgs e)
         {
             buttonGenerate.Focus();
-            _initialWidth = Width;
 
             AudioToText_ResizeEnd(null, null);
         }

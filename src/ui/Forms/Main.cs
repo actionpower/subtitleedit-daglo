@@ -234,7 +234,7 @@ namespace Nikse.SubtitleEdit.Forms
                 if (_title == null)
                 {
                     var versionInfo = Utilities.AssemblyVersion.Split('.');
-                    _title = $"{_languageGeneral.Title} {versionInfo[0]}.{versionInfo[1]}.{versionInfo[2]}";
+                    _title = $"{_languageGeneral.Title} {Configuration.DagloVersion} (SE {versionInfo[0]}.{versionInfo[1]}.{versionInfo[2]})";
                 }
 
                 return _title;
