@@ -75,7 +75,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             Text = LanguageSettings.Current.AudioToText.Title;
             labelInfo.Text = LanguageSettings.Current.AudioToText.DagloInfo;
-            groupBoxModels.Text = LanguageSettings.Current.AudioToText.LanguagesAndModels;
+            groupBoxSettings.Text = LanguageSettings.Current.AudioToText.LanguagesAndModels;
             //labelModel.Text = LanguageSettings.Current.AudioToText.ChooseModel;
             labelChooseLanguage.Text = LanguageSettings.Current.AudioToText.ChooseLanguage;
             labelMaxCharsPerLine.Text = LanguageSettings.Current.Settings.SubtitleLineMaximumLength;

@@ -218,7 +218,7 @@ FFmpeg를 다운로드하고 사용하시겠습니까?</FfmpegNotFound>
     <FixCasing>대/소문자 수정</FixCasing>
     <AddPeriods>마침표 추가</AddPeriods>
     <FixShortDuration>짧은 표시시간 수정</FixShortDuration>
-    <DagloInfo>다글로 오디오로 텍스트 만들기</DagloInfo>
+    <DagloInfo>다글로로 음성 받아쓰기</DagloInfo>
     <DagloWebsite>다글로 웹사이트</DagloWebsite>
   </AudioToText>
   <AssaAttachments>

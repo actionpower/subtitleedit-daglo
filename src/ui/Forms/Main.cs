@@ -6282,6 +6282,7 @@ namespace Nikse.SubtitleEdit.Forms
                 TryLoadIcon(toolStripButtonFileNew, "New");
                 TryLoadIcon(toolStripButtonFileOpen, "Open");
                 TryLoadIcon(toolStripButtonVideoOpen, "OpenVideo");
+                TryLoadIcon(toolStripButtonDaglo, "Daglo");
                 TryLoadIcon(toolStripButtonSave, "Save");
                 TryLoadIcon(toolStripButtonSaveAs, "SaveAs");
                 TryLoadIcon(toolStripButtonFind, "Find");

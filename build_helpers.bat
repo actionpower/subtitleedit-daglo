@@ -29,7 +29,7 @@ GOTO END
 
 
 :UpdateAssemblyInfo
-SET "ToolPath=src\UpdateAssemblyInfo\bin\%ConfigurationName%\UpdateAssemblyInfo.exe"
+SET "ToolPath=src\UpdateAssemblyInfo\bin\%ConfigurationName%\net48\win-x64\UpdateAssemblyInfo.exe"
 IF NOT EXIST "%ToolPath%" (
   ECHO Compile Subtitle Edit first!
   GOTO END

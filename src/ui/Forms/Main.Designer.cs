@@ -54,6 +54,7 @@ namespace Nikse.SubtitleEdit.Forms
             this.toolStripButtonFileNew = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonFileOpen = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonVideoOpen = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonDaglo = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSaveAs = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparatorFindReplace = new Nikse.SubtitleEdit.Controls.ToolStripNikseSeparator();
@@ -691,6 +692,7 @@ namespace Nikse.SubtitleEdit.Forms
             this.toolStripButtonFileNew,
             this.toolStripButtonFileOpen,
             this.toolStripButtonVideoOpen,
+            this.toolStripButtonDaglo,
             this.toolStripButtonSave,
             this.toolStripButtonSaveAs,
             this.toolStripSeparatorFindReplace,
@@ -769,6 +771,19 @@ namespace Nikse.SubtitleEdit.Forms
             this.toolStripButtonVideoOpen.Text = "toolStripButtonOpen";
             this.toolStripButtonVideoOpen.ToolTipText = "Open";
             this.toolStripButtonVideoOpen.Click += new System.EventHandler(this.ToolStripButtonVideoOpenClick);
+            // 
+            // toolStripButtonDaglo
+            // 
+            this.toolStripButtonDaglo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonDaglo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripButtonDaglo.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDaglo.Image")));
+            this.toolStripButtonDaglo.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButtonDaglo.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this.toolStripButtonDaglo.Name = "toolStripButtonDaglo";
+            this.toolStripButtonDaglo.Size = new System.Drawing.Size(36, 35);
+            this.toolStripButtonDaglo.Text = "Daglo audio to text";
+            this.toolStripButtonDaglo.ToolTipText = "Daglo audio to text";
+            this.toolStripButtonDaglo.Click += new System.EventHandler(this.audioToTextDagloToolStripMenuItem_Click);
             // 
             // toolStripButtonSave
             // 
@@ -6584,6 +6599,7 @@ namespace Nikse.SubtitleEdit.Forms
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEvenlyDistributeLines;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemVerifyCompleteness;
         private System.Windows.Forms.ToolStripButton toolStripButtonVideoOpen;
+        private System.Windows.Forms.ToolStripButton toolStripButtonDaglo;
         private System.Windows.Forms.ToolStripMenuItem runWhiperOnParagraphToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem textToSpeechAndAddToVideoToolStripMenuItem;
         private ContextMenuStrip contextMenuStripVideoFileName;
