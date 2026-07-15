@@ -27,8 +27,11 @@
 #endif
 
 #define app_name             "Subtitle Edit - Daglo"
-; Keep in sync with Configuration.DagloVersion (src/libse/Common/Configuration.cs)
-#define daglo_ver            "0.1.0"
+; Daglo version is injected by build.bat via /Ddaglo_ver=... (read from Configuration.DagloVersion).
+; The fallback below is only used when compiling the .iss directly without build.bat.
+#ifndef daglo_ver
+  #define daglo_ver          "0.1.0"
+#endif
 #define app_copyright        "Nikse"
 #define app_copyright_start  "2001"
 #define app_copyright_end    GetDateTimeString('yyyy','','')

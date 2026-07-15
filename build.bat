@@ -114,12 +114,13 @@ IF DEFINED SEVENZIP IF EXIST "%SEVENZIP%" (
   CALL :SubZipFile
 )
 
+CALL :SubGetDagloVersion
 CALL :SubDetectInnoSetup
 IF DEFINED INNOSETUP IF EXIST "%INNOSETUP%" (
   TITLE Compiling installer with Inno Setup...
   ECHO.
-  ECHO Compiling installer with Inno Setup...
-  "%INNOSETUP%" /O"." /Q "installer\Subtitle_Edit_installer.iss"
+  ECHO Compiling installer with Inno Setup (Daglo version %DAGLOVERSION%)...
+  "%INNOSETUP%" /O"." /Q /Ddaglo_ver="%DAGLOVERSION%" "installer\Subtitle_Edit_installer.iss"
   IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 
   ECHO.
@@ -257,6 +258,15 @@ FOR /F delims^=^"^ tokens^=2 %%A IN ('FINDSTR /R /C:"AssemblyVersion" "src\ui\Pr
 )
 REM 3.4.1: 0 from the left and -8 chars from the right
 SET "VERSION=%VERSION:~0,-8%"
+EXIT /B
+
+
+:SubGetDagloVersion
+REM Single source of truth: Configuration.DagloVersion in src\libse\Common\Configuration.cs
+SET "DAGLOVERSION=0.1.0"
+FOR /F delims^=^"^ tokens^=2 %%A IN ('FINDSTR /R /C:"DagloVersion =" "src\libse\Common\Configuration.cs"') DO (
+  SET "DAGLOVERSION=%%A"
+)
 EXIT /B
 
 
