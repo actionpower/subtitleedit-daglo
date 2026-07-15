@@ -105,7 +105,7 @@ SetupIconFile=..\src\ui\Icons\SE.ico
 WizardImageFile=Icons\WizardImageFile.bmp
 WizardSmallImageFile=Icons\WizardSmallImageFile.bmp
 OutputDir=.
-OutputBaseFilename=SubtitleEdit-AI-Previewer-{#app_ver}-Setup
+OutputBaseFilename=SubtitleEdit-Daglo-{#app_ver}-Setup
 AllowNoIcons=yes
 Compression=lzma2/ultra
 InternalCompressLevel=ultra
@@ -186,67 +186,67 @@ Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescript
 Name: associate_common;   Description: {cm:tsk_SetFileTypes};      GroupDescription: {cm:tsk_Other};
 
 [Files]
-Source: ..\Dictionaries\dan_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\deu_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\eng_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\fin_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\fra_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\hrb_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\hrv_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\hun_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\mkd_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\nld_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\nob_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\nor_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\pol_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\por_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\rus_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\spa_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\srp_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\swe_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\da_names.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\de_names.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\en_names.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\es_names.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\fi_names.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\fr_names.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\hr_names.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\nb_names.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\nl_names.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\pt_BR_names.xml;           DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\pt_PT_names.xml;           DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\ru_names.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\names.xml;                 DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\*_NoBreakAfterList.xml;   DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\da_DK_se.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\de_DE_se.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\en_US_se.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\en_US_se.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
-Source: ..\Dictionaries\es_MX_se.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\fi_FI_se.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\nl_NL_se.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\pt_PT_se.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\ru_RU_se.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\it_IT_se.xml;              DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\en_US.aff;                 DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\en_US.dic;                 DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\dan_WordSplitList.txt;     DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\eng_WordSplitList.txt;     DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\fra_WordSplitList.txt;     DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\ita_WordSplitList.txt;     DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\pol_WordSplitList.txt;     DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\spa_WordSplitList.txt;     DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\deu_Nouns.txt;             DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\da_interjections_se.xml;   DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\en_interjections_se.xml;   DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\es_interjections_se.xml;   DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Dictionaries\fr_interjections_se.xml;   DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\dan_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\deu_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\eng_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\fin_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\fra_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\hrb_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\hrv_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\hun_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\mkd_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\nld_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\nob_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\nor_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\pol_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\por_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\rus_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\spa_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\srp_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\swe_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\da_names.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\de_names.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\en_names.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\es_names.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\fi_names.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\fr_names.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\hr_names.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\nb_names.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\nl_names.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\pt_BR_names.xml;           DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\pt_PT_names.xml;           DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\ru_names.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\names.xml;                 DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\*_NoBreakAfterList.xml;   DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\da_DK_se.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\de_DE_se.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\en_US_se.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\en_US_se.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion; Components: main
+Source: ..\Dictionaries\es_MX_se.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\fi_FI_se.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\nl_NL_se.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\pt_PT_se.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\ru_RU_se.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\it_IT_se.xml;              DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\en_US.aff;                 DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\en_US.dic;                 DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\dan_WordSplitList.txt;     DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\eng_WordSplitList.txt;     DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\fra_WordSplitList.txt;     DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\ita_WordSplitList.txt;     DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\pol_WordSplitList.txt;     DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\spa_WordSplitList.txt;     DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\deu_Nouns.txt;             DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\da_interjections_se.xml;   DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\en_interjections_se.xml;   DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\es_interjections_se.xml;   DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Dictionaries\fr_interjections_se.xml;   DestDir: {userappdata}\Subtitle Edit - Daglo\Dictionaries; Flags: ignoreversion onlyifdoesntexist; Components: main
 
 
-Source: ..\Ocr\Latin.db;                           DestDir: {userappdata}\Subtitle Edit\Ocr;          Flags: ignoreversion uninsneveruninstall onlyifdoesntexist; Components: main
-Source: ..\Ocr\Latin.nocr;                         DestDir: {userappdata}\Subtitle Edit\Ocr;          Flags: ignoreversion uninsneveruninstall onlyifdoesntexist; Components: main
+Source: ..\Ocr\Latin.db;                           DestDir: {userappdata}\Subtitle Edit - Daglo\Ocr;          Flags: ignoreversion uninsneveruninstall onlyifdoesntexist; Components: main
+Source: ..\Ocr\Latin.nocr;                         DestDir: {userappdata}\Subtitle Edit - Daglo\Ocr;          Flags: ignoreversion uninsneveruninstall onlyifdoesntexist; Components: main
 
-Source: ..\preview.mkv;                            DestDir: {userappdata}\Subtitle Edit;              Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\preview.mkv;                            DestDir: {userappdata}\Subtitle Edit - Daglo;              Flags: ignoreversion onlyifdoesntexist; Components: main
 
 Source: ..\Icons\ass.ico;                          DestDir: {app}\Icons;                              Flags: ignoreversion onlyifdoesntexist; Components: main
 Source: ..\Icons\dfxp.ico;                         DestDir: {app}\Icons;                              Flags: ignoreversion onlyifdoesntexist; Components: main
@@ -261,16 +261,16 @@ Source: ..\Icons\vtt.ico;                          DestDir: {app}\Icons;        
 Source: ..\Icons\smi.ico;                          DestDir: {app}\Icons;                              Flags: ignoreversion onlyifdoesntexist; Components: main
 Source: ..\Icons\itt.ico;                          DestDir: {app}\Icons;                              Flags: ignoreversion onlyifdoesntexist; Components: main
 
-Source: ..\Icons\*.png;                            DestDir: {userappdata}\Subtitle Edit\Icons;              Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Icons\DarkTheme\*.png;                  DestDir: {userappdata}\Subtitle Edit\Icons\DarkTheme;    Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Icons\DefaultTheme\*.png;               DestDir: {userappdata}\Subtitle Edit\Icons\DefaultTheme; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Icons\Legacy\*.png;                     DestDir: {userappdata}\Subtitle Edit\Icons\Legacy;       Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Icons\Black\*.png;                      DestDir: {userappdata}\Subtitle Edit\Icons\Black;        Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Icons\*.png;                            DestDir: {userappdata}\Subtitle Edit - Daglo\Icons;              Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Icons\DarkTheme\*.png;                  DestDir: {userappdata}\Subtitle Edit - Daglo\Icons\DarkTheme;    Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Icons\DefaultTheme\*.png;               DestDir: {userappdata}\Subtitle Edit - Daglo\Icons\DefaultTheme; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Icons\Legacy\*.png;                     DestDir: {userappdata}\Subtitle Edit - Daglo\Icons\Legacy;       Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Icons\Black\*.png;                      DestDir: {userappdata}\Subtitle Edit - Daglo\Icons\Black;        Flags: ignoreversion onlyifdoesntexist; Components: main
 
-Source: ..\Icons\DarkTheme\VideoPlayer\*.png;      DestDir: {userappdata}\Subtitle Edit\Icons\DarkTheme\VideoPlayer;    Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Icons\DefaultTheme\VideoPlayer\*.png;   DestDir: {userappdata}\Subtitle Edit\Icons\DefaultTheme\VideoPlayer; Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Icons\Legacy\VideoPlayer\*.png;         DestDir: {userappdata}\Subtitle Edit\Icons\Legacy\VideoPlayer;       Flags: ignoreversion onlyifdoesntexist; Components: main
-Source: ..\Icons\Black\VideoPlayer\*.png;          DestDir: {userappdata}\Subtitle Edit\Icons\Black\VideoPlayer;        Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Icons\DarkTheme\VideoPlayer\*.png;      DestDir: {userappdata}\Subtitle Edit - Daglo\Icons\DarkTheme\VideoPlayer;    Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Icons\DefaultTheme\VideoPlayer\*.png;   DestDir: {userappdata}\Subtitle Edit - Daglo\Icons\DefaultTheme\VideoPlayer; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Icons\Legacy\VideoPlayer\*.png;         DestDir: {userappdata}\Subtitle Edit - Daglo\Icons\Legacy\VideoPlayer;       Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Icons\Black\VideoPlayer\*.png;          DestDir: {userappdata}\Subtitle Edit - Daglo\Icons\Black\VideoPlayer;        Flags: ignoreversion onlyifdoesntexist; Components: main
 
 #ifdef localize
 Source: {#bindir}\Languages\ar-EG.xml;             DestDir: {app}\Languages;                          Flags: ignoreversion; Components: translations
@@ -377,7 +377,7 @@ Name: {#quick_launch}\Subtitle Edit;        Filename: {app}\SubtitleEdit.exe; Wo
 Type: files;      Name: {userdesktop}\Subtitle Edit.lnk;   Check: not IsTaskSelected('desktopicon\user')   and IsUpgrade()
 Type: files;      Name: {commondesktop}\Subtitle Edit.lnk; Check: not IsTaskSelected('desktopicon\common') and IsUpgrade()
 Type: files;      Name: {#quick_launch}\Subtitle Edit.lnk; Check: not IsTaskSelected('quicklaunchicon')    and IsUpgrade(); OnlyBelowVersion: 6.01
-Type: files;      Name: {userappdata}\Subtitle Edit\Settings.xml; Tasks: reset_settings
+Type: files;      Name: {userappdata}\Subtitle Edit - Daglo\Settings.xml; Tasks: reset_settings
 Type: files;      Name: {app}\libse.dll;                              Check: IsUpgrade()
 Type: files;      Name: {app}\zlib.net.dll;                           Check: IsUpgrade()
 Type: files;      Name: {app}\NHunspell.dll;                          Check: IsUpgrade()
@@ -623,7 +623,7 @@ end;
 // Check if Subtitle Edit's settings exist
 function SettingsExist(): Boolean;
 begin
-  Result := FileExists(ExpandConstant('{userappdata}\Subtitle Edit\Settings.xml'));
+  Result := FileExists(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Settings.xml'));
 end;
 
 
@@ -632,9 +632,9 @@ function DictionariesExist(): Boolean;
 var
   FindRec: TFindRec;
 begin
-  if FindFirst(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\*.aff'), FindRec) or
-     FindFirst(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\*.dic'), FindRec) or
-     FindFirst(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\*.xml'), FindRec) then
+  if FindFirst(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\*.aff'), FindRec) or
+     FindFirst(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\*.dic'), FindRec) or
+     FindFirst(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\*.xml'), FindRec) then
   begin
     Result := True;
     FindClose(FindRec);
@@ -698,55 +698,55 @@ end;
 
 procedure CleanUpDictionaries();
 begin
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\dan_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\deu_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\eng_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\fin_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\fra_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\hrb_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\hrv_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\hun_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\mkd_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\nld_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\nob_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\nor_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\pol_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\por_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\rus_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\spa_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\srp_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\swe_OCRFixReplaceList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\da_names.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\de_names.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\en_names.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\es_names.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\fi_names.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\fr_names.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\hr_names.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\nb_names.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\nl_names.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\no_names.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\pt_names.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\ru_names.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\names.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\*_NoBreakAfterList.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\da_DK_se.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\de_DE_se.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\en_US_se.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\en_US_se.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\es_MX_se.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\fi_FI_se.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\nl_NL_se.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\pt_PT_se.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\ru_RU_se.xml'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\it_IT_se.xml'));
-  DelTree(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\???_OCRFixReplaceList_User.xml'), False, True, False);
-  DelTree(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\*.dic'), False, True, False);
-  DelTree(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries\*.aff'), False, True, False);
-  RemoveDir(ExpandConstant('{userappdata}\Subtitle Edit\Dictionaries'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Ocr\Latin.db'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Ocr\Latin.nocr'));
-  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\preview.mkv'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\dan_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\deu_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\eng_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\fin_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\fra_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\hrb_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\hrv_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\hun_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\mkd_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\nld_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\nob_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\nor_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\pol_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\por_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\rus_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\spa_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\srp_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\swe_OCRFixReplaceList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\da_names.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\de_names.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\en_names.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\es_names.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\fi_names.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\fr_names.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\hr_names.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\nb_names.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\nl_names.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\no_names.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\pt_names.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\ru_names.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\names.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\*_NoBreakAfterList.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\da_DK_se.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\de_DE_se.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\en_US_se.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\en_US_se.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\es_MX_se.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\fi_FI_se.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\nl_NL_se.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\pt_PT_se.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\ru_RU_se.xml'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\it_IT_se.xml'));
+  DelTree(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\???_OCRFixReplaceList_User.xml'), False, True, False);
+  DelTree(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\*.dic'), False, True, False);
+  DelTree(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries\*.aff'), False, True, False);
+  RemoveDir(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Dictionaries'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Ocr\Latin.db'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Ocr\Latin.nocr'));
+  DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\preview.mkv'));
   DeleteFile(ExpandConstant('{app}\Icons\ass.ico'));
   DeleteFile(ExpandConstant('{app}\Icons\dfxp.ico'));
   DeleteFile(ExpandConstant('{app}\Icons\lrc.ico'));
@@ -761,12 +761,12 @@ begin
   DeleteFile(ExpandConstant('{app}\Icons\itt.ico'));
   DelTree(ExpandConstant('{app}\Icons'), True, True, True);
   RemoveDir(ExpandConstant('{app}\Icons'));
-  DelTree(ExpandConstant('{userappdata}\Subtitle Edit\Ocr\*.*'), False, True, False);
-  RemoveDir(ExpandConstant('{userappdata}\Subtitle Edit\Ocr'));
-  DelTree(ExpandConstant('{userappdata}\Subtitle Edit\Plugins\*.*'), False, True, False);
-  RemoveDir(ExpandConstant('{userappdata}\Subtitle Edit\Plugins'));
-  DelTree(ExpandConstant('{userappdata}\Subtitle Edit\Icons\*.*'), False, True, False);
-  RemoveDir(ExpandConstant('{userappdata}\Subtitle Edit\Icons'));
+  DelTree(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Ocr\*.*'), False, True, False);
+  RemoveDir(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Ocr'));
+  DelTree(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Plugins\*.*'), False, True, False);
+  RemoveDir(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Plugins'));
+  DelTree(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Icons\*.*'), False, True, False);
+  RemoveDir(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Icons'));
 end;
 
 
@@ -817,10 +817,10 @@ begin
       if SuppressibleMsgBox(CustomMessage('msg_DeleteSettings'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2, IDNO) = IDYES then
       begin
         CleanUpDictionaries();
-        DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit\Settings.xml'));
+        DeleteFile(ExpandConstant('{userappdata}\Subtitle Edit - Daglo\Settings.xml'));
       end;
 
-      DelTree(ExpandConstant('{userappdata}\Subtitle Edit'), True, True, True);
+      DelTree(ExpandConstant('{userappdata}\Subtitle Edit - Daglo'), True, True, True);
     end;
   end;
 end;
