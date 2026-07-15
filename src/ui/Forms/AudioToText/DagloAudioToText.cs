@@ -146,8 +146,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 toolStripSeparatorRunOnlyPostprocessing.Visible = true;
             }
 
-            textBoxLog.Visible = false;
-            textBoxLog.Dock = DockStyle.Fill;
+            //textBoxLog.Visible = false;
+            //textBoxLog.Dock = DockStyle.Fill;
             labelProgress.Text = string.Empty;
             labelTime.Text = string.Empty;
             listViewInputFiles.Visible = false;
@@ -1223,7 +1223,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 Height = bottom + progressBar1.Height + buttonCancel.Height + 470;
                 listViewInputFiles.Visible = true;
                 buttonBatchMode.Text = LanguageSettings.Current.Split.Basic;
-                MinimumSize = new Size(MinimumSize.Width, Height - 75);
+                //MinimumSize = new Size(MinimumSize.Width, Height - 75);
                 FormBorderStyle = FormBorderStyle.Sizable;
                 MaximizeBox = true;
                 MinimizeBox = true;
@@ -1232,7 +1232,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             {
                 EnableGroupBoxInputFiles(false);
                 var h = bottom + progressBar1.Height + buttonCancel.Height + 110;
-                MinimumSize = new Size(MinimumSize.Width, h - 10);
+                //MinimumSize = new Size(MinimumSize.Width, h - 10);
                 Height = h;
                 Width = _initialWidth;
                 listViewInputFiles.Visible = false;
@@ -1513,6 +1513,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             {
                 Debug.WriteLine($"... {subtitle.Paragraphs.Count - 5} more");
             }
+        }
+
+        private void linkLabelDaglo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            UiUtil.OpenUrl(DagloHelper.GetWebSiteUrl());
         }
     }
 }

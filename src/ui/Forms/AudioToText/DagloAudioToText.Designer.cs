@@ -29,6 +29,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DagloAudioToText));
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonGenerate = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -44,12 +45,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.labelTime = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.buttonBatchMode = new System.Windows.Forms.Button();
-            this.groupBoxInputFiles = new System.Windows.Forms.GroupBox();
-            this.buttonClear = new System.Windows.Forms.Button();
-            this.buttonRemoveFile = new System.Windows.Forms.Button();
-            this.buttonAddFile = new System.Windows.Forms.Button();
-            this.listViewInputFiles = new System.Windows.Forms.ListView();
-            this.columnHeaderFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.labelFC = new System.Windows.Forms.Label();
             this.labelElapsed = new System.Windows.Forms.Label();
             this.contextMenuStripWhisperAdvanced = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -58,15 +53,24 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.removeTemporaryFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadNvidiaCudaForCPPCuBLASToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showWhisperlogtxtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.linkLabelDaglo = new System.Windows.Forms.LinkLabel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.checkBoxAutoAdjustTimings = new System.Windows.Forms.CheckBox();
+            this.listViewInputFiles = new System.Windows.Forms.ListView();
+            this.columnHeaderFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.buttonAddFile = new System.Windows.Forms.Button();
+            this.buttonRemoveFile = new System.Windows.Forms.Button();
+            this.buttonClear = new System.Windows.Forms.Button();
+            this.groupBoxInputFiles = new System.Windows.Forms.GroupBox();
             this.nikseTextBoxApiKey = new Nikse.SubtitleEdit.Controls.NikseTextBox();
             this.comboBoxLanguages = new Nikse.SubtitleEdit.Controls.NikseComboBox();
             this.textBoxLog = new Nikse.SubtitleEdit.Controls.NikseTextBox();
             this.groupBoxSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxCharsPerLine)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLines)).BeginInit();
-            this.groupBoxInputFiles.SuspendLayout();
             this.contextMenuStripWhisperAdvanced.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBoxInputFiles.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonCancel
@@ -74,10 +78,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonCancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonCancel.Location = new System.Drawing.Point(635, 200);
-            this.buttonCancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.buttonCancel.Location = new System.Drawing.Point(519, 300);
+            this.buttonCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(111, 21);
+            this.buttonCancel.Size = new System.Drawing.Size(111, 33);
             this.buttonCancel.TabIndex = 94;
             this.buttonCancel.Text = "C&ancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -87,10 +91,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             this.buttonGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonGenerate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonGenerate.Location = new System.Drawing.Point(483, 200);
-            this.buttonGenerate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.buttonGenerate.Location = new System.Drawing.Point(367, 300);
+            this.buttonGenerate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonGenerate.Name = "buttonGenerate";
-            this.buttonGenerate.Size = new System.Drawing.Size(146, 21);
+            this.buttonGenerate.Size = new System.Drawing.Size(146, 33);
             this.buttonGenerate.TabIndex = 90;
             this.buttonGenerate.Text = "&Generate";
             this.buttonGenerate.UseVisualStyleBackColor = true;
@@ -100,10 +104,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(14, 200);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.progressBar1.Location = new System.Drawing.Point(14, 300);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(324, 11);
+            this.progressBar1.Size = new System.Drawing.Size(285, 14);
             this.progressBar1.TabIndex = 7;
             this.progressBar1.Visible = false;
             // 
@@ -111,20 +115,20 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             this.labelProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelProgress.AutoSize = true;
-            this.labelProgress.Location = new System.Drawing.Point(14, 183);
+            this.labelProgress.Location = new System.Drawing.Point(14, 279);
             this.labelProgress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelProgress.Name = "labelProgress";
-            this.labelProgress.Size = new System.Drawing.Size(83, 12);
+            this.labelProgress.Size = new System.Drawing.Size(77, 15);
             this.labelProgress.TabIndex = 6;
             this.labelProgress.Text = "labelProgress";
             // 
             // labelInfo
             // 
             this.labelInfo.AutoSize = true;
-            this.labelInfo.Location = new System.Drawing.Point(14, 10);
+            this.labelInfo.Location = new System.Drawing.Point(59, 19);
             this.labelInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelInfo.Name = "labelInfo";
-            this.labelInfo.Size = new System.Drawing.Size(312, 12);
+            this.labelInfo.Size = new System.Drawing.Size(303, 15);
             this.labelInfo.TabIndex = 1;
             this.labelInfo.Text = "Generate text from audio via Daglo speech recognition";
             // 
@@ -140,11 +144,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.groupBoxSettings.Controls.Add(this.numericUpDownMaxCharsPerLine);
             this.groupBoxSettings.Controls.Add(this.labelMaxLines);
             this.groupBoxSettings.Controls.Add(this.numericUpDownMaxLines);
-            this.groupBoxSettings.Location = new System.Drawing.Point(18, 41);
-            this.groupBoxSettings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBoxSettings.Location = new System.Drawing.Point(17, 87);
+            this.groupBoxSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBoxSettings.Name = "groupBoxSettings";
-            this.groupBoxSettings.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBoxSettings.Size = new System.Drawing.Size(731, 124);
+            this.groupBoxSettings.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxSettings.Size = new System.Drawing.Size(615, 145);
             this.groupBoxSettings.TabIndex = 10;
             this.groupBoxSettings.TabStop = false;
             this.groupBoxSettings.Text = "Settings";
@@ -152,10 +156,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // labelChooseLanguage
             // 
             this.labelChooseLanguage.AutoSize = true;
-            this.labelChooseLanguage.Location = new System.Drawing.Point(13, 63);
+            this.labelChooseLanguage.Location = new System.Drawing.Point(16, 79);
             this.labelChooseLanguage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelChooseLanguage.Name = "labelChooseLanguage";
-            this.labelChooseLanguage.Size = new System.Drawing.Size(105, 12);
+            this.labelChooseLanguage.Size = new System.Drawing.Size(100, 15);
             this.labelChooseLanguage.TabIndex = 4;
             this.labelChooseLanguage.Text = "Choose language";
             // 
@@ -163,10 +167,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             this.labelApiKey.AutoSize = true;
             this.labelApiKey.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.labelApiKey.Location = new System.Drawing.Point(16, 30);
+            this.labelApiKey.Location = new System.Drawing.Point(16, 36);
             this.labelApiKey.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelApiKey.Name = "labelApiKey";
-            this.labelApiKey.Size = new System.Drawing.Size(48, 12);
+            this.labelApiKey.Size = new System.Drawing.Size(47, 15);
             this.labelApiKey.TabIndex = 96;
             this.labelApiKey.Text = "API key";
             // 
@@ -174,25 +178,25 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             this.labelMaxCharsPerLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelMaxCharsPerLine.AutoSize = true;
-            this.labelMaxCharsPerLine.Location = new System.Drawing.Point(510, 63);
+            this.labelMaxCharsPerLine.Location = new System.Drawing.Point(394, 79);
             this.labelMaxCharsPerLine.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelMaxCharsPerLine.Name = "labelMaxCharsPerLine";
-            this.labelMaxCharsPerLine.Size = new System.Drawing.Size(135, 12);
+            this.labelMaxCharsPerLine.Size = new System.Drawing.Size(131, 15);
             this.labelMaxCharsPerLine.TabIndex = 5;
             this.labelMaxCharsPerLine.Text = "Single line max. length";
             // 
             // numericUpDownMaxCharsPerLine
             // 
             this.numericUpDownMaxCharsPerLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericUpDownMaxCharsPerLine.Location = new System.Drawing.Point(653, 60);
-            this.numericUpDownMaxCharsPerLine.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.numericUpDownMaxCharsPerLine.Location = new System.Drawing.Point(537, 75);
+            this.numericUpDownMaxCharsPerLine.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDownMaxCharsPerLine.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.numericUpDownMaxCharsPerLine.Name = "numericUpDownMaxCharsPerLine";
-            this.numericUpDownMaxCharsPerLine.Size = new System.Drawing.Size(70, 21);
+            this.numericUpDownMaxCharsPerLine.Size = new System.Drawing.Size(70, 23);
             this.numericUpDownMaxCharsPerLine.TabIndex = 1;
             this.numericUpDownMaxCharsPerLine.Value = new decimal(new int[] {
             25,
@@ -204,18 +208,18 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             this.labelMaxLines.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelMaxLines.AutoSize = true;
-            this.labelMaxLines.Location = new System.Drawing.Point(519, 89);
+            this.labelMaxLines.Location = new System.Drawing.Point(394, 105);
             this.labelMaxLines.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelMaxLines.Name = "labelMaxLines";
-            this.labelMaxLines.Size = new System.Drawing.Size(126, 12);
+            this.labelMaxLines.Size = new System.Drawing.Size(122, 15);
             this.labelMaxLines.TabIndex = 6;
             this.labelMaxLines.Text = "Max. number of lines";
             // 
             // numericUpDownMaxLines
             // 
             this.numericUpDownMaxLines.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericUpDownMaxLines.Location = new System.Drawing.Point(653, 87);
-            this.numericUpDownMaxLines.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.numericUpDownMaxLines.Location = new System.Drawing.Point(537, 103);
+            this.numericUpDownMaxLines.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDownMaxLines.Maximum = new decimal(new int[] {
             10,
             0,
@@ -227,7 +231,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             0,
             0});
             this.numericUpDownMaxLines.Name = "numericUpDownMaxLines";
-            this.numericUpDownMaxLines.Size = new System.Drawing.Size(68, 21);
+            this.numericUpDownMaxLines.Size = new System.Drawing.Size(70, 23);
             this.numericUpDownMaxLines.TabIndex = 2;
             this.numericUpDownMaxLines.Value = new decimal(new int[] {
             2,
@@ -239,10 +243,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             this.labelTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelTime.AutoSize = true;
-            this.labelTime.Location = new System.Drawing.Point(14, 214);
+            this.labelTime.Location = new System.Drawing.Point(14, 318);
             this.labelTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTime.Name = "labelTime";
-            this.labelTime.Size = new System.Drawing.Size(105, 12);
+            this.labelTime.Size = new System.Drawing.Size(101, 15);
             this.labelTime.TabIndex = 6;
             this.labelTime.Text = "Remaining time...";
             // 
@@ -254,105 +258,24 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             this.buttonBatchMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonBatchMode.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonBatchMode.Location = new System.Drawing.Point(345, 200);
-            this.buttonBatchMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.buttonBatchMode.Location = new System.Drawing.Point(655, 253);
+            this.buttonBatchMode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonBatchMode.Name = "buttonBatchMode";
-            this.buttonBatchMode.Size = new System.Drawing.Size(131, 21);
+            this.buttonBatchMode.Size = new System.Drawing.Size(131, 26);
             this.buttonBatchMode.TabIndex = 92;
             this.buttonBatchMode.Text = "Batch mode";
             this.buttonBatchMode.UseVisualStyleBackColor = true;
             this.buttonBatchMode.Visible = false;
             this.buttonBatchMode.Click += new System.EventHandler(this.buttonBatchMode_Click);
             // 
-            // groupBoxInputFiles
-            // 
-            this.groupBoxInputFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxInputFiles.Controls.Add(this.buttonClear);
-            this.groupBoxInputFiles.Controls.Add(this.buttonRemoveFile);
-            this.groupBoxInputFiles.Controls.Add(this.buttonAddFile);
-            this.groupBoxInputFiles.Controls.Add(this.listViewInputFiles);
-            this.groupBoxInputFiles.Location = new System.Drawing.Point(18, 253);
-            this.groupBoxInputFiles.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBoxInputFiles.Name = "groupBoxInputFiles";
-            this.groupBoxInputFiles.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBoxInputFiles.Size = new System.Drawing.Size(729, 0);
-            this.groupBoxInputFiles.TabIndex = 30;
-            this.groupBoxInputFiles.TabStop = false;
-            this.groupBoxInputFiles.Text = "Input files";
-            this.groupBoxInputFiles.Visible = false;
-            // 
-            // buttonClear
-            // 
-            this.buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonClear.Location = new System.Drawing.Point(635, 67);
-            this.buttonClear.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(86, 21);
-            this.buttonClear.TabIndex = 3;
-            this.buttonClear.Text = "Clear";
-            this.buttonClear.UseVisualStyleBackColor = true;
-            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
-            // 
-            // buttonRemoveFile
-            // 
-            this.buttonRemoveFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonRemoveFile.Location = new System.Drawing.Point(636, 43);
-            this.buttonRemoveFile.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonRemoveFile.Name = "buttonRemoveFile";
-            this.buttonRemoveFile.Size = new System.Drawing.Size(86, 21);
-            this.buttonRemoveFile.TabIndex = 2;
-            this.buttonRemoveFile.Text = "Remove";
-            this.buttonRemoveFile.UseVisualStyleBackColor = true;
-            this.buttonRemoveFile.Click += new System.EventHandler(this.buttonRemoveFile_Click);
-            // 
-            // buttonAddFile
-            // 
-            this.buttonAddFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAddFile.Location = new System.Drawing.Point(636, 17);
-            this.buttonAddFile.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonAddFile.Name = "buttonAddFile";
-            this.buttonAddFile.Size = new System.Drawing.Size(85, 21);
-            this.buttonAddFile.TabIndex = 1;
-            this.buttonAddFile.Text = "Add...";
-            this.buttonAddFile.UseVisualStyleBackColor = true;
-            this.buttonAddFile.Click += new System.EventHandler(this.buttonAddFile_Click);
-            // 
-            // listViewInputFiles
-            // 
-            this.listViewInputFiles.AllowDrop = true;
-            this.listViewInputFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listViewInputFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeaderFileName});
-            this.listViewInputFiles.FullRowSelect = true;
-            this.listViewInputFiles.HideSelection = false;
-            this.listViewInputFiles.Location = new System.Drawing.Point(7, 17);
-            this.listViewInputFiles.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.listViewInputFiles.Name = "listViewInputFiles";
-            this.listViewInputFiles.Size = new System.Drawing.Size(622, 1);
-            this.listViewInputFiles.TabIndex = 0;
-            this.listViewInputFiles.UseCompatibleStateImageBehavior = false;
-            this.listViewInputFiles.View = System.Windows.Forms.View.Details;
-            this.listViewInputFiles.DragDrop += new System.Windows.Forms.DragEventHandler(this.listViewInputFiles_DragDrop);
-            this.listViewInputFiles.DragEnter += new System.Windows.Forms.DragEventHandler(this.listViewInputFiles_DragEnter);
-            this.listViewInputFiles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listViewInputFiles_KeyDown);
-            // 
-            // columnHeaderFileName
-            // 
-            this.columnHeaderFileName.Text = "File name";
-            this.columnHeaderFileName.Width = 455;
-            // 
             // labelFC
             // 
             this.labelFC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.labelFC.ForeColor = System.Drawing.Color.Gray;
-            this.labelFC.Location = new System.Drawing.Point(198, 214);
+            this.labelFC.Location = new System.Drawing.Point(159, 318);
             this.labelFC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelFC.Name = "labelFC";
-            this.labelFC.Size = new System.Drawing.Size(140, 16);
+            this.labelFC.Size = new System.Drawing.Size(140, 20);
             this.labelFC.TabIndex = 19;
             this.labelFC.Text = "labelFC";
             this.labelFC.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -360,10 +283,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // labelElapsed
             // 
             this.labelElapsed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelElapsed.Location = new System.Drawing.Point(161, 183);
+            this.labelElapsed.Location = new System.Drawing.Point(122, 279);
             this.labelElapsed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelElapsed.Name = "labelElapsed";
-            this.labelElapsed.Size = new System.Drawing.Size(177, 12);
+            this.labelElapsed.Size = new System.Drawing.Size(177, 15);
             this.labelElapsed.TabIndex = 22;
             this.labelElapsed.Text = "labelElapsed";
             this.labelElapsed.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -413,29 +336,132 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.showWhisperlogtxtToolStripMenuItem.Text = "Show whisper_log.txt";
             this.showWhisperlogtxtToolStripMenuItem.Click += new System.EventHandler(this.ShowWhisperLogFileToolStripMenuItem_Click);
             // 
+            // linkLabelDaglo
+            // 
+            this.linkLabelDaglo.AutoSize = true;
+            this.linkLabelDaglo.Location = new System.Drawing.Point(59, 39);
+            this.linkLabelDaglo.Name = "linkLabelDaglo";
+            this.linkLabelDaglo.Size = new System.Drawing.Size(89, 15);
+            this.linkLabelDaglo.TabIndex = 95;
+            this.linkLabelDaglo.TabStop = true;
+            this.linkLabelDaglo.Text = "https://daglo.ai";
+            this.linkLabelDaglo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelDaglo_LinkClicked);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(19, 19);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(34, 42);
+            this.pictureBox1.TabIndex = 96;
+            this.pictureBox1.TabStop = false;
+            // 
             // checkBoxAutoAdjustTimings
             // 
             this.checkBoxAutoAdjustTimings.AutoSize = true;
             this.checkBoxAutoAdjustTimings.Checked = true;
             this.checkBoxAutoAdjustTimings.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAutoAdjustTimings.Location = new System.Drawing.Point(18, 159);
-            this.checkBoxAutoAdjustTimings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.checkBoxAutoAdjustTimings.Location = new System.Drawing.Point(24, 28);
+            this.checkBoxAutoAdjustTimings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBoxAutoAdjustTimings.Name = "checkBoxAutoAdjustTimings";
-            this.checkBoxAutoAdjustTimings.Size = new System.Drawing.Size(132, 16);
+            this.checkBoxAutoAdjustTimings.Size = new System.Drawing.Size(132, 19);
             this.checkBoxAutoAdjustTimings.TabIndex = 21;
             this.checkBoxAutoAdjustTimings.Text = "Auto adjust timings";
             this.checkBoxAutoAdjustTimings.UseVisualStyleBackColor = true;
             this.checkBoxAutoAdjustTimings.Visible = false;
+            // 
+            // listViewInputFiles
+            // 
+            this.listViewInputFiles.AllowDrop = true;
+            this.listViewInputFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewInputFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderFileName});
+            this.listViewInputFiles.FullRowSelect = true;
+            this.listViewInputFiles.HideSelection = false;
+            this.listViewInputFiles.Location = new System.Drawing.Point(5, 55);
+            this.listViewInputFiles.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listViewInputFiles.Name = "listViewInputFiles";
+            this.listViewInputFiles.Size = new System.Drawing.Size(506, 26);
+            this.listViewInputFiles.TabIndex = 0;
+            this.listViewInputFiles.UseCompatibleStateImageBehavior = false;
+            this.listViewInputFiles.View = System.Windows.Forms.View.Details;
+            this.listViewInputFiles.DragDrop += new System.Windows.Forms.DragEventHandler(this.listViewInputFiles_DragDrop);
+            this.listViewInputFiles.DragEnter += new System.Windows.Forms.DragEventHandler(this.listViewInputFiles_DragEnter);
+            this.listViewInputFiles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listViewInputFiles_KeyDown);
+            // 
+            // columnHeaderFileName
+            // 
+            this.columnHeaderFileName.Text = "File name";
+            this.columnHeaderFileName.Width = 455;
+            // 
+            // buttonAddFile
+            // 
+            this.buttonAddFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAddFile.Location = new System.Drawing.Point(520, 21);
+            this.buttonAddFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonAddFile.Name = "buttonAddFile";
+            this.buttonAddFile.Size = new System.Drawing.Size(85, 26);
+            this.buttonAddFile.TabIndex = 1;
+            this.buttonAddFile.Text = "Add...";
+            this.buttonAddFile.UseVisualStyleBackColor = true;
+            this.buttonAddFile.Click += new System.EventHandler(this.buttonAddFile_Click);
+            // 
+            // buttonRemoveFile
+            // 
+            this.buttonRemoveFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonRemoveFile.Location = new System.Drawing.Point(520, 54);
+            this.buttonRemoveFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonRemoveFile.Name = "buttonRemoveFile";
+            this.buttonRemoveFile.Size = new System.Drawing.Size(86, 26);
+            this.buttonRemoveFile.TabIndex = 2;
+            this.buttonRemoveFile.Text = "Remove";
+            this.buttonRemoveFile.UseVisualStyleBackColor = true;
+            this.buttonRemoveFile.Click += new System.EventHandler(this.buttonRemoveFile_Click);
+            // 
+            // buttonClear
+            // 
+            this.buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonClear.Location = new System.Drawing.Point(519, 84);
+            this.buttonClear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonClear.Name = "buttonClear";
+            this.buttonClear.Size = new System.Drawing.Size(86, 26);
+            this.buttonClear.TabIndex = 3;
+            this.buttonClear.Text = "Clear";
+            this.buttonClear.UseVisualStyleBackColor = true;
+            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+            // 
+            // groupBoxInputFiles
+            // 
+            this.groupBoxInputFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxInputFiles.Controls.Add(this.buttonClear);
+            this.groupBoxInputFiles.Controls.Add(this.buttonRemoveFile);
+            this.groupBoxInputFiles.Controls.Add(this.buttonAddFile);
+            this.groupBoxInputFiles.Controls.Add(this.listViewInputFiles);
+            this.groupBoxInputFiles.Controls.Add(this.checkBoxAutoAdjustTimings);
+            this.groupBoxInputFiles.Location = new System.Drawing.Point(757, 19);
+            this.groupBoxInputFiles.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxInputFiles.Name = "groupBoxInputFiles";
+            this.groupBoxInputFiles.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxInputFiles.Size = new System.Drawing.Size(613, 50);
+            this.groupBoxInputFiles.TabIndex = 30;
+            this.groupBoxInputFiles.TabStop = false;
+            this.groupBoxInputFiles.Text = "Input files";
+            this.groupBoxInputFiles.Visible = false;
             // 
             // nikseTextBoxApiKey
             // 
             this.nikseTextBoxApiKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.nikseTextBoxApiKey.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
-            this.nikseTextBoxApiKey.Location = new System.Drawing.Point(89, 24);
-            this.nikseTextBoxApiKey.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.nikseTextBoxApiKey.Location = new System.Drawing.Point(89, 30);
+            this.nikseTextBoxApiKey.Margin = new System.Windows.Forms.Padding(4);
             this.nikseTextBoxApiKey.Name = "nikseTextBoxApiKey";
-            this.nikseTextBoxApiKey.Size = new System.Drawing.Size(633, 21);
+            this.nikseTextBoxApiKey.Size = new System.Drawing.Size(517, 23);
             this.nikseTextBoxApiKey.TabIndex = 95;
             // 
             // comboBoxLanguages
@@ -451,14 +477,14 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.comboBoxLanguages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxLanguages.DropDownWidth = 240;
             this.comboBoxLanguages.FormattingEnabled = true;
-            this.comboBoxLanguages.Location = new System.Drawing.Point(15, 86);
-            this.comboBoxLanguages.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.comboBoxLanguages.Location = new System.Drawing.Point(15, 98);
+            this.comboBoxLanguages.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxLanguages.MaxLength = 32767;
             this.comboBoxLanguages.Name = "comboBoxLanguages";
             this.comboBoxLanguages.SelectedIndex = -1;
             this.comboBoxLanguages.SelectedItem = null;
             this.comboBoxLanguages.SelectedText = "";
-            this.comboBoxLanguages.Size = new System.Drawing.Size(226, 22);
+            this.comboBoxLanguages.Size = new System.Drawing.Size(226, 28);
             this.comboBoxLanguages.TabIndex = 0;
             this.comboBoxLanguages.UsePopupWindow = true;
             this.comboBoxLanguages.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguages_SelectedIndexChanged);
@@ -480,12 +506,13 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             // 
             // DagloAudioToText
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(760, 235);
+            this.ClientSize = new System.Drawing.Size(644, 344);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.linkLabelDaglo);
             this.Controls.Add(this.labelTime);
             this.Controls.Add(this.labelElapsed);
-            this.Controls.Add(this.checkBoxAutoAdjustTimings);
             this.Controls.Add(this.groupBoxInputFiles);
             this.Controls.Add(this.buttonBatchMode);
             this.Controls.Add(this.groupBoxSettings);
@@ -494,11 +521,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonGenerate);
-            this.Controls.Add(this.textBoxLog);
             this.Controls.Add(this.labelFC);
+            this.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.MinimumSize = new System.Drawing.Size(664, 224);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MinimumSize = new System.Drawing.Size(660, 360);
             this.Name = "DagloAudioToText";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -514,8 +541,10 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.groupBoxSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxCharsPerLine)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLines)).EndInit();
-            this.groupBoxInputFiles.ResumeLayout(false);
             this.contextMenuStripWhisperAdvanced.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBoxInputFiles.ResumeLayout(false);
+            this.groupBoxInputFiles.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -533,12 +562,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private System.Windows.Forms.Label labelTime;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button buttonBatchMode;
-        private System.Windows.Forms.GroupBox groupBoxInputFiles;
-        private System.Windows.Forms.ListView listViewInputFiles;
-        private System.Windows.Forms.ColumnHeader columnHeaderFileName;
-        private System.Windows.Forms.Button buttonClear;
-        private System.Windows.Forms.Button buttonRemoveFile;
-        private System.Windows.Forms.Button buttonAddFile;
         private System.Windows.Forms.Label labelFC;
         private System.Windows.Forms.Label labelChooseLanguage;
         private Nikse.SubtitleEdit.Controls.NikseComboBox comboBoxLanguages;
@@ -553,8 +576,16 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorRunOnlyPostprocessing;
         private System.Windows.Forms.ToolStripMenuItem showWhisperlogtxtToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem downloadNvidiaCudaForCPPCuBLASToolStripMenuItem;
-        private System.Windows.Forms.CheckBox checkBoxAutoAdjustTimings;
         private System.Windows.Forms.Label labelApiKey;
         private Controls.NikseTextBox nikseTextBoxApiKey;
+        private System.Windows.Forms.LinkLabel linkLabelDaglo;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.CheckBox checkBoxAutoAdjustTimings;
+        private System.Windows.Forms.ListView listViewInputFiles;
+        private System.Windows.Forms.ColumnHeader columnHeaderFileName;
+        private System.Windows.Forms.Button buttonAddFile;
+        private System.Windows.Forms.Button buttonRemoveFile;
+        private System.Windows.Forms.Button buttonClear;
+        private System.Windows.Forms.GroupBox groupBoxInputFiles;
     }
 }
