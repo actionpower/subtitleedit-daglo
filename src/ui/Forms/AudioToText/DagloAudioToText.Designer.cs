@@ -126,7 +126,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             this.labelInfo.Name = "labelInfo";
             this.labelInfo.Size = new System.Drawing.Size(507, 18);
             this.labelInfo.TabIndex = 1;
-            this.labelInfo.Text = "Generate text from audio via AI Previewer speech recognition";
+            this.labelInfo.Text = "Generate text from audio via Daglo speech recognition";
             // 
             // groupBoxModels
             // 

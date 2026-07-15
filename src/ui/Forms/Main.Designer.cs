@@ -2441,7 +2441,7 @@ namespace Nikse.SubtitleEdit.Forms
             // 
             this.audioToTextDagloToolStripMenuItem.Name = "audioToTextDagloTolStripMenuItem";
             this.audioToTextDagloToolStripMenuItem.Size = new System.Drawing.Size(439, 34);
-            this.audioToTextDagloToolStripMenuItem.Text = "Audio to text (AI Previewer)...";
+            this.audioToTextDagloToolStripMenuItem.Text = "Audio to text (Daglo)...";
             this.audioToTextDagloToolStripMenuItem.Click += new System.EventHandler(this.audioToTextDagloToolStripMenuItem_Click);
             // 
             // audioToTextWhisperTolStripMenuItem

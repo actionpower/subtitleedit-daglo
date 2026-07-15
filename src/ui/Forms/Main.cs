@@ -1853,7 +1853,7 @@ namespace Nikse.SubtitleEdit.Forms
             generaeTransparentVideoWithSubtitleToolStripMenuItem.Text = _language.Menu.Video.GenerateTransparentVideoWithSubs;
             videoaudioToTextToolStripMenuItem.Text = string.Format(_language.Menu.Video.VideoAudioToTextX, "Vosk/Kaldi");
             audioToTextWhisperTolStripMenuItem.Text = string.Format(_language.Menu.Video.VideoAudioToTextX, "Whisper");
-            audioToTextDagloToolStripMenuItem.Text = string.Format(_language.Menu.Video.VideoAudioToTextX, "AI Previewer");
+            audioToTextDagloToolStripMenuItem.Text = string.Format(_language.Menu.Video.VideoAudioToTextX, "Daglo");
             textToSpeechAndAddToVideoToolStripMenuItem.Text = _language.Menu.Video.TextToSpeechAndAddToVideo;
 
             smpteTimeModedropFrameToolStripMenuItem.Text = _language.Menu.Video.SmptTimeMode;

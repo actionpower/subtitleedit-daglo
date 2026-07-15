@@ -315,12 +315,12 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
     /// </summary>
     public class DagloTranscribe : IAutoTranscriber, IDisposable
     {
-        private const string BaseUrl = "https://apis.aipreviewer.co.kr";
+        private const string BaseUrl = "https://apis.daglo.ai";
         private string _apiKey;
         private HttpClient _httpClient;
         private readonly JsonSerializerOptions _jsonOptions;
 
-        public static string StaticName { get; set; } = "AI Previewer Cloud API Speech-to-Text";
+        public static string StaticName { get; set; } = "Daglo Cloud API Speech-to-Text";
         public override string ToString() => StaticName;
         public string Name => StaticName;
         public string Url => BaseUrl;
@@ -341,7 +341,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
             _apiKey = Configuration.Settings.Tools.DagloApiKey;
 
             if (string.IsNullOrWhiteSpace(_apiKey))
-                throw new InvalidOperationException("AI Previewer API key is not configured. Please configure it in the settings.");
+                throw new InvalidOperationException("Daglo API key is not configured. Please configure it in the settings.");
 
             _httpClient = HttpClientFactoryWithProxy.CreateHttpClientWithProxy();
             _httpClient.Timeout = TimeSpan.FromMinutes(30);
@@ -419,20 +419,20 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 // API 키 관련 오류 메시지를 더 명확하게 설정
                 if (ex.Message.Contains("Invalid or expired API key") || ex.Message.Contains("Authentication failed"))
                 {
-                    Error = "Invalid API key. Please check your AI Previewer API key in settings.";
-                    SeLogger.Error("AI Previewer API key error: " + ex.Message);
+                    Error = "Invalid API key. Please check your Daglo API key in settings.";
+                    SeLogger.Error("Daglo API key error: " + ex.Message);
                 }
                 else
                 {
                     Error = ex.Message;
-                    SeLogger.Error("AI Previewer error: " + ex.Message);
+                    SeLogger.Error("Daglo error: " + ex.Message);
                 }
                 throw;
             }
             catch (Exception ex)
             {
                 Error = ex.Message;
-                SeLogger.Error(ex, "AI Previewer error: " + ex.Message);
+                SeLogger.Error(ex, "Daglo error: " + ex.Message);
                 throw;
             }
         }
@@ -814,7 +814,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 // Custom data (option)
                 var custom = new Dictionary<string, object>
                 {
-                    { "source", "Subtitle Edit AI Previewer" },
+                    { "source", "Subtitle Edit - Daglo" },
                     { "timestamp", DateTime.UtcNow.ToString("O") }
                 };
 

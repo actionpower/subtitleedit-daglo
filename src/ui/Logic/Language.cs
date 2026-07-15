@@ -141,7 +141,7 @@ namespace Nikse.SubtitleEdit.Logic
 
             General = new LanguageStructure.General
             {
-                Title = "Subtitle Edit - AI Previewer",
+                Title = "Subtitle Edit - Daglo",
                 Version = "3.5",
                 TranslatedBy = " ",
                 CultureName = "en-US",
@@ -380,7 +380,7 @@ namespace Nikse.SubtitleEdit.Logic
                 FixCasing = "Fix casing",
                 AddPeriods = "Add periods",
                 FixShortDuration = "Fix short duration",
-                DagloInfo = "Generate text from audio via AI Previewer speech recognition",
+                DagloInfo = "Generate text from audio via Daglo speech recognition",
                 DagloWebsite = "Daglo website",
             };
 

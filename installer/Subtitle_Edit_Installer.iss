@@ -26,7 +26,7 @@
   #error Use Inno Setup unicode
 #endif
 
-#define app_name             "Subtitle Edit - AI Previewer"
+#define app_name             "Subtitle Edit - Daglo"
 #define app_copyright        "Nikse"
 #define app_copyright_start  "2001"
 #define app_copyright_end    GetDateTimeString('yyyy','','')

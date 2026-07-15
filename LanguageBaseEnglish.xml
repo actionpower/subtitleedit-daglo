@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Language Name="English">
   <General>
-    <Title>Subtitle Edit - AI Previewer</Title>
+    <Title>Subtitle Edit - Daglo</Title>
     <Version>4.0.14</Version>
     <TranslatedBy>Translated by Nikse</TranslatedBy>
     <CultureName>en-US</CultureName>
@@ -222,7 +222,7 @@ Note: Do check free disk space.</WaveFileMalformed>
     <FixCasing>Fix casing</FixCasing>
     <AddPeriods>Add periods</AddPeriods>
     <FixShortDuration>Fix short duration</FixShortDuration>
-    <DagloInfo>Generate text from audio via AI Previewer speech recognition</DagloInfo>
+    <DagloInfo>Generate text from audio via Daglo speech recognition</DagloInfo>
     <DagloWebsite>Daglo website</DagloWebsite>
   </AudioToText>
   <AssaAttachments>
