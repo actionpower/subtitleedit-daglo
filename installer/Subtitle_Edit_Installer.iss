@@ -27,6 +27,8 @@
 #endif
 
 #define app_name             "Subtitle Edit - Daglo"
+; Keep in sync with Configuration.DagloVersion (src/libse/Common/Configuration.cs)
+#define daglo_ver            "0.1.0"
 #define app_copyright        "Nikse"
 #define app_copyright_start  "2001"
 #define app_copyright_end    GetDateTimeString('yyyy','','')
@@ -105,7 +107,7 @@ SetupIconFile=..\src\ui\Icons\SE.ico
 WizardImageFile=Icons\WizardImageFile.bmp
 WizardSmallImageFile=Icons\WizardSmallImageFile.bmp
 OutputDir=.
-OutputBaseFilename=SubtitleEdit-Daglo-{#app_ver}-Setup
+OutputBaseFilename=SubtitleEdit-Daglo-{#daglo_ver}-Setup
 AllowNoIcons=yes
 Compression=lzma2/ultra
 InternalCompressLevel=ultra
